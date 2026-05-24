@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desarrollo de Aplicaciones Web Territoriales Asistido con IA — Bootcamp SIG</title>
+  <meta name="description" content="De analista SIG a desarrollador web. Diseña, programa y despliega dashboards territoriales interactivos en la nube sin servidores dedicados. 100% OpenSource.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            surface: '#09090b',
+            primary: '#06b6d4',
+            secondary: '#10b981',
+            heading: '#f8fafc',
+            body: '#94a3b8',
+          },
+          fontFamily: {
+            mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace'],
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    :root {
+      --x: 50%;
+      --y: 50%;
+    }
+
+    body {
+      background-color: #09090b;
+      color: #94a3b8;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    .bg-spotlight {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: radial-gradient(
+        600px circle at var(--x) var(--y),
+        rgba(6, 182, 212, 0.15),
+        transparent 60%
+      );
+      pointer-events: none;
+    }
+
+    .glass {
+      background-color: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .glass-light {
+      background-color: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .text-gradient {
+      background: linear-gradient(to right, #06b6d4, #10b981);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .glow-cyan {
+      box-shadow: 0 0 15px rgba(6, 182, 212, 0.5);
+    }
+
+    .glow-cyan:hover {
+      box-shadow: 0 0 25px rgba(6, 182, 212, 0.7);
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% {
+        box-shadow: 0 0 5px rgba(6, 182, 212, 0.3);
+      }
+      50% {
+        box-shadow: 0 0 15px rgba(6, 182, 212, 0.6);
+      }
+    }
+
+    .animate-pulse-glow {
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+
+    .terminal {
+      background-color: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .terminal-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 12px 16px;
+      background-color: rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .terminal-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .terminal-dot-red { background-color: #ef4444; }
+    .terminal-dot-yellow { background-color: #eab308; }
+    .terminal-dot-green { background-color: #22c55e; }
+
+    .terminal-body {
+      padding: 16px;
+      font-family: 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace';
+      font-size: 0.875rem;
+      line-height: 1.5;
+      min-height: 80px;
+    }
+
+    .terminal-text {
+      color: #10b981;
+    }
+
+    .terminal-cursor {
+      display: inline-block;
+      width: 8px;
+      height: 16px;
+      background-color: #10b981;
+      animation: blink 1s step-end infinite;
+      vertical-align: middle;
+      margin-left: 4px;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .session-card {
+      transition: all 0.3s ease;
+    }
+
+    .session-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(6, 182, 212, 0.3);
+      box-shadow: 0 10px 40px -10px rgba(6, 182, 212, 0.2);
+    }
+
+    .pricing-card {
+      transition: all 0.3s ease;
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(6, 182, 212, 0.3);
+      box-shadow: 0 20px 50px -12px rgba(6, 182, 212, 0.15);
+    }
+
+    .scarcity-alert {
+      background: linear-gradient(90deg, rgba(6, 182, 212, 0.1), rgba(234, 179, 8, 0.1));
+      border: 1px solid rgba(234, 179, 8, 0.3);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-family: 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace';
+      font-size: 0.875rem;
+      color: #eab308;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .scarcity-alert::before {
+      content: '!';
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      background-color: #eab308;
+      color: #09090b;
+      border-radius: 50%;
+      font-weight: bold;
+      font-size: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 16px;
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: #f8fafc;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .form-input::placeholder {
+      color: #64748b;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: #06b6d4;
+      box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.15);
+    }
+
+    .form-input option {
+      background-color: #1e1e2e;
+      color: #f8fafc;
+    }
+
+    select.form-input {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2394a3b8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-spotlight" aria-hidden="true"></div>
+
+  <header>
+  </header>
+
+  <main>
+    <section id="hero" class="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative">
+      <div class="max-w-5xl mx-auto text-center space-y-8">
+        <!-- Status Badge -->
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/30 bg-primary/5 font-mono text-sm text-primary animate-pulse-glow">
+          <span class="w-2 h-2 rounded-full bg-primary"></span>
+          [STATUS: INSCRIPCIONES ABIERTAS]
+        </div>
+
+        <!-- H1 Title -->
+        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight">
+          <span class="text-gradient">CREA APPS WEB DE MAPAS CON IA</span>
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="max-w-3xl mx-auto text-lg sm:text-xl text-body leading-relaxed">
+          De analista SIG a desarrollador web. Diseña, programa y despliega dashboards territoriales interactivos en la nube sin servidores dedicados. 100% OpenSource.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+          <a href="#contact" class="w-full sm:w-auto px-8 py-4 rounded-lg bg-primary text-white font-semibold text-center glow-cyan transition-all duration-300 hover:bg-primary/90 hover:scale-105">
+            INSCRÍBETE AHORA
+          </a>
+          <a href="#syllabus" class="w-full sm:w-auto px-8 py-4 rounded-lg glass text-heading font-semibold text-center transition-all duration-300 hover:bg-white/10 hover:border-white/20">
+            VER SYLLABUS
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="syllabus" class="py-20 px-4 sm:px-6 lg:px-8 relative">
+      <div class="max-w-7xl mx-auto">
+        <!-- Section Header -->
+        <div class="text-center mb-16 space-y-4">
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-heading">
+            <span class="text-gradient">SYLLABUS</span>
+          </h2>
+          <p class="text-lg text-body max-w-2xl mx-auto">
+            Tres sesiones intensivas para dominar el desarrollo de aplicaciones web territoriales con IA.
+          </p>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+          <!-- Session Cards -->
+          <div class="space-y-6">
+            <!-- Session 1 -->
+            <div class="session-card glass rounded-xl p-6 cursor-pointer" data-session="1">
+              <div class="flex items-start gap-4">
+                <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center font-mono text-primary font-bold">
+                  01
+                </div>
+                <div class="space-y-3">
+                  <h3 class="text-xl font-semibold text-heading">Geo-Prompting y Diseño de la Interfaz Web Reactiva</h3>
+                  <ul class="space-y-2 text-body">
+                    <li class="flex items-start gap-2">
+                      <span class="w-1.5 h-1.5 rounded-full bg-secondary mt-2 flex-shrink-0"></span>
+                      Ecosistema Web SIG sin Servidores.
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="w-1.5 h-1.5 rounded-full bg-secondary mt-2 flex-shrink-0"></span>
+                      Ingeniería de Prompts para Aplicaciones de Mapas.
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="w-1.5 h-1.5 rounded-full bg-secondary mt-2 flex-shrink-0"></span>
+                      El Primer Dashboard Territorial Reactivo.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Session 2 -->
+            <div class="session-card glass rounded-xl p-6 cursor-pointer" data-session="2">
+              <div class="flex items-start gap-4">
+                <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center font-mono text-primary font-bold">
+                  02
+                </div>
+                <div class="space-y-3">
+                  <h3 class="text-xl font-semibold text-heading">Geoprocesamiento en Tiempo Real de Servidor a Cliente</h3>
+                  <ul class="space-y-2 text-body">
+                    <li class="flex items-start gap-2">
+                      <span class="w-1.5 h-1.5 rounded-full bg-secondary mt-2 flex-shrink-0"></span>
+                      Estructuración de Skills de Análisis Web.
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="w-1.5 h-1.5 rounded-full bg-secondary mt-2 flex-shrink-0"></span>
+                      Cálculos Espaciales On-the-Fly.
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="w-1.5 h-1.5 rounded-full bg-secondary mt-2 flex-shrink-0"></span>
+                      Gestión de Errores en Aplicaciones Web.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Session 3 -->
+            <div class="session-card glass rounded-xl p-6 cursor-pointer" data-session="3">
+              <div class="flex items-start gap-4">
+                <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center font-mono text-primary font-bold">
+                  03
+                </div>
+                <div class="space-y-3">
+                  <h3 class="text-xl font-semibold text-heading">Integración de Widgets, Dashboard y Despliegue en la Nube</h3>
+                  <ul class="space-y-2 text-body">
+                    <li class="flex items-start gap-2">
+                      <span class="w-1.5 h-1.5 rounded-full bg-secondary mt-2 flex-shrink-0"></span>
+                      UI/UX Cartográfico con Gráficos Dinámicos.
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="w-1.5 h-1.5 rounded-full bg-secondary mt-2 flex-shrink-0"></span>
+                      Despliegue de la Aplicación en Producción.
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="w-1.5 h-1.5 rounded-full bg-secondary mt-2 flex-shrink-0"></span>
+                      Pruebas de Carga y Optimización Final.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Terminal Window -->
+          <aside class="terminal sticky top-8" aria-label="Terminal interactiva del syllabus">
+            <div class="terminal-header">
+              <span class="terminal-dot terminal-dot-red"></span>
+              <span class="terminal-dot terminal-dot-yellow"></span>
+              <span class="terminal-dot terminal-dot-green"></span>
+              <span class="ml-2 text-xs text-body/50 font-mono">system@geo-bootcamp</span>
+            </div>
+            <div class="terminal-body" id="terminal-output">
+              <span class="terminal-text">&gt; SYSTEM IDLE. WAITING FOR INPUT...</span>
+              <span class="terminal-cursor"></span>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing" class="py-20 px-4 sm:px-6 lg:px-8 relative">
+      <div class="max-w-5xl mx-auto">
+        <!-- Section Header -->
+        <div class="text-center mb-12 space-y-4">
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-heading">
+            <span class="text-gradient">PLANES Y PRECIOS</span>
+          </h2>
+          <p class="text-lg text-body max-w-2xl mx-auto">
+            Elige el plan que mejor se adapte a tu perfil y comienza tu transformación como desarrollador web territorial.
+          </p>
+        </div>
+
+        <!-- Scarcity Alert (injected via JS) -->
+        <div id="scarcity-container" class="mb-8 flex justify-center"></div>
+
+        <!-- Pricing Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Acceso General -->
+          <div class="pricing-card glass rounded-2xl p-8 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+            <div class="relative z-10">
+              <div class="mb-4">
+                <span class="inline-block px-3 py-1 rounded-full text-xs font-mono bg-primary/10 border border-primary/20 text-primary mb-4">
+                  M\u00E1s Popular
+                </span>
+                <h3 class="text-2xl font-bold text-heading mb-2">Acceso General</h3>
+                <p class="text-body text-sm mb-6">Para profesionales del sector que buscan dominar herramientas web territoriales.</p>
+              </div>
+              <div class="mb-6">
+                <span class="text-4xl font-bold text-heading">$35.000</span>
+                <span class="text-body ml-2">CLP</span>
+              </div>
+              <ul class="space-y-3 mb-8">
+                <li class="flex items-start gap-3 text-body">
+                  <svg class="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                  Acceso completo a las 3 sesiones del bootcamp
+                </li>
+                <li class="flex items-start gap-3 text-body">
+                  <svg class="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                  Material de apoyo y recursos digitales
+                </li>
+                <li class="flex items-start gap-3 text-body">
+                  <svg class="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                  Acceso a grabaciones de todas las sesiones
+                </li>
+                <li class="flex items-start gap-3 text-body">
+                  <svg class="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                  Certificado de participación
+                </li>
+              </ul>
+              <a href="#contact" class="block w-full px-6 py-3 rounded-lg bg-primary text-white font-semibold text-center glow-cyan transition-all duration-300 hover:bg-primary/90">
+                INSCRÍBETE AHORA
+              </a>
+            </div>
+          </div>
+
+          <!-- Pase Estudiantes -->
+          <div class="pricing-card glass rounded-2xl p-8 relative overflow-hidden border-primary/20">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-secondary/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+            <div class="relative z-10">
+              <div class="mb-4">
+                <span class="inline-block px-3 py-1 rounded-full text-xs font-mono bg-secondary/10 border border-secondary/20 text-secondary mb-4">
+                  Discount
+                </span>
+                <h3 class="text-2xl font-bold text-heading mb-2">Pase Estudiantes</h3>
+                <p class="text-body text-sm mb-6">Para estudiantes universitarios o de programas de formaci\u00F3n en geom\u00E1tica y SIG.</p>
+              </div>
+              <div class="mb-6">
+                <span class="text-4xl font-bold text-heading">$30.000</span>
+                <span class="text-body ml-2">CLP</span>
+              </div>
+              <ul class="space-y-3 mb-8">
+                <li class="flex items-start gap-3 text-body">
+                  <svg class="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                  Acceso completo a las 3 sesiones del bootcamp
+                </li>
+                <li class="flex items-start gap-3 text-body">
+                  <svg class="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                  Material de apoyo y recursos digitales
+                </li>
+                <li class="flex items-start gap-3 text-body">
+                  <svg class="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                  Acceso a grabaciones de todas las sesiones
+                </li>
+                <li class="flex items-start gap-3 text-body">
+                  <svg class="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                  Certificado de participación
+                </li>
+                <li class="flex items-start gap-3 text-secondary">
+                  <svg class="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                  Requiere credencial universitaria o comprobante de matrícula
+                </li>
+              </ul>
+              <a href="#contact" class="block w-full px-6 py-3 rounded-lg bg-secondary text-white font-semibold text-center transition-all duration-300 hover:bg-secondary/90 hover:shadow-[0_0_20px_rgba(16,185,129,0.4)]">
+                INSCRÍBETE AHORA
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="py-20 px-4 sm:px-6 lg:px-8 relative">
+      <div class="max-w-2xl mx-auto">
+        <!-- Section Header -->
+        <div class="text-center mb-12 space-y-4">
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-heading">
+            <span class="text-gradient">INSCRIPCIÓN</span>
+          </h2>
+          <p class="text-lg text-body max-w-2xl mx-auto">
+            Completa el formulario para reservar tu cupo. Recibirás la información de pago y acceso al bootcamp en tu correo.
+          </p>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="glass rounded-2xl p-8 sm:p-10">
+          <form id="contact-form" action="https://formsubmit.co/jorge.ulloa.roa@gmail.com" method="POST">
+            <input type="hidden" name="_subject" value="Nueva inscripción — Bootcamp Geo-IA Apps Web">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_autoresponse" value="¡Hola! Qué gusto saludarte. Te escribo para confirmar que hemos recibido exitosamente tu inscripción al Bootcamp Desarrollo de Aplicaciones Web Territoriales Asistido con IA. Es un verdadero placer darte la bienvenida a esta experiencia donde aprenderás a crear dashboards territoriales interactivos sin servidores dedicados, 100% OpenSource.
+
+Para oficializar tu inscripción y dejar tu cupo 100% reservado, te detallo los pasos a continuación.
+
+────────────────────────
+SYLLABUS
+────────────────────────
+
+Sesión 1 — Geo-Prompting y Diseño de la Interfaz Web Reactiva
+• Ecosistema Web SIG sin Servidores
+• Ingeniería de Prompts para Aplicaciones de Mapas
+• El Primer Dashboard Territorial Reactivo
+
+Sesión 2 — Geoprocesamiento en Tiempo Real de Servidor a Cliente
+• Estructuración de Skills de Análisis Web
+• Cálculos Espaciales On-the-Fly
+• Gestión de Errores en Aplicaciones Web
+
+Sesión 3 — Integración de Widgets, Dashboard y Despliegue en la Nube
+• UI/UX Cartográfico con Gráficos Dinámicos
+• Despliegue de la Aplicación en Producción
+• Pruebas de Carga y Optimización Final
+
+────────────────────────
+INVERSIÓN
+────────────────────────
+
+Acceso General: $35.000 CLP
+Pase Estudiantes: $30.000 CLP (requiere credencial universitaria o comprobante de matrícula)
+
+────────────────────────
+OPCIONES DE PAGO
+────────────────────────
+
+Opción 1: Transferencia Bancaria Directa
+
+Titular: JORGE FERNANDO ULLOA ROA
+RUT: 18.223.053-7
+Banco: Banco Falabella / Cuenta Corriente
+N° de Cuenta: 019823326523
+Correo para comprobante: jorge.ulloa.roa@gmail.com
+
+Opción 2: MercadoPago (Tarjetas y Cuotas)
+Si prefieres usar tarjeta de crédito o débito y aprovechar la flexibilidad de pagar en cuotas, puedes hacerlo de forma segura a través de este enlace:
+👉 https://www.mercadopago.cl/payment-link/v1/go?link-id=f7b0764f-2801-4b26-a858-59c416eebe42
+
+Nota: Si resides fuera de Chile, por favor respóndeme este correo indicando tu país para enviarte los enlaces de pago internacionales.
+
+────────────────────────
+PASOS FINALES
+────────────────────────
+
+1. Confirma tu país: Respóndeme este correo indicando desde dónde participarás.
+2. Envía tu comprobante: Una vez realizado el pago, adjunta una captura del comprobante en este mismo hilo.
+
+Apenas lo reciba, te enviaré el material de bienvenida para que nos preparemos para empezar a crear apps web de mapas con IA.
+
+Cualquier duda, escríbeme por aquí mismo. ¡Un gran abrazo!
+
+Jorge Ulloa Roa
+Geógrafo & Fundador de ConMapas">
+            <input type="text" name="_honey" style="display:none">
+            <input type="hidden" name="_next" value="">
+
+            <div class="space-y-6">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <label for="contact-name" class="block text-sm font-medium text-heading mb-2">Nombre completo</label>
+                  <input
+                    type="text"
+                    id="contact-name"
+                    name="name"
+                    required
+                    placeholder="Tu nombre completo"
+                    class="form-input"
+                  >
+                </div>
+
+                <div>
+                  <label for="contact-email" class="block text-sm font-medium text-heading mb-2">Email</label>
+                  <input
+                    type="email"
+                    id="contact-email"
+                    name="email"
+                    required
+                    placeholder="tu@correo.com"
+                    class="form-input"
+                  >
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <label for="contact-country" class="block text-sm font-medium text-heading mb-2">País</label>
+                  <select
+                    id="contact-country"
+                    name="country"
+                    required
+                    class="form-input appearance-none"
+                  >
+                    <option value="" disabled selected class="text-gray-500">Selecciona tu país</option>
+                    <option value="Chile">Chile</option>
+                    <option value="Argentina">Argentina</option>
+                    <option value="Colombia">Colombia</option>
+                    <option value="México">México</option>
+                    <option value="Perú">Perú</option>
+                    <option value="Ecuador">Ecuador</option>
+                    <option value="Bolivia">Bolivia</option>
+                    <option value="Venezuela">Venezuela</option>
+                    <option value="Uruguay">Uruguay</option>
+                    <option value="Paraguay">Paraguay</option>
+                    <option value="Costa Rica">Costa Rica</option>
+                    <option value="España">España</option>
+                    <option value="Otro">Otro</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label for="contact-level" class="block text-sm font-medium text-heading mb-2">Nivel de conocimiento SIG</label>
+                  <select
+                    id="contact-level"
+                    name="nivel_sig"
+                    required
+                    class="form-input appearance-none"
+                  >
+                    <option value="" disabled selected class="text-gray-500">Selecciona tu nivel</option>
+                    <option value="Principiante">Principiante — Sin experiencia con SIG</option>
+                    <option value="Intermedio">Intermedio — Conozco QGIS/ArcGIS básico</option>
+                    <option value="Avanzado">Avanzado — Desarrollo con SIG y datos espaciales</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <label for="contact-occupation" class="block text-sm font-medium text-heading mb-2">Ocupación / Profesión</label>
+                  <input
+                    type="text"
+                    id="contact-occupation"
+                    name="ocupacion"
+                    required
+                    placeholder="Ej: Geógrafa, Ingeniera, Analista SIG..."
+                    class="form-input"
+                  >
+                </div>
+
+                <div>
+                  <label for="contact-plan" class="block text-sm font-medium text-heading mb-2">Tipo de plan</label>
+                  <select
+                    id="contact-plan"
+                    name="plan"
+                    required
+                    class="form-input appearance-none"
+                  >
+                    <option value="" disabled selected class="text-gray-500">Selecciona tu plan</option>
+                    <option value="Acceso General — $35.000 CLP">Acceso General — $35.000 CLP</option>
+                    <option value="Pase Estudiantes — $30.000 CLP">Pase Estudiantes — $30.000 CLP</option>
+                  </select>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                id="contact-submit"
+                class="w-full px-6 py-4 rounded-lg bg-primary text-white font-semibold text-center glow-cyan transition-all duration-300 hover:bg-primary/90 hover:scale-[1.02]"
+              >
+                ENVIAR SOLICITUD
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+  </footer>
+
+  <script>
+    window.addEventListener('mousemove', (e) => {
+      const x = e.clientX;
+      const y = e.clientY;
+      document.documentElement.style.setProperty('--x', x + 'px');
+      document.documentElement.style.setProperty('--y', y + 'px');
+    });
+
+    const terminalOutput = document.getElementById('terminal-output');
+    const sessionCards = document.querySelectorAll('.session-card');
+    const defaultTerminalText = '<span class="terminal-text">&gt; SYSTEM IDLE. WAITING FOR INPUT...</span><span class="terminal-cursor"></span>';
+
+    const sessionMessages = {
+      1: '<span class="terminal-text">&gt; LOADING SKILLS... GEO-PROMPTING INITIATED...</span><span class="terminal-cursor"></span>',
+      2: '<span class="terminal-text">&gt; EXECUTING ON-THE-FLY SPATIAL JOINS...</span><span class="terminal-cursor"></span>',
+      3: '<span class="terminal-text">&gt; DEPLOYING DASHBOARD TO GITHUB PAGES... SUCCESS.</span><span class="terminal-cursor"></span>'
+    };
+
+    sessionCards.forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        const session = card.getAttribute('data-session');
+        if (sessionMessages[session]) {
+          terminalOutput.innerHTML = sessionMessages[session];
+        }
+      });
+
+      card.addEventListener('mouseleave', () => {
+        terminalOutput.innerHTML = defaultTerminalText;
+      });
+    });
+
+    const scarcityContainer = document.getElementById('scarcity-container');
+    if (scarcityContainer) {
+      scarcityContainer.innerHTML = '<div class="scarcity-alert">[SYSTEM ALERT: ONLY 7 SEATS REMAINING]</div>';
+    }
+
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+      contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const submitBtn = document.getElementById('contact-submit');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = '[PROCESANDO...]';
+        submitBtn.disabled = true;
+
+        const formData = new FormData(contactForm);
+
+        try {
+          const response = await fetch(contactForm.action, {
+            method: 'POST',
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+          });
+
+          if (response.ok) {
+            contactForm.parentElement.innerHTML = `
+              <div class="text-center py-12 space-y-6">
+                <div class="w-16 h-16 mx-auto rounded-full bg-secondary/20 flex items-center justify-center">
+                  <svg class="w-8 h-8 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </div>
+                <p class="text-xl font-mono text-secondary font-semibold">&gt;&gt; SOLICITUD RECIBIDA. REVISA TU BANDEJA DE ENTRADA.</p>
+                <p class="text-body">Te hemos enviado un correo con los pasos para confirmar tu inscripción.</p>
+              </div>
+            `;
+          } else {
+            throw new Error('Error en el servidor');
+          }
+        } catch (error) {
+          submitBtn.textContent = originalText;
+          submitBtn.disabled = false;
+
+          const errorDiv = document.createElement('div');
+          errorDiv.className = 'mt-4 p-4 rounded-lg border border-red-500/30 bg-red-500/10 font-mono text-sm text-red-400';
+          errorDiv.innerHTML = '&gt; ERROR: No se pudo enviar la solicitud. Por favor, inténtalo nuevamente.';
+          contactForm.appendChild(errorDiv);
+
+          setTimeout(() => errorDiv.remove(), 5000);
+        }
+      });
+    }
+  </script>
+</body>
+</html>
