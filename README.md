@@ -1,63 +1,68 @@
 <div align="center">
-  <img src="https://img.shields.io/badge/STATUS-INSCRIPCIONES_ABIERTAS-06b6d4?style=for-the-badge&logo=appveyor" alt="Status" />
-  <img src="https://img.shields.io/badge/ARCHITECTURE-ZERO_SERVER-10b981?style=for-the-badge" alt="Architecture" />
-  <img src="https://img.shields.io/badge/STACK-VANILLA_JS_%2B_TAILWIND-f8fafc?style=for-the-badge&color=09090b" alt="Stack" />
 
-  <br><br>
-  
-  <h1 align="center">Geo-IA Web Apps Landing Page 🌐🤖</h1>
-  
-  <p align="center">
-    <strong>De analista SIG a desarrollador web. Diseña, programa y despliega dashboards territoriales interactivos en la nube sin servidores dedicados. 100% OpenSource.</strong>
-  </p>
+<img src="assets/sci_fi_hud_map.png" alt="Sci-Fi Topo Background" width="100%" height="250" style="object-fit: cover; opacity: 0.8; border-radius: 10px;" />
+
+# 🟩 ZERO-SERVER GEO-APP BOOTCAMP
+
+**CREA APPS WEB DE MAPAS CON IA**
+
+[![Status: Online](https://img.shields.io/badge/STATUS-ONLINE-10b981?style=for-the-badge&logo=opsgenie&logoColor=white)](#)
+[![Zero Server](https://img.shields.io/badge/ARCHITECTURE-ZERO_SERVER-06b6d4?style=for-the-badge&logo=serverless&logoColor=white)](#)
+[![100% Open Source](https://img.shields.io/badge/OPEN_SOURCE-100%25-10b981?style=for-the-badge&logo=github&logoColor=white)](#)
+
+[**VER LA LANDING PAGE EN VIVO**](https://geoidegeoidal.github.io/spatial-ia-web/)
+
 </div>
 
-<hr>
+---
 
-## 🚀 Vision
+> `> SYSTEM IDLE. WAITING FOR INPUT...`
+> `> LOADING SKILLS... GEO-PROMPTING INITIATED...`
 
-This repository contains the source code for the landing page of the **"Desarrollo de Aplicaciones Web Territoriales Asistido con IA"** bootcamp. 
+## 📡 ACERCA DEL TALLER
 
-Embracing the core philosophy of the bootcamp itself, this landing page is built as a **Zero-Server, Single-File SPA**. It requires zero build steps, zero complex dependencies, and runs directly in the browser, leveraging the power of modern CSS and Vanilla JavaScript.
+De analista SIG a desarrollador web. Este repositorio contiene el código de la landing page y (posteriormente) el marco de trabajo central del Bootcamp **"Desarrollo de Aplicaciones Web Territoriales Asistido con IA"**.
 
-The design aesthetics follow a **Cyberpunk / Retro-Tech / Glassmorphism** pattern: deep space tones (`#09090b`), cyan neon glows (`#06b6d4`), emerald success states (`#10b981`), and strict monospace typography for technical data.
+A lo largo del taller, los participantes aprenderán a diseñar, programar y desplegar **dashboards territoriales interactivos en la nube** sin necesidad de servidores dedicados o configuraciones complejas, apoyándose de lleno en **Inteligencia Artificial y Geo-Prompting**.
 
-## 🛠️ Technical Specifications
+Todo 100% OpenSource.
 
-- **Architecture**: Single-file SPA (`index.html`).
-- **Styling**: Tailwind CSS (via CDN) + Custom pure CSS properties.
-- **Interactivity**: Vanilla ES6+ Javascript.
-- **Form Handling**: Asynchronous POST requests via FormSubmit (backend-less).
-- **Background**: Dynamic CSS grid overlay + Mouse-tracking radial gradient spotlight computed on the fly.
-- **State Management**: Reactive DOM updates driven by event listeners (No heavy frameworks).
+---
 
-## 📂 Project Structure
+## 🗺️ SYLLABUS: LAS 3 FASES TÁCTICAS
 
-```text
-spatial_ia_code/
-├── index.html             # The core application (HTML structure, CSS styles, JS logic)
-├── plan.md                # Original technical specification document
-├── implementacion.md      # Phased implementation plan and agent assignments
-└── README.md              # You are here.
-```
+### 01 / Geo-Prompting y Diseño de la Interfaz Web Reactiva
+*   **Ecosistema Web SIG sin Servidores:** Introducción a la arquitectura de Single Page Applications.
+*   **Ingeniería de Prompts para Aplicaciones de Mapas:** Cómo hablar con las IA para estructurar el código espacial correcto.
+*   **El Primer Dashboard Territorial Reactivo:** HTML, TailwindCSS, y el esqueleto de tu primera App.
 
-## 🧠 The Syllabus Engine
+### 02 / Geoprocesamiento en Tiempo Real de Servidor a Cliente
+*   **Estructuración de Skills de Análisis Web:** Emulación de geoprocesos pesados dentro de navegadores web modernos.
+*   **Cálculos Espaciales On-the-Fly:** Turf.js interactuando sin backend.
+*   **Gestión de Errores en Aplicaciones Web:** Protocolos de debuggeo directo en la consola.
 
-The core interaction of the page revolves around the **Syllabus Timeline**. Hovering over different session cards actively triggers state changes in a simulated terminal environment, mimicking console outputs for operations like *Geo-Prompting*, *On-the-fly Spatial Joins*, and *Deployments*.
+### 03 / Integración de Widgets, Dashboard y Despliegue en la Nube
+*   **UI/UX Cartográfico con Gráficos Dinámicos:** Conexión interactiva mapa-widget (D3/Chart.js).
+*   **Despliegue de la Aplicación en Producción:** Subiendo nuestro arsenal a Github Pages.
+*   **Pruebas de Carga y Optimización Final:** Dejar el despliegue a nivel "Production Ready".
 
-## ⚡ Form Integration
+---
 
-The contact/registration form is wired to operate without a dedicated backend. It intercepts the submit event, manages loading states, and asynchronously fires a `POST` request to `FormSubmit` (or Web3Forms), validating data and preventing page reloads.
+## 💻 STACK TECNOLÓGICO Y ESTÉTICA
 
-## 🔗 Deployment
+La estructura visual de este repositorio ha sido deliberadamente inyectada con un estilo **"Sci-Fi / Military HUD"** (Head-Up Display). Emulando un panel táctico futurista mediante:
+- Curvas de nivel topográficas dinámicas (CSS Keyframes y Mix-Blend Modes).
+- Elementos "Glassmorphism" combinados con bordes *glow* rotativos.
+- `IntersectionObserver` para secuencias de arranque de revelado de componentes.
+- Tipografía `Monospace` y terminales sintéticos interactivos.
 
-This project is perfectly suited for static hosting environments such as **GitHub Pages**, Netlify, or Vercel. 
-To deploy manually:
-1. Clone the repository.
-2. Serve the `index.html` file using any standard static file server (e.g., `npx serve`, Python `http.server`, or directly in the browser).
+**Arquitectura:** HTML Puro + TailwindCSS (Vía CDN) + Vanilla JavaScript. (Zero-build pipeline).
 
 ---
 
 <div align="center">
-  <i>"El futuro de los Sistemas de Información Geográfica no reside en el software de escritorio corporativo, sino en la web reactiva impulsada por IA."</i>
+
+`SYS.INIT_RADAR_SWEEP(TRUE)` · `LAT: -33.4489` · `LON: -70.6693` · `ELEV: 570M`
+
+*Desarrollado y diseñado con asistencia de Inteligencia Artificial*
 </div>
