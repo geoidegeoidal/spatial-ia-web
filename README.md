@@ -1,12 +1,12 @@
 <div align="center">
 
-# 🛰️ ZERO-SERVER GEO-APP BOOTCAMP
+# 🌃 NEON TOKYO // GEO-APP BOOTCAMP
 
 **De Analista SIG a Desarrollador Web de Aplicaciones Geográficas en la Nube.**
 
-[![Status: Online](https://img.shields.io/badge/STATUS-ONLINE-10b981?style=flat-square&logo=opsgenie&logoColor=white)](#)
-[![Zero Server](https://img.shields.io/badge/ARCHITECTURE-ZERO_SERVER-06b6d4?style=flat-square&logo=serverless&logoColor=white)](#)
-[![100% Open Source](https://img.shields.io/badge/OPEN_SOURCE-100%25-10b981?style=flat-square&logo=github&logoColor=white)](#)
+[![Status: Online](https://img.shields.io/badge/STATUS-ONLINE-ff2d78?style=flat-square&logo=opsgenie&logoColor=white)](#)
+[![Zero Server](https://img.shields.io/badge/ARCHITECTURE-ZERO_SERVER-00ffcc?style=flat-square&logo=serverless&logoColor=white)](#)
+[![100% Open Source](https://img.shields.io/badge/OPEN_SOURCE-100%25-ffe04a?style=flat-square&logo=github&logoColor=black)](#)
 
 <br>
 
@@ -14,15 +14,11 @@
 
 <br>
 
-<img src="assets/sci_fi_hud_map.png" alt="Military Radar HUD" width="800">
-
-<br>
-
 </div>
 
 ```bash
 > SYSTEM IDLE. WAITING FOR INPUT...
-> LOADING SKILLS... GEO-PROMPTING INITIATED...
+> LOADING OPENCODE... GENERATING UI FROM SPEC...
 > TARGET_LOCKED. DEPLOYING DASHBOARD TO GITHUB PAGES... SUCCESS.
 ```
 
@@ -30,43 +26,52 @@
 
 Este repositorio contiene el código de la landing page y el marco de trabajo central del Bootcamp **"Desarrollo de Aplicaciones Web Territoriales Asistido con IA"**.
 
-A lo largo del taller, aprenderás a diseñar, programar y desplegar **dashboards territoriales interactivos en la nube** sin necesidad de servidores dedicados o configuraciones complejas, apoyándote de lleno en **Inteligencia Artificial y Geo-Prompting**.
+A lo largo del taller, aprenderás a diseñar, programar y desplegar **dashboards territoriales interactivos en la nube** sin necesidad de servidores dedicados o configuraciones complejas, apoyándote de lleno en la Inteligencia Artificial (Antigravity IDE / OpenCode).
 
 Todo 100% OpenSource y alojado sin costos operativos.
 
 ---
 
-## 🗺️ SYLLABUS: LAS 3 FASES TÁCTICAS
+## 🗺️ SYLLABUS: LAS 3 SESIONES
 
-### 01 / Geo-Prompting y Diseño de la Interfaz Web Reactiva
-*   **Ecosistema Web SIG sin Servidores:** Introducción a la arquitectura de Single Page Applications.
-*   **Ingeniería de Prompts para Aplicaciones de Mapas:** Cómo hablar con la IA para estructurar el código espacial correcto.
-*   **El Primer Dashboard Territorial Reactivo:** HTML, TailwindCSS y el esqueleto de tu primera App.
+### S01 / Fundamentos de IA y Spec-Driven Development
+*   **¿Qué es un LLM?**: Cómo programar asistido por IA usando Antigravity IDE y OpenCode de forma gratuita.
+*   **Ingeniería de Prompts**: Metodología Spec-Driven Development para escribir especificaciones claras y lograr código limpio y predecible.
+*   **Generación de UI**: Del mockup al código HTML/Tailwind interactivo instantáneamente.
 
-### 02 / Geoprocesamiento en Tiempo Real (Cliente-Lado)
-*   **Estructuración de Skills de Análisis Web:** Emulación de geoprocesos pesados dentro del navegador.
-*   **Cálculos Espaciales On-the-Fly:** Uso de Turf.js interactuando directamente en el navegador sin backend.
-*   **Gestión de Errores en Aplicaciones Web:** Protocolos de debuggeo y monitoreo en consola.
+### S02 / Dashboards Territoriales y Web Mapping Reactivo
+*   **Ecosistema Open Source**: Dominio de librerías como MapLibre GL JS y Leaflet, libres de costos.
+*   **Ensamblaje ("Stitching")**: Integrando diseños generados en stitch.withgoogle.com con nuestro visor espacial.
+*   **Reactividad**: Programando filtros espaciales interactivos que comunican el mapa con el dashboard.
 
-### 03 / Integración, Dashboards y Despliegue Cloud
-*   **UI/UX Cartográfico con Gráficos Dinámicos:** Conexión interactiva mapa-widget (ECharts, D3, Chart.js).
-*   **Despliegue de la Aplicación en Producción:** Subiendo nuestro código a Github Pages.
-*   **Pruebas de Carga y Optimización Final:** Dejar el despliegue a nivel "Production Ready".
+### S03 / Análisis Espacial en el Navegador y Despliegue
+*   **Geoprocesamiento Client-Side**: Implementación de Turf.js para cálculos espaciales (buffers, áreas) directo en el navegador del usuario.
+*   **Manejo de Datos**: Técnicas de optimización de archivos GeoJSON para alto rendimiento.
+*   **A Producción**: Despliegue gratuito y asegurado (HTTPS) a través de GitHub Pages.
+
+---
+
+## 💰 INVERSIÓN Y CUPOS
+
+*   **Acceso General:** $30.000 CLP
+*   **Pase Estudiantes:** $25.000 CLP (requiere comprobante de alumno regular)
+
+*Incluye grabaciones de por vida, scripts, material de apoyo y certificado de participación.*
 
 ---
 
 ## 💻 STACK TECNOLÓGICO Y ESTÉTICA
 
-La estructura visual de este repositorio ha sido deliberadamente diseñada con una estética **"Sci-Fi / Military HUD"** (Head-Up Display). Emulando un panel táctico futurista a través de:
+La estructura visual de la landing page de este repositorio ha sido rediseñada con una estética vanguardista **"Neon Tokyo / Cyber-Brutalist"**.
 
-- **Estilo Visual:** Múltiples capas de mezcla (`mix-blend-mode`), fondos generativos (radar topográfico) y paleta monocromática esmeralda/cyan.
-- **Microinteracciones:** `IntersectionObserver` para secuencias de arranque progresivo, terminales sintéticos y efectos de máquina de escribir (`typing effect`).
+- **Paleta de Colores:** Fondo abisal (`#0a0a12`), acentos fucsia neón (`#ff2d78`), cian eléctrico (`#00ffcc`) y alertas amarillo ácido (`#ffe04a`).
+- **Comportamientos:** Cero *glassmorphism* genérico. Se emplean bordes duros asimétricos, tipografía sobredimensionada y sombras *glow* que reaccionan estrictamente a la interacción del usuario (`hover`/`focus`).
 - **Arquitectura Zero-Build:** Construido en HTML Puro + TailwindCSS (vía CDN) + Vanilla JavaScript. Cero dependencias instaladas localmente (NPM-free).
 
 <br>
 
 <div align="center">
-  <code>SYS.INIT_RADAR_SWEEP(TRUE)</code> • <code>LAT: -33.4489</code> • <code>LON: -70.6693</code> • <code>ELEV: 570M</code>
+  <code>SYS.INIT_NEON_SWEEP(TRUE)</code> • <code>LAT: -33.4489</code> • <code>LON: -70.6693</code> • <code>ELEV: 570M</code>
   <br><br>
-  <i>Desarrollado y diseñado con asistencia de Inteligencia Artificial</i>
+  <i>Diseñado y programado con asistencia de Inteligencia Artificial Avanzada</i>
 </div>
