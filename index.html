@@ -483,36 +483,8 @@
           <p class="text-body font-inter">Completa el formulario para reservar tu cupo. Las instrucciones de pago llegarán al instante a tu correo vía protocolo seguro.</p>
         </div>
 
-        <form id="contact-form" action="https://formsubmit.co/jorge.ulloa.roa@gmail.com" method="POST" class="space-y-8">
-          <input type="hidden" name="_subject" value="Nueva inscripción — Bootcamp Geo-IA Apps Web">
-          <input type="hidden" name="_captcha" value="false">
-          <input type="hidden" name="_template" value="table">
-          <input type="hidden" name="_autoresponse" value="¡Hola! Confirmamos tu inscripción al Bootcamp Desarrollo de Aplicaciones Web Territoriales Asistido con IA.
-
-Para asegurar tu cupo, realiza el pago según tu plan (General $30.000 CLP | Estudiantes $25.000 CLP).
-
-OPCIONES DE PAGO:
-
-1. Transferencia Bancaria Directa
-Titular: JORGE FERNANDO ULLOA ROA
-RUT: 18.223.053-7
-Banco: Banco Falabella / Cta. Corriente
-N°: 019823326523
-Correo: jorge.ulloa.roa@gmail.com
-
-2. MercadoPago (Tarjetas y Cuotas)
-Copia este enlace en tu navegador:
-mercadopago.cl/payment-link/v1/go?link-id=f7b0764f-2801-4b26-a858-59c416eebe42
-
-(Si resides fuera de Chile, responde este correo indicando tu país para enviarte los enlaces de pago internacionales).
-
-¡Un gran abrazo!
-
-Jorge Ulloa Roa
-Geógrafo & Fundador de ConMapas">
-          <input type="text" name="_honey" style="display:none">
-          <input type="hidden" name="_next" value="https://geoidegeoidal.github.io/spatial-ia-web/">
-
+        <form id="contact-form" action="https://script.google.com/macros/s/AKfycbxCPwhWMmgenF1yQ3s2zF48Z9AICAPYnj48auiohp-LFi6yMUhvwddVKSNm03ioUUEY/exec" method="POST" class="space-y-8">
+          
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
               <label class="block font-tech text-xs text-primary mb-2 uppercase">/ Nombre</label>
@@ -610,23 +582,20 @@ Geógrafo & Fundador de ConMapas">
 
         const formData = new FormData(contactForm);
         try {
-          const response = await fetch(contactForm.action, {
+          await fetch(contactForm.action, {
             method: 'POST',
             body: formData,
-            headers: { 'Accept': 'application/json' }
+            mode: 'no-cors'
           });
 
-          if (response.ok) {
-            contactForm.parentElement.innerHTML = `
-              <div class="text-center py-12 space-y-4">
-                <div class="text-4xl text-secondary mb-4">✓</div>
-                <h3 class="text-2xl font-sora text-white">PAYLOAD RECIBIDO</h3>
-                <p class="text-body font-inter">Revisa tu bandeja de entrada para las instrucciones de pago seguro.</p>
-              </div>
-            `;
-          } else {
-            throw new Error('Error en servidor');
-          }
+          // Con no-cors la respuesta es opaca, si llegamos aquí asumimos éxito
+          contactForm.parentElement.innerHTML = `
+            <div class="text-center py-12 space-y-4">
+              <div class="text-4xl text-secondary mb-4">✓</div>
+              <h3 class="text-2xl font-sora text-white">PAYLOAD RECIBIDO</h3>
+              <p class="text-body font-inter">Tu cupo ha sido reservado. Revisa tu bandeja de entrada (y la carpeta de spam por si acaso) para continuar.</p>
+            </div>
+          `;
         } catch (error) {
           submitBtn.textContent = originalText;
           submitBtn.disabled = false;
