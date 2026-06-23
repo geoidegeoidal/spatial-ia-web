@@ -420,20 +420,55 @@
         </div>
 
         <!-- Fechas / Calendario Oficial -->
-        <div class="mb-12 border border-primary/30 bg-primary/5 p-6 md:p-8 relative overflow-hidden">
-          <div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
-          <h3 class="text-2xl font-sora text-white mb-4 flex items-center gap-3">
-            <span class="text-primary">/</span> Calendario Oficial
-          </h3>
-          <p class="text-body font-inter mb-6">El curso se impartirá de forma intensiva y en vivo durante las siguientes fechas:<br><br><span class="text-secondary/80 text-sm border-l-2 border-secondary pl-2 block"><i>* Nota: Todas las sesiones quedarán grabadas de por vida en caso de que no puedas conectarte sincrónicamente, y tendrás soporte directo para resolver tus dudas.</i></span></p>
+        <div class="mb-12 border border-white/10 bg-gradient-to-br from-[#0a0a12] to-[#12121a] p-8 md:p-10 relative overflow-hidden rounded-xl shadow-2xl group">
+          <!-- Animated glowing orb in background -->
+          <div class="absolute -right-32 -top-32 w-96 h-96 bg-primary/10 rounded-full blur-[100px] group-hover:bg-primary/20 transition-all duration-700"></div>
+          <div class="absolute -left-32 -bottom-32 w-96 h-96 bg-secondary/10 rounded-full blur-[100px] group-hover:bg-secondary/20 transition-all duration-700"></div>
           
-          <div class="font-tech text-sm">
-            <div class="bg-[#050508] p-6 border border-white/5 group hover:border-primary/50 transition-colors inline-block min-w-[300px]">
-              <div class="text-primary mb-3 uppercase tracking-wider text-lg">Fechas Oficiales</div>
-              <ul class="space-y-3 text-white/80 text-base">
-                <li class="flex gap-2 items-center"><span class="text-secondary">■</span> 10, 11 y 12 de Julio</li>
-                <li class="flex gap-2 items-center mt-3 pt-3 border-t border-white/5"><span class="text-primary">⏰</span> 20:00 a 21:30 hrs</li>
-              </ul>
+          <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            <div class="lg:col-span-7">
+              <h3 class="text-3xl font-sora text-white mb-4 flex items-center gap-3">
+                <span class="text-primary">/</span> Calendario Oficial
+              </h3>
+              <p class="text-body font-inter text-lg text-white/70 mb-8 leading-relaxed">El curso se impartirá de forma intensiva y en vivo a través de Google Meet.</p>
+              
+              <div class="flex items-start gap-4 p-5 bg-white/5 border-l-2 border-secondary rounded-r-lg backdrop-blur-sm">
+                <svg class="w-6 h-6 text-secondary shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <p class="text-white/70 text-sm font-inter leading-relaxed"><i>Todas las sesiones quedarán grabadas de por vida en caso de que no puedas conectarte sincrónicamente, y tendrás soporte directo para resolver tus dudas.</i></p>
+              </div>
+            </div>
+            
+            <div class="lg:col-span-5">
+              <div class="bg-[#050508]/80 backdrop-blur-md p-8 border border-white/10 rounded-xl relative overflow-hidden shadow-xl transform transition-transform hover:-translate-y-1 duration-300">
+                <!-- Glowing top border -->
+                <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-primary to-secondary"></div>
+                
+                <div class="text-white/40 font-tech text-xs tracking-[0.2em] mb-6">FECHAS VERSIÓN 2</div>
+                
+                <div class="flex flex-col gap-6">
+                  <div class="flex items-center gap-5">
+                    <div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 border border-primary/20 shadow-[0_0_15px_rgba(255,45,120,0.15)]">
+                      <svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <div>
+                      <div class="text-white font-sora font-bold text-xl tracking-tight">10, 11 y 12 de Julio</div>
+                      <div class="text-white/50 text-sm font-inter mt-1">Miércoles, Jueves y Viernes</div>
+                    </div>
+                  </div>
+                  
+                  <div class="h-[1px] w-full bg-gradient-to-r from-white/10 via-white/5 to-transparent"></div>
+                  
+                  <div class="flex items-center gap-5">
+                    <div class="w-14 h-14 rounded-xl bg-secondary/10 flex items-center justify-center shrink-0 border border-secondary/20 shadow-[0_0_15px_rgba(0,255,204,0.15)]">
+                      <svg class="w-7 h-7 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <div>
+                      <div class="text-white font-sora font-bold text-xl tracking-tight">20:00 a 21:30 hrs</div>
+                      <div class="text-white/50 text-sm font-inter mt-1">Hora de Chile (GMT-4)</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
