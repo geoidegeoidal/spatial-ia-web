@@ -1,423 +1,519 @@
 <!DOCTYPE html>
-
-<html class="dark" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>GIS AI Bootcamp</title>
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Public+Sans:wght@400;600&amp;family=Sora:wght@400;600;800;900&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<!-- Tailwind -->
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<!-- Design System Config -->
-<script id="tailwind-config">
-        tailwind.config = {
-          darkMode: "class",
-          theme: {
-            extend: {
-              "colors": {
-                      "inverse-on-surface": "#43576a",
-                      "surface-dim": "#000f1e",
-                      "error-dim": "#d7383b",
-                      "primary-fixed-dim": "#3be6d0",
-                      "on-primary-fixed-variant": "#006359",
-                      "tertiary-dim": "#ed9000",
-                      "on-tertiary": "#5a3400",
-                      "tertiary-fixed-dim": "#ed9000",
-                      "on-secondary-fixed-variant": "#a5001d",
-                      "tertiary-fixed": "#fd9d1a",
-                      "surface-container": "#001b2f",
-                      "on-secondary-container": "#fff6f5",
-                      "on-primary-container": "#00453d",
-                      "on-surface": "#d3e8ff",
-                      "surface": "#000f1e",
-                      "on-error": "#490006",
-                      "background": "#000f1e",
-                      "inverse-primary": "#006b60",
-                      "on-secondary-fixed": "#700010",
-                      "primary-fixed": "#50f5de",
-                      "on-background": "#d3e8ff",
-                      "surface-container-lowest": "#000000",
-                      "surface-container-high": "#022138",
-                      "on-primary-fixed": "#00443c",
-                      "outline": "#64778c",
-                      "error": "#ff716c",
-                      "on-surface-variant": "#99adc3",
-                      "on-tertiary-fixed-variant": "#583300",
-                      "outline-variant": "#364a5d",
-                      "on-primary": "#00594f",
-                      "surface-variant": "#052840",
-                      "on-tertiary-container": "#4c2b00",
-                      "secondary-container": "#bf0023",
-                      "on-secondary": "#490007",
-                      "surface-bright": "#092e49",
-                      "surface-container-highest": "#052840",
-                      "secondary-fixed": "#ffc3c0",
-                      "secondary-fixed-dim": "#ffafab",
-                      "primary-container": "#1ed8c2",
-                      "primary-dim": "#3be6d0",
-                      "secondary-dim": "#e9002d",
-                      "secondary": "#ff706e",
-                      "tertiary": "#ffb158",
-                      "error-container": "#9f0519",
-                      "on-error-container": "#ffa8a3",
-                      "primary": "#50f5de",
-                      "tertiary-container": "#fd9d1a",
-                      "surface-tint": "#50f5de",
-                      "on-tertiary-fixed": "#2b1600",
-                      "inverse-surface": "#f7f9ff",
-                      "surface-container-low": "#001526"
-              },
-              "borderRadius": {
-                      "DEFAULT": "0.25rem",
-                      "lg": "0.5rem",
-                      "xl": "0.75rem",
-                      "full": "9999px"
-              },
-              "fontFamily": {
-                      "headline": ["Sora", "sans-serif"],
-                      "display": ["Sora", "sans-serif"],
-                      "body": ["Inter", "sans-serif"],
-                      "label": ["Public Sans", "sans-serif"]
-              }
-            }
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>GIS AI Bootcamp</title>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            background: "#000000",
+            surface: "#0A0A0A",
+            bordercolor: "#222222",
+            accent: "#D4FF00",
+            onaccent: "#000000",
+            primary: "#FFFFFF",
+            secondary: "#888888",
+          },
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+            mono: ["Space Grotesk", "monospace"],
           }
         }
-    </script>
-<style>
-        .glass-panel {
-            background: rgba(5, 40, 64, 0.4); /* surface-variant base */
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(54, 74, 93, 0.5); /* outline-variant */
-        }
-        .glow-text {
-            text-shadow: 0 0 20px rgba(80, 245, 222, 0.4);
-        }
-        .glow-box:hover {
-            box-shadow: 0 0 25px rgba(80, 245, 222, 0.2);
-            border-color: rgba(80, 245, 222, 0.5);
-        }
-    </style>
-</head>
-<body class="bg-background text-on-background font-body min-h-screen selection:bg-primary selection:text-on-primary">
-<!-- TopNavBar Component -->
-<nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl dark:bg-surface/80 border-b border-outline-variant/30 shadow-2xl shadow-primary/10">
-<div class="flex justify-between items-center px-6 py-4 max-w-full mx-auto">
-<div class="text-2xl font-display font-black tracking-tighter text-primary dark:text-primary-dim italic">
-                BOOTCAMP SIG
-            </div>
-<div class="hidden md:flex gap-8 items-center font-headline font-bold uppercase tracking-tighter">
-<!-- Syllabus Active -->
-<a class="text-primary dark:text-primary-dim border-b-2 border-primary pb-1 active:scale-95 transform transition-transform" href="#syllabus">Syllabus</a>
-<a class="text-on-surface-variant hover:text-primary dark:text-on-surface-variant dark:hover:text-primary-dim transition-colors pb-1 border-b-2 border-transparent active:scale-95 transform transition-transform" href="#pricing">Pricing</a>
-<a class="text-on-surface-variant hover:text-primary dark:text-on-surface-variant dark:hover:text-primary-dim transition-colors pb-1 border-b-2 border-transparent active:scale-95 transform transition-transform" href="#protocolo">Protocolo</a>
-</div>
-<a href="#protocolo" class="font-headline font-bold uppercase tracking-tighter text-primary dark:text-primary-dim px-4 py-2 rounded-lg border border-primary/50 hover:bg-primary/10 dark:hover:bg-primary-dim/10 transition-all duration-300 active:scale-95 transform inline-block">
-                Acceso
-            </a>
-</div>
-</nav>
-<!-- Hero Section -->
-<header class="relative pt-32 pb-24 lg:pt-48 lg:pb-32 overflow-hidden">
-<!-- Abstract background pattern -->
-<div class="absolute inset-0 z-0 opacity-20" style="background-image: radial-gradient(circle at 50% 50%, rgba(80, 245, 222, 0.15) 0%, transparent 50%), radial-gradient(circle at 100% 0%, rgba(255, 113, 108, 0.15) 0%, transparent 40%);"></div>
-<div class="absolute inset-0 z-0 opacity-30 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-surface-variant via-background to-background"></div>
-<div class="max-w-7xl mx-auto px-6 relative z-10 grid lg:grid-cols-12 gap-12 items-center">
-<div class="lg:col-span-8">
-<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-secondary/30 bg-secondary/10 text-secondary text-sm font-label uppercase tracking-widest mb-6">
-<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
-                    Versión 3.0 Live
-                </div>
-<h1 class="font-display font-black text-5xl md:text-6xl lg:text-7xl leading-[1.1] tracking-tighter mb-6 text-on-surface glow-text">
-                    Desarrollo de Aplicaciones Web Territoriales <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-container">Asistido con IA</span>
-</h1>
-<p class="text-xl md:text-2xl text-on-surface-variant font-light leading-relaxed mb-10 max-w-3xl">
-                    De analista SIG a desarrollador web. Diseña, programa y despliega dashboards territoriales interactivos en la nube sin servidores dedicados. 100% OpenSource.
-                </p>
-<div class="flex flex-wrap gap-4 font-label uppercase tracking-widest text-sm">
-<a href="#protocolo" class="bg-primary text-on-primary px-8 py-4 rounded-lg font-bold hover:bg-primary-dim transition-colors shadow-[0_0_20px_rgba(80,245,222,0.3)] hover:shadow-[0_0_30px_rgba(80,245,222,0.5)] flex items-center gap-2">
-                        INICIAR PROTOCOLO
-                        <span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">terminal</span>
-</a>
-<a href="#syllabus" class="glass-panel text-on-surface px-8 py-4 rounded-lg font-bold hover:border-primary hover:text-primary transition-all duration-300 flex items-center gap-2">
-                        VER SYLLABUS
-                        <span class="material-symbols-outlined text-lg">arrow_downward</span>
-</a>
-</div>
-</div>
-<div class="lg:col-span-4 hidden lg:block relative">
-<!-- Abstract Tech Visualization Image -->
-<div class="w-full aspect-square rounded-2xl glass-panel relative overflow-hidden group">
-<div class="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent mix-blend-overlay z-10"></div>
-<img class="object-cover w-full h-full opacity-80 group-hover:scale-105 transition-transform duration-700" data-alt="A cutting-edge 3D abstract visualization of geospatial data networks, featuring glowing turquoise nodes and intricate crimson connecting lines set against a deep black void. The composition uses a modern glassmorphism aesthetic with soft focus, high-contrast lighting, and dynamic, asymmetrical framing conveying advanced artificial intelligence processing territorial data." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgt-PhXLsy9RsX2R9Ay77BEg51p5EpDHiGR76dyoByhRsCfy_fInuvUs7ESH26yeKy7Krm_XSRiI3W5Iq7-hsf7as5wuD8ACPc4v-vCRe9PO3miDh-CKBM_AA23OraVjVohJHGg68lq-ibLnhjJ2vmvSLZSv-06upc0gqJ1H6EwR1E-so9zJ6OED8-6wePuqIp85f1WIRaqz_36oIwFQwB9nKTul_cskQMgBJers28vCI32swFgVO14se426ytyBNuHPkJdnoy38M"/>
-</div>
-</div>
-</div>
-</header>
-<!-- Syllabus Section -->
-<section class="py-24 relative z-10 border-t border-outline-variant/20" id="syllabus">
-<div class="max-w-7xl mx-auto px-6">
-<h2 class="font-display font-black text-3xl md:text-4xl tracking-tighter mb-12 text-on-surface">
-                Arquitectura del <span class="text-primary">Syllabus</span>
-</h2>
-<div class="grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-[minmax(250px,auto)]">
-<!-- Card 1 -->
-<div class="md:col-span-8 glass-panel rounded-2xl p-8 group glow-box transition-all duration-300 relative overflow-hidden">
-<div class="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
-<span class="material-symbols-outlined text-8xl">map</span>
-</div>
-<div class="relative z-10">
-<div class="text-secondary font-label uppercase tracking-widest text-sm mb-4">Viernes 7</div>
-<h3 class="font-headline font-bold text-2xl mb-4 text-on-surface">Fundamentos de IA y Spec-Driven Development</h3>
-<ul class="space-y-4 text-sm text-on-surface-variant">
-  <li><span class="text-primary font-bold mr-2">&gt;</span><strong>¿Qué es un LLM y cómo programar asistido por IA?</strong><br><span class="opacity-80">Entenderemos la arquitectura detrás de los grandes modelos de lenguaje y cómo interactuar con ellos gratuitamente.</span></li>
-  <li><span class="text-primary font-bold mr-2">&gt;</span><strong>Ingeniería de Prompts y Spec-Driven Development.</strong><br><span class="opacity-80">Aprenderemos la metodología técnica para escribir especificaciones claras y lograr que la IA genere código web.</span></li>
-  <li><span class="text-primary font-bold mr-2">&gt;</span><strong>Generación de UI.</strong><br><span class="opacity-80">Diseñaremos las maquetas de nuestro visor y las convertiremos instantáneamente en interfaces modernas con Tailwind.</span></li>
-</ul>
-</div>
-</div>
-<!-- Card 2 -->
-<div class="md:col-span-4 glass-panel rounded-2xl p-8 group glow-box transition-all duration-300 relative overflow-hidden flex flex-col justify-end border-t-4 border-t-tertiary">
-<div class="absolute inset-0 bg-gradient-to-b from-transparent to-surface-container/80 z-0"></div>
-<div class="relative z-10">
-<div class="text-tertiary font-label uppercase tracking-widest text-sm mb-4">Sábado 8</div>
-<h3 class="font-headline font-bold text-xl mb-4 text-on-surface">Dashboards Territoriales y Web Mapping Reactivo</h3>
-<ul class="space-y-4 text-sm text-on-surface-variant">
-  <li><span class="text-tertiary font-bold mr-2">&gt;</span><strong>Ecosistema Open Source: MapLibre GL JS / Leaflet.</strong><br><span class="opacity-80">Dominaremos librerías de web mapping para renderizar mapas fluidos sin dependencias comerciales.</span></li>
-  <li><span class="text-tertiary font-bold mr-2">&gt;</span><strong>Ensamblaje ("Stitching").</strong><br><span class="opacity-80">Conectaremos interfaces visuales con la lógica de nuestro visor interactivo.</span></li>
-  <li><span class="text-tertiary font-bold mr-2">&gt;</span><strong>Reactividad y Filtros.</strong><br><span class="opacity-80">Programaremos la comunicación entre el mapa y el dashboard para actualizar datos dinámicamente.</span></li>
-</ul>
-</div>
-</div>
-<!-- Card 3 -->
-<div class="md:col-span-12 glass-panel rounded-2xl p-8 md:p-12 group glow-box transition-all duration-300 relative overflow-hidden border-l-4 border-l-primary flex flex-col md:flex-row items-center gap-8">
-<div class="flex-1 relative z-10">
-<div class="text-primary font-label uppercase tracking-widest text-sm mb-4 flex items-center gap-2">
-<span class="material-symbols-outlined text-sm">rocket_launch</span>
-                            Domingo 9
-                        </div>
-<h3 class="font-headline font-bold text-3xl mb-4 text-on-surface">Análisis Espacial en el Navegador y Despliegue</h3>
-<ul class="space-y-4 text-sm text-on-surface-variant">
-  <li><span class="text-primary font-bold mr-2">&gt;</span><strong>Geoprocesamiento Client-Side sin servidores.</strong><br><span class="opacity-80">Implementaremos Turf.js para análisis espaciales (buffers, áreas, uniones) directamente en el navegador web del usuario.</span></li>
-  <li><span class="text-primary font-bold mr-2">&gt;</span><strong>Manejo de Datos: GeoJSON optimizados.</strong><br><span class="opacity-80">Aprenderemos técnicas para optimizar la carga y renderizado de información espacial densa.</span></li>
-  <li><span class="text-primary font-bold mr-2">&gt;</span><strong>A Producción: GitHub Pages.</strong><br><span class="opacity-80">Subiremos nuestro código terminado a la nube. Obtendrás un enlace público y seguro (HTTPS) a costo cero.</span></li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #000000;
+      color: #FFFFFF;
+      font-family: "Inter", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .font-mono {
+      font-family: "Space Grotesk", monospace;
+    }
+    
+    /* Hard borders styling */
+    .wire-border {
+      border: 1px solid #222222;
+    }
+    .wire-border-b {
+      border-bottom: 1px solid #222222;
+    }
+    .wire-border-t {
+      border-top: 1px solid #222222;
+    }
+    .wire-border-r {
+      border-right: 1px solid #222222;
+    }
+    .wire-border-l {
+      border-left: 1px solid #222222;
+    }
 
-<!-- Instructor Section -->
-<section class="py-24 relative z-10 border-t border-outline-variant/20" id="instructor">
-<div class="max-w-5xl mx-auto px-6">
-    <div class="glass-panel rounded-3xl p-10 md:p-14 relative overflow-hidden flex flex-col md:flex-row gap-10 items-center">
-        <!-- Decoration -->
-        <div class="absolute -top-32 -right-32 w-64 h-64 bg-primary/10 rounded-full blur-[80px]"></div>
-        <div class="absolute -bottom-32 -left-32 w-64 h-64 bg-tertiary/10 rounded-full blur-[80px]"></div>
-        
-        <div class="relative z-10 flex-1">
-            <h2 class="font-display font-black text-3xl md:text-4xl tracking-tighter mb-4 text-on-surface">
-                Conoce a tu <span class="text-primary">Instructor</span>
-            </h2>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-tertiary/30 bg-tertiary/10 text-tertiary text-xs font-label uppercase tracking-widest mb-6">
-                Jorge Ulloa Roa
-            </div>
-            
-            <div class="space-y-4 text-on-surface-variant leading-relaxed text-sm">
-                <p><strong>Geógrafo y Licenciado en Geografía</strong> por la Universidad Alberto Hurtado, con más de 8 años dedicados a transformar datos en decisiones estratégicas en la intersección entre el análisis geoespacial, la tecnología y la sostenibilidad.</p>
-                <p>Actualmente apoya procesos clave en el <strong>Ministerio del Medio Ambiente de Chile</strong> y ha liderado el desarrollo del primer padrón georreferenciado del Servel, optimizando la logística electoral a nivel nacional.</p>
-                <p>Fundador de <strong>ConMapas</strong>, domina herramientas como PostgreSQL/PostGIS, Spatial SQL, Python y arquitecturas web para abordar desafíos territoriales complejos y generar impacto real.</p>
-            </div>
-            
-            <div class="mt-8 flex flex-wrap gap-4">
-                <a href="https://www.linkedin.com/in/jorge-ulloa-roa/" target="_blank" class="bg-primary/10 text-primary border border-primary/50 px-6 py-3 rounded-lg font-headline font-bold uppercase tracking-widest text-xs hover:bg-primary hover:text-on-primary transition-all flex items-center gap-2">
-                    <span class="material-symbols-outlined text-sm">person_search</span>
-                    Ver Perfil Completo
-                </a>
-            </div>
-        </div>
-        
-        <div class="relative z-10 w-48 h-48 shrink-0 rounded-2xl overflow-hidden border-2 border-primary/30 shadow-[0_0_30px_rgba(80,245,222,0.15)] bg-surface-container-high flex items-center justify-center">
-            <img src="assets/instructor.jpg" alt="Jorge Ulloa Roa" class="w-full h-full object-cover">
-        </div>
+    /* Interactive Terminal Elements */
+    .btn-terminal {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: "Space Grotesk", monospace;
+      text-transform: uppercase;
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: #D4FF00;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .btn-terminal::before { content: "["; color: #888888; }
+    .btn-terminal::after { content: "]"; color: #888888; }
+    .btn-terminal:hover { color: #FFFFFF; }
+    .btn-terminal:hover::before, .btn-terminal:hover::after { color: #D4FF00; }
+    
+    .btn-solid {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #D4FF00;
+      color: #000000;
+      font-family: "Space Grotesk", monospace;
+      text-transform: uppercase;
+      font-size: 0.875rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      padding: 1rem 2rem;
+      transition: all 0.2s ease;
+      border: 1px solid #D4FF00;
+    }
+    .btn-solid:hover {
+      background-color: #000000;
+      color: #D4FF00;
+    }
+
+    /* Grid Layouts mimicking Spur.us */
+    .grid-bg {
+      background-image: linear-gradient(#111111 1px, transparent 1px), linear-gradient(90deg, #111111 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    /* Input styling */
+    .input-terminal {
+      background: #000000;
+      border: 1px solid #222222;
+      color: #FFFFFF;
+      font-family: "Inter", sans-serif;
+      padding: 1rem;
+      width: 100%;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+    .input-terminal:focus {
+      border-color: #D4FF00;
+    }
+    .input-terminal::placeholder {
+      color: #444444;
+    }
+    
+    /* Reveal Animation Classes */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Number indicators */
+    .num-indicator {
+      font-family: "Space Grotesk", monospace;
+      font-size: 0.75rem;
+      color: #888888;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .num-indicator::before {
+      content: "";
+      display: block;
+      width: 1rem;
+      height: 1px;
+      background-color: #D4FF00;
+    }
+  </style>
+</head>
+<body class="bg-background text-primary selection:bg-accent selection:text-onaccent">
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 w-full z-50 bg-background/90 backdrop-blur-md wire-border-b">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+      <div class="font-mono font-bold text-xl tracking-tighter text-primary">
+        BOOTCAMP_SIG<span class="text-accent animate-pulse">_</span>
+      </div>
+      <div class="hidden md:flex gap-8 items-center">
+        <a class="font-mono text-sm text-secondary hover:text-accent transition-colors uppercase" href="#syllabus">Syllabus</a>
+        <a class="font-mono text-sm text-secondary hover:text-accent transition-colors uppercase" href="#instructor">Instructor</a>
+        <a class="font-mono text-sm text-secondary hover:text-accent transition-colors uppercase" href="#pricing">Pricing</a>
+        <a href="#protocolo" class="btn-terminal">
+          Acceso
+        </a>
+      </div>
     </div>
-</div>
-</section>
-<!-- Pricing Section -->
-<section class="py-24 bg-surface-container-low relative border-t border-outline-variant/20" id="pricing">
-<div class="max-w-7xl mx-auto px-6">
-<h2 class="font-display font-black text-3xl md:text-4xl tracking-tighter mb-16 text-center text-on-surface">
-                Parámetros de <span class="text-primary">Acceso</span>
-</h2>
-<div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-<!-- Pricing Card 1 -->
-<div class="glass-panel rounded-2xl p-8 border-2 border-primary/20 hover:border-primary/60 transition-colors relative flex flex-col">
-<div class="absolute -top-4 left-8 bg-primary text-on-primary px-3 py-1 font-label text-xs uppercase tracking-widest rounded-full font-bold">Standard Protocol</div>
-<h3 class="font-headline font-bold text-2xl text-on-surface mt-4">Acceso General</h3>
-<div class="mt-4 mb-8">
-<span class="text-5xl font-display font-black text-primary">$30.000</span>
-<span class="text-on-surface-variant">CLP</span>
-</div>
-<ul class="space-y-4 mb-8 flex-1">
-<li class="flex items-center gap-3 text-on-surface-variant">
-<span class="material-symbols-outlined text-primary">check_circle</span>
-                            Acceso completo a las 3 sesiones del bootcamp
-                        </li>
-<li class="flex items-center gap-3 text-on-surface-variant">
-<span class="material-symbols-outlined text-primary">check_circle</span>
-                            Material de apoyo y scripts
-                        </li>
-<li class="flex items-center gap-3 text-on-surface-variant">
-<span class="material-symbols-outlined text-primary">check_circle</span>
-                            Grabaciones de por vida
-                        </li>
-<li class="flex items-center gap-3 text-on-surface-variant">
-<span class="material-symbols-outlined text-primary">check_circle</span>
-                            Certificado de participación
-                        </li>
-</ul>
-<a href="#protocolo" class="mt-8 block w-full bg-primary/10 text-primary border border-primary/50 py-4 rounded-lg font-headline font-bold uppercase tracking-widest hover:bg-primary hover:text-on-primary transition-all duration-300 text-center">
-    TOMAR CUPO GENERAL
-</a>
-</div>
-<!-- Pricing Card 2 -->
-<div class="glass-panel rounded-2xl p-8 border border-outline-variant hover:border-tertiary/50 transition-colors flex flex-col">
-<h3 class="font-headline font-bold text-2xl text-on-surface">Pase Estudiantes</h3>
-<div class="mt-4 mb-8">
-<span class="text-5xl font-display font-black text-on-surface">$25.000</span>
-<span class="text-on-surface-variant">CLP</span>
-</div>
-<ul class="space-y-4 mb-8 flex-1">
-<li class="flex items-center gap-3 text-on-surface-variant">
-<span class="material-symbols-outlined text-tertiary">check_circle</span>
-                            Todos los beneficios del Acceso General
-                        </li>
-<li class="flex items-center gap-3 text-on-surface-variant opacity-70">
-<span class="material-symbols-outlined text-tertiary">info</span>
-                            Requiere comprobante de alumno regular
-                        </li>
-</ul>
-<a href="#protocolo" class="mt-8 block w-full bg-tertiary/10 text-tertiary border border-tertiary/50 py-4 rounded-lg font-headline font-bold uppercase tracking-widest hover:bg-tertiary hover:text-on-secondary transition-all duration-300 text-center">
-    TOMAR CUPO ESTUDIANTE
-</a>
-</div>
-</div>
-</div>
-</section>
-<!-- Contact Form Section -->
-<section id="protocolo" class="py-24 relative overflow-hidden">
-<div class="absolute inset-0 z-0 opacity-20" style="background-image: radial-gradient(circle at 80% 20%, rgba(255, 159, 28, 0.15) 0%, transparent 40%);"></div>
-<div class="max-w-3xl mx-auto px-6 relative z-10">
-<div class="glass-panel rounded-3xl p-8 md:p-12 shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-primary/20 backdrop-blur-2xl">
-<div class="text-center mb-10">
-<h2 class="font-display font-black text-3xl tracking-tighter text-on-surface mb-2">Inscripción al Bootcamp</h2>
-<p class="text-on-surface-variant font-label text-sm uppercase tracking-widest">Inicialización de Parámetros de Usuario</p>
-</div>
-<form id="contact-form" action="https://script.google.com/macros/s/AKfycby_1yHpKDzyHS8BPtFOWOGbZxhDHDNbsjJdOuwSM1ffcw3QAfDJJ0yWpyfRCtawpnp8/exec" method="POST" class="space-y-6">
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-<div class="space-y-2">
-<label class="font-label text-xs uppercase tracking-widest text-on-surface-variant">Name</label>
-<input name="name" required class="w-full bg-surface/50 border border-outline-variant text-on-surface rounded-lg px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary transition-colors outline-none" placeholder="John Doe" type="text"/>
-</div>
-<div class="space-y-2">
-<label class="font-label text-xs uppercase tracking-widest text-on-surface-variant">Email</label>
-<input name="email" required class="w-full bg-surface/50 border border-outline-variant text-on-surface rounded-lg px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary transition-colors outline-none" placeholder="data@node.com" type="email"/>
-</div>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-<div class="space-y-2">
-<label class="font-label text-xs uppercase tracking-widest text-on-surface-variant">Country</label>
-<select name="country" required class="w-full bg-surface/50 border border-outline-variant text-on-surface rounded-lg px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary transition-colors outline-none appearance-none">
-  <option value="" disabled selected>Selecciona tu país</option>
-  <option value="Chile">Chile</option>
-  <option value="Argentina">Argentina</option>
-  <option value="Colombia">Colombia</option>
-  <option value="México">México</option>
-  <option value="Perú">Perú</option>
-  <option value="Ecuador">Ecuador</option>
-  <option value="Bolivia">Bolivia</option>
-  <option value="España">España</option>
-  <option value="Otro">Otro</option>
-</select>
-</div>
-<div class="space-y-2">
-<label class="font-label text-xs uppercase tracking-widest text-on-surface-variant">Nivel SIG</label>
-<select name="nivel_sig" required class="w-full bg-surface/50 border border-outline-variant text-on-surface rounded-lg px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary transition-colors outline-none appearance-none">
-  <option value="" disabled selected>Selecciona tu nivel</option>
-  <option value="Principiante">Principiante</option>
-  <option value="Intermedio">Intermedio (QGIS/ArcGIS)</option>
-  <option value="Avanzado">Avanzado (Desarrollo)</option>
-</select>
-</div>
-</div>
-<div class="space-y-2">
-<label class="font-label text-xs uppercase tracking-widest text-on-surface-variant">Ocupación</label>
-<input name="ocupacion" required class="w-full bg-surface/50 border border-outline-variant text-on-surface rounded-lg px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary transition-colors outline-none" placeholder="Analista Territorial / Dev" type="text"/>
-</div>
-<div class="space-y-2 pb-4">
-<label class="font-label text-xs uppercase tracking-widest text-on-surface-variant">Plan Selection</label>
-<select name="plan" required class="w-full bg-surface/50 border border-outline-variant text-on-surface rounded-lg px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary transition-colors outline-none appearance-none">
-  <option value="" disabled selected>Selecciona tu plan...</option>
-  <option value="Acceso General — $30.000 CLP">Acceso General — $30.000 CLP</option>
-  <option value="Pase Estudiantes — $25.000 CLP">Pase Estudiantes — $25.000 CLP</option>
-</select>
-</div>
-<button id="contact-submit" class="w-full bg-primary text-on-primary py-4 rounded-lg font-headline font-bold uppercase tracking-widest hover:bg-primary-dim transition-colors shadow-[0_0_15px_rgba(80,245,222,0.2)] hover:shadow-[0_0_25px_rgba(80,245,222,0.4)] flex justify-center items-center gap-2" type="submit">
-<span class="material-symbols-outlined">terminal</span>
-                        EJECUTAR_SOLICITUD
-                    </button>
-</form>
-</div>
-</div>
-</section>
-<!-- Footer Component -->
-<footer class="w-full py-12 bg-surface-container-lowest dark:bg-surface-container-lowest border-t border-outline-variant/20">
-<div class="flex flex-col md:flex-row justify-between items-center px-8 max-w-7xl mx-auto gap-4">
-<div class="text-lg font-display font-black text-on-surface">
-                © 2024 GIS AI BOOTCAMP
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="relative pt-40 pb-24 lg:pt-56 lg:pb-32 grid-bg">
+    <div class="max-w-7xl mx-auto px-6 relative z-10 grid lg:grid-cols-12 gap-12 items-end">
+      <div class="lg:col-span-8 reveal">
+        <div class="num-indicator mb-6 uppercase tracking-widest text-accent font-bold">
+          System.Init(v3.0)
+        </div>
+        <h1 class="font-sans font-semibold text-5xl md:text-6xl lg:text-7xl leading-[1.05] tracking-tight mb-8">
+          Desarrollo de Apps <br/>
+          Territoriales con <span class="text-accent">IA</span>.
+        </h1>
+        <p class="text-xl text-secondary font-light leading-relaxed mb-12 max-w-2xl">
+          De analista SIG a desarrollador web. Diseña, programa y despliega dashboards territoriales interactivos en la nube sin servidores dedicados. 100% OpenSource.
+        </p>
+        <div class="flex flex-wrap gap-8 items-center">
+          <a href="#protocolo" class="btn-solid">
+            Iniciar Protocolo
+          </a>
+          <a href="#syllabus" class="btn-terminal">
+            Ver Syllabus
+          </a>
+        </div>
+      </div>
+      <div class="hidden lg:block lg:col-span-4 wire-border p-6 bg-surface reveal" style="transition-delay: 0.1s">
+        <div class="font-mono text-xs text-secondary mb-4 uppercase border-b border-bordercolor pb-2">Status_Report</div>
+        <ul class="space-y-3 font-mono text-sm">
+          <li class="flex justify-between"><span>Architecture</span><span class="text-accent">Zero_Server</span></li>
+          <li class="flex justify-between"><span>Methodology</span><span class="text-primary">Spec-Driven</span></li>
+          <li class="flex justify-between"><span>Stack</span><span class="text-primary">MapLibre/Turf</span></li>
+          <li class="flex justify-between pt-4 mt-4 border-t border-bordercolor"><span>System_Ready</span><span class="text-accent">TRUE</span></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <!-- Syllabus Section -->
+  <section class="wire-border-t bg-background" id="syllabus">
+    <div class="max-w-7xl mx-auto px-6 py-24">
+      <div class="flex flex-col md:flex-row justify-between md:items-end mb-16 reveal">
+        <div>
+          <div class="num-indicator mb-4 uppercase">Module.01</div>
+          <h2 class="font-sans font-semibold text-3xl md:text-5xl tracking-tight">Arquitectura del Syllabus.</h2>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-0 wire-border">
+        
+        <!-- Day 1 -->
+        <div class="wire-border-b md:wire-border-b-0 md:wire-border-r p-8 md:p-12 hover:bg-surface transition-colors group reveal">
+          <div class="font-mono text-xs text-accent uppercase mb-8 flex justify-between">
+            <span>S01 // Viernes 7</span>
+            <span class="opacity-0 group-hover:opacity-100 transition-opacity">>></span>
+          </div>
+          <h3 class="font-sans font-semibold text-2xl mb-6">Fundamentos de IA y Spec-Driven Development</h3>
+          <ul class="space-y-6 text-sm text-secondary">
+            <li class="pl-4 border-l border-bordercolor group-hover:border-accent transition-colors">
+              <strong class="text-primary block font-mono text-xs mb-1">¿Qué es un LLM y cómo programar asistido por IA?</strong>
+              Entenderemos la arquitectura detrás de los grandes modelos de lenguaje y cómo interactuar con ellos gratuitamente.
+            </li>
+            <li class="pl-4 border-l border-bordercolor group-hover:border-accent transition-colors">
+              <strong class="text-primary block font-mono text-xs mb-1">Ingeniería de Prompts y Spec-Driven Development.</strong>
+              Aprenderemos la metodología técnica para escribir especificaciones claras y lograr que la IA genere código web.
+            </li>
+            <li class="pl-4 border-l border-bordercolor group-hover:border-accent transition-colors">
+              <strong class="text-primary block font-mono text-xs mb-1">Generación de UI.</strong>
+              Diseñaremos las maquetas de nuestro visor y las convertiremos instantáneamente en interfaces modernas con Tailwind.
+            </li>
+          </ul>
+        </div>
+
+        <!-- Day 2 -->
+        <div class="wire-border-b md:wire-border-b-0 md:wire-border-r p-8 md:p-12 hover:bg-surface transition-colors group reveal" style="transition-delay: 0.1s">
+          <div class="font-mono text-xs text-accent uppercase mb-8 flex justify-between">
+            <span>S02 // Sábado 8</span>
+            <span class="opacity-0 group-hover:opacity-100 transition-opacity">>></span>
+          </div>
+          <h3 class="font-sans font-semibold text-2xl mb-6">Dashboards Territoriales y Web Mapping Reactivo</h3>
+          <ul class="space-y-6 text-sm text-secondary">
+            <li class="pl-4 border-l border-bordercolor group-hover:border-accent transition-colors">
+              <strong class="text-primary block font-mono text-xs mb-1">Ecosistema Open Source: MapLibre / Leaflet.</strong>
+              Dominaremos librerías de web mapping para renderizar mapas fluidos sin dependencias comerciales.
+            </li>
+            <li class="pl-4 border-l border-bordercolor group-hover:border-accent transition-colors">
+              <strong class="text-primary block font-mono text-xs mb-1">Ensamblaje ("Stitching").</strong>
+              Conectaremos interfaces visuales con la lógica de nuestro visor interactivo.
+            </li>
+            <li class="pl-4 border-l border-bordercolor group-hover:border-accent transition-colors">
+              <strong class="text-primary block font-mono text-xs mb-1">Reactividad y Filtros.</strong>
+              Programaremos la comunicación entre el mapa y el dashboard para actualizar datos dinámicamente.
+            </li>
+          </ul>
+        </div>
+
+        <!-- Day 3 -->
+        <div class="p-8 md:p-12 hover:bg-surface transition-colors group reveal" style="transition-delay: 0.2s">
+          <div class="font-mono text-xs text-accent uppercase mb-8 flex justify-between">
+            <span>S03 // Domingo 9</span>
+            <span class="opacity-0 group-hover:opacity-100 transition-opacity">>></span>
+          </div>
+          <h3 class="font-sans font-semibold text-2xl mb-6">Análisis Espacial en el Navegador y Despliegue</h3>
+          <ul class="space-y-6 text-sm text-secondary">
+            <li class="pl-4 border-l border-bordercolor group-hover:border-accent transition-colors">
+              <strong class="text-primary block font-mono text-xs mb-1">Geoprocesamiento Client-Side sin servidores.</strong>
+              Implementaremos Turf.js para análisis espaciales (buffers, áreas, uniones) directamente en el navegador web del usuario.
+            </li>
+            <li class="pl-4 border-l border-bordercolor group-hover:border-accent transition-colors">
+              <strong class="text-primary block font-mono text-xs mb-1">Manejo de Datos: GeoJSON optimizados.</strong>
+              Aprenderemos técnicas para optimizar la carga y renderizado de información espacial densa.
+            </li>
+            <li class="pl-4 border-l border-bordercolor group-hover:border-accent transition-colors">
+              <strong class="text-primary block font-mono text-xs mb-1">A Producción: GitHub Pages.</strong>
+              Subiremos nuestro código terminado a la nube. Obtendrás un enlace público y seguro (HTTPS) a costo cero.
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Instructor Section -->
+  <section class="wire-border-t bg-surface" id="instructor">
+    <div class="max-w-7xl mx-auto px-6 py-24">
+      <div class="grid md:grid-cols-12 gap-12 items-center reveal">
+        
+        <div class="md:col-span-5 order-2 md:order-1">
+          <div class="wire-border p-2 bg-background inline-block">
+            <!-- Grayscale filter to match brutalist tech aesthetic -->
+            <img src="assets/instructor.jpg" alt="Jorge Ulloa Roa" class="w-full max-w-sm grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500">
+          </div>
+        </div>
+
+        <div class="md:col-span-7 order-1 md:order-2">
+          <div class="num-indicator mb-4 uppercase">Module.02</div>
+          <h2 class="font-sans font-semibold text-3xl md:text-4xl tracking-tight mb-2">Conoce a tu Instructor.</h2>
+          <div class="font-mono text-accent text-sm uppercase mb-8">SYS.ADMIN // Jorge Ulloa Roa</div>
+          
+          <div class="space-y-6 text-secondary text-sm md:text-base leading-relaxed max-w-2xl mb-10">
+            <p><strong class="text-primary">Geógrafo y Licenciado en Geografía</strong> por la Universidad Alberto Hurtado, con más de 8 años dedicados a transformar datos en decisiones estratégicas en la intersección entre el análisis geoespacial, la tecnología y la sostenibilidad.</p>
+            <p>Actualmente apoya procesos clave en el <strong class="text-primary">Ministerio del Medio Ambiente de Chile</strong> y ha liderado el desarrollo del primer padrón georreferenciado del Servel, optimizando la logística electoral a nivel nacional.</p>
+            <p>Fundador de <strong class="text-primary">ConMapas</strong>, domina herramientas como PostgreSQL/PostGIS, Spatial SQL, Python y arquitecturas web para abordar desafíos territoriales complejos y generar impacto real.</p>
+          </div>
+          
+          <a href="https://www.linkedin.com/in/jorge-ulloa-roa/" target="_blank" class="btn-terminal">
+            Ver Perfil Completo
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section class="wire-border-t bg-background" id="pricing">
+    <div class="max-w-7xl mx-auto px-6 py-24">
+      <div class="flex flex-col md:flex-row justify-between md:items-end mb-16 reveal">
+        <div>
+          <div class="num-indicator mb-4 uppercase">Module.03</div>
+          <h2 class="font-sans font-semibold text-3xl md:text-5xl tracking-tight">Parámetros de Acceso.</h2>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        
+        <!-- Pricing Card 1 -->
+        <div class="wire-border bg-surface p-10 flex flex-col reveal">
+          <div class="font-mono text-accent text-xs uppercase mb-4 tracking-widest">Standard_Protocol</div>
+          <h3 class="font-sans font-semibold text-3xl mb-4">Acceso General</h3>
+          <div class="flex items-baseline gap-2 mb-10 pb-10 border-b border-bordercolor">
+            <span class="text-5xl font-semibold tracking-tighter text-primary">$30.000</span>
+            <span class="font-mono text-secondary text-sm">CLP</span>
+          </div>
+          <ul class="space-y-5 flex-1 mb-12">
+            <li class="flex items-start gap-4">
+              <span class="text-accent mt-1">+</span>
+              <span class="text-secondary text-sm">Acceso completo a las 3 sesiones del bootcamp</span>
+            </li>
+            <li class="flex items-start gap-4">
+              <span class="text-accent mt-1">+</span>
+              <span class="text-secondary text-sm">Material de apoyo y scripts</span>
+            </li>
+            <li class="flex items-start gap-4">
+              <span class="text-accent mt-1">+</span>
+              <span class="text-secondary text-sm">Grabaciones de por vida</span>
+            </li>
+            <li class="flex items-start gap-4">
+              <span class="text-accent mt-1">+</span>
+              <span class="text-secondary text-sm">Certificado de participación</span>
+            </li>
+          </ul>
+          <a href="#protocolo" class="btn-solid w-full">
+            Tomar Cupo General
+          </a>
+        </div>
+
+        <!-- Pricing Card 2 -->
+        <div class="wire-border bg-surface p-10 flex flex-col reveal" style="transition-delay: 0.1s">
+          <div class="font-mono text-secondary text-xs uppercase mb-4 tracking-widest">Academic_Protocol</div>
+          <h3 class="font-sans font-semibold text-3xl mb-4">Pase Estudiantes</h3>
+          <div class="flex items-baseline gap-2 mb-10 pb-10 border-b border-bordercolor">
+            <span class="text-5xl font-semibold tracking-tighter text-primary">$25.000</span>
+            <span class="font-mono text-secondary text-sm">CLP</span>
+          </div>
+          <ul class="space-y-5 flex-1 mb-12">
+            <li class="flex items-start gap-4">
+              <span class="text-accent mt-1">+</span>
+              <span class="text-secondary text-sm">Todos los beneficios del Acceso General</span>
+            </li>
+            <li class="flex items-start gap-4 opacity-70">
+              <span class="text-secondary mt-1">!</span>
+              <span class="text-secondary text-sm">Requiere comprobante de alumno regular</span>
+            </li>
+          </ul>
+          <a href="#protocolo" class="btn-solid w-full" style="background-color: transparent; color: #FFFFFF; border-color: #222222;">
+            Tomar Cupo Estudiante
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Form Section -->
+  <section class="wire-border-t bg-surface" id="protocolo">
+    <div class="max-w-7xl mx-auto px-6 py-24">
+      <div class="max-w-3xl mx-auto wire-border bg-background p-10 md:p-16 reveal">
+        <div class="mb-12 border-b border-bordercolor pb-8">
+          <div class="num-indicator mb-4 uppercase">Module.04</div>
+          <h2 class="font-sans font-semibold text-3xl tracking-tight mb-2">Inscripción al Bootcamp.</h2>
+          <p class="font-mono text-secondary text-xs uppercase">Inicialización de Parámetros de Usuario</p>
+        </div>
+        
+        <form id="contact-form" action="https://script.google.com/macros/s/AKfycby_1yHpKDzyHS8BPtFOWOGbZxhDHDNbsjJdOuwSM1ffcw3QAfDJJ0yWpyfRCtawpnp8/exec" method="POST" class="space-y-8">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="space-y-3">
+              <label class="font-mono text-xs uppercase text-secondary">Name</label>
+              <input name="name" required class="input-terminal" placeholder="John Doe" type="text"/>
             </div>
-<div class="flex gap-6 font-label text-xs tracking-widest uppercase">
-<a class="text-on-surface-variant hover:text-secondary transition-colors hover:text-secondary-fixed-dim transition-opacity hover:opacity-80" href="#">Privacy</a>
-<a class="text-on-surface-variant hover:text-secondary transition-colors hover:text-secondary-fixed-dim transition-opacity hover:opacity-80" href="#">Terms</a>
-<a class="text-primary font-bold transition-opacity hover:opacity-80" href="#">Terminal</a>
-</div>
-</div>
-</footer>
-</body>
-<script>
+            <div class="space-y-3">
+              <label class="font-mono text-xs uppercase text-secondary">Email</label>
+              <input name="email" required class="input-terminal" placeholder="data@node.com" type="email"/>
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="space-y-3">
+              <label class="font-mono text-xs uppercase text-secondary">Country</label>
+              <select name="country" required class="input-terminal appearance-none">
+                <option value="" disabled selected>Selecciona tu país</option>
+                <option value="Chile">Chile</option>
+                <option value="Argentina">Argentina</option>
+                <option value="Colombia">Colombia</option>
+                <option value="México">México</option>
+                <option value="Perú">Perú</option>
+                <option value="Ecuador">Ecuador</option>
+                <option value="Bolivia">Bolivia</option>
+                <option value="España">España</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </div>
+            <div class="space-y-3">
+              <label class="font-mono text-xs uppercase text-secondary">Nivel SIG</label>
+              <select name="nivel_sig" required class="input-terminal appearance-none">
+                <option value="" disabled selected>Selecciona tu nivel</option>
+                <option value="Principiante">Principiante</option>
+                <option value="Intermedio">Intermedio (QGIS/ArcGIS)</option>
+                <option value="Avanzado">Avanzado (Desarrollo)</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="space-y-3">
+            <label class="font-mono text-xs uppercase text-secondary">Ocupación</label>
+            <input name="ocupacion" required class="input-terminal" placeholder="Analista Territorial / Dev" type="text"/>
+          </div>
+          
+          <div class="space-y-3 pb-4">
+            <label class="font-mono text-xs uppercase text-secondary">Plan Selection</label>
+            <select name="plan" required class="input-terminal appearance-none">
+              <option value="" disabled selected>Selecciona tu plan...</option>
+              <option value="Acceso General — $30.000 CLP">Acceso General — $30.000 CLP</option>
+              <option value="Pase Estudiantes — $25.000 CLP">Pase Estudiantes — $25.000 CLP</option>
+            </select>
+          </div>
+          
+          <button id="contact-submit" class="btn-solid w-full" type="submit">
+            Ejecutar_Solicitud
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="wire-border-t bg-background py-8">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div class="font-mono text-xs text-secondary uppercase">
+        © 2024 BOOTCAMP SIG. All systems nominal.
+      </div>
+      <div class="flex gap-6 font-mono text-xs uppercase text-secondary">
+        <a class="hover:text-primary transition-colors" href="#">Privacy</a>
+        <a class="hover:text-primary transition-colors" href="#">Terms</a>
+        <a class="text-accent transition-colors" href="#">Terminal</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Form submission handling
     const form = document.getElementById('contact-form');
     const submitBtn = document.getElementById('contact-submit');
 
     form.addEventListener('submit', e => {
       e.preventDefault();
-      submitBtn.innerHTML = '<span class="material-symbols-outlined">sync</span> EJECUTANDO...';
+      const originalText = submitBtn.innerText;
+      submitBtn.innerText = 'EJECUTANDO...';
       submitBtn.disabled = true;
-      submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+      submitBtn.style.opacity = '0.5';
 
       const formData = new FormData(form);
       const action = form.getAttribute('action');
 
       fetch(action, {
         method: 'POST',
-        body: formData
+        body: formData,
+        mode: 'no-cors' // Google Script requires no-cors if not returning proper headers
       })
-      .then(response => {
-        submitBtn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> ACCESO CONCEDIDO - REVISA TU CORREO';
-        submitBtn.classList.remove('bg-primary', 'text-on-primary', 'shadow-[0_0_15px_rgba(80,245,222,0.2)]');
-        submitBtn.classList.add('bg-secondary', 'text-on-secondary');
+      .then(() => {
+        submitBtn.innerText = 'ACCESO CONCEDIDO';
+        submitBtn.style.backgroundColor = '#FFFFFF';
+        submitBtn.style.color = '#000000';
+        submitBtn.style.borderColor = '#FFFFFF';
+        submitBtn.style.opacity = '1';
         form.reset();
       })
       .catch(error => {
         console.error('Error!', error.message);
-        submitBtn.innerHTML = '<span class="material-symbols-outlined">error</span> ERROR DE CONEXIÓN - REINTENTAR';
+        submitBtn.innerText = 'ERROR - REINTENTAR';
         submitBtn.disabled = false;
-        submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        submitBtn.style.opacity = '1';
+        submitBtn.style.backgroundColor = 'transparent';
+        submitBtn.style.color = '#ff3333';
+        submitBtn.style.borderColor = '#ff3333';
       });
     });
 
@@ -430,5 +526,23 @@
             });
         });
     });
-</script>
+
+    // Reveal animations on scroll
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          revealObserver.unobserve(entry.target); // Only animate once
+        }
+      });
+    }, {
+      root: null,
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px"
+    });
+
+    revealElements.forEach(el => revealObserver.observe(el));
+  </script>
+</body>
 </html>
