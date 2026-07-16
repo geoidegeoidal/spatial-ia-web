@@ -529,8 +529,7 @@
   <!-- Footer -->
   <footer class="wire-border-t bg-background py-16">
     <div class="max-w-4xl mx-auto px-6 text-center reveal">
-      <blockquote class="text-secondary font-light italic text-sm md:text-base leading-relaxed mb-4 animate-glow">
-        "El aspecto más triste de la vida actual es que la ciencia reúne conocimiento más rápidamente de lo que la sociedad reúne sabiduría."
+      <blockquote id="typewriter-quote" class="text-secondary font-light italic text-sm md:text-base leading-relaxed mb-4 animate-glow min-h-[60px] md:min-h-[48px]">
       </blockquote>
       <div class="font-mono text-xs text-accent uppercase tracking-widest flex items-center justify-center gap-1">
         <span>— Isaac Asimov</span>
@@ -604,6 +603,32 @@
     });
 
     revealElements.forEach(el => revealObserver.observe(el));
+
+    // Typewriter effect for footer quote
+    const quoteEl = document.getElementById('typewriter-quote');
+    const quoteText = '"El aspecto más triste de la vida actual es que la ciencia reúne conocimiento más rápidamente de lo que la sociedad reúne sabiduría."';
+    let isTyped = false;
+
+    const typewriterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !isTyped) {
+          isTyped = true;
+          let i = 0;
+          function typeWriter() {
+            if (i < quoteText.length) {
+              quoteEl.innerHTML += quoteText.charAt(i);
+              i++;
+              setTimeout(typeWriter, 35);
+            }
+          }
+          setTimeout(typeWriter, 400);
+        }
+      });
+    }, { threshold: 0.8 });
+
+    if (quoteEl) {
+      typewriterObserver.observe(quoteEl);
+    }
   </script>
 </body>
 </html>
