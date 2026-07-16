@@ -1,0 +1,665 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desarrollo de Aplicaciones Web Territoriales Asistido con IA ÔÇö Bootcamp SIG</title>
+  <meta name="description" content="De analista SIG a desarrollador web. Dise├▒a, programa y despliega dashboards territoriales interactivos en la nube sin servidores dedicados. 100% OpenSource.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Sora:wght@600;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            surface: '#0a0a12',
+            primary: '#ff2d78',
+            secondary: '#00ffcc',
+            tertiary: '#ffe04a',
+            heading: '#f8fafc',
+            body: '#a1a1aa',
+          },
+          fontFamily: {
+            sora: ['Sora', 'sans-serif'],
+            inter: ['Inter', 'sans-serif'],
+            space: ['Space Grotesk', 'monospace'],
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    body {
+      background-color: #0a0a12;
+      color: #a1a1aa;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    h1, h2, h3, h4 { font-family: 'Sora', sans-serif; }
+    .font-tech { font-family: 'Space Grotesk', monospace; }
+
+    /* Grid background */
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background-image: 
+        linear-gradient(rgba(0, 255, 204, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 204, 0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    /* Ambient glow */
+    .bg-ambient {
+      position: absolute;
+      width: 100vw;
+      height: 100vh;
+      top: 0;
+      left: 0;
+      background: radial-gradient(circle at 80% 20%, rgba(255, 45, 120, 0.08), transparent 40%),
+                  radial-gradient(circle at 20% 80%, rgba(0, 255, 204, 0.08), transparent 40%);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* Kanji Background */
+    .bg-kanji {
+      position: absolute;
+      top: 15vh;
+      left: -10vw;
+      font-size: 25vw;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.015);
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: -2;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
+    }
+
+    /* Cards */
+    .neo-card {
+      background-color: #0d0d16;
+      border: 1px solid rgba(0, 255, 204, 0.15);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .neo-card.primary-hover:hover {
+      border-color: rgba(255, 45, 120, 0.6);
+      box-shadow: 0 0 25px rgba(255, 45, 120, 0.15), inset 0 0 10px rgba(255, 45, 120, 0.05);
+      transform: translateX(4px);
+    }
+    .neo-card.secondary-hover:hover {
+      border-color: rgba(0, 255, 204, 0.6);
+      box-shadow: 0 0 25px rgba(0, 255, 204, 0.15), inset 0 0 10px rgba(0, 255, 204, 0.05);
+      transform: translateX(4px);
+    }
+
+    /* Buttons */
+    .btn-primary {
+      background-color: #0a0a12;
+      color: #ff2d78;
+      border: 1px solid rgba(255, 45, 120, 0.5);
+      box-shadow: inset 0 0 12px rgba(255, 45, 120, 0.1);
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .btn-primary:hover {
+      text-shadow: 0 0 8px currentColor;
+      box-shadow: 0 0 20px rgba(255, 45, 120, 0.4), inset 0 0 16px rgba(255, 45, 120, 0.2);
+    }
+
+    .btn-secondary {
+      background-color: #0a0a12;
+      color: #00ffcc;
+      border: 1px solid rgba(0, 255, 204, 0.5);
+      box-shadow: inset 0 0 12px rgba(0, 255, 204, 0.1);
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .btn-secondary:hover {
+      text-shadow: 0 0 8px currentColor;
+      box-shadow: 0 0 20px rgba(0, 255, 204, 0.4), inset 0 0 16px rgba(0, 255, 204, 0.2);
+    }
+
+    /* Scarcity Alert */
+    .alert-kanji {
+      background-color: #0a0a12;
+      color: #ffe04a;
+      border: 1px solid rgba(255, 224, 74, 0.5);
+      box-shadow: inset 0 0 12px rgba(255, 224, 74, 0.1);
+      text-shadow: 0 0 8px currentColor;
+    }
+
+    /* Form Inputs */
+    .neo-input {
+      width: 100%;
+      background-color: #0d0d16;
+      border: 1px solid transparent;
+      border-bottom: 2px solid rgba(0, 255, 204, 0.3);
+      color: #f8fafc;
+      padding: 12px 16px;
+      transition: all 0.3s ease;
+      font-family: 'Space Grotesk', monospace;
+    }
+    .neo-input:focus {
+      outline: none;
+      border-bottom-color: #00ffcc;
+      background-color: rgba(0, 255, 204, 0.02);
+      box-shadow: 0 8px 16px -8px rgba(0, 255, 204, 0.2);
+    }
+    .neo-input::placeholder {
+      color: #52525b;
+    }
+    select.neo-input option {
+      background-color: #0d0d16;
+      color: #00ffcc;
+    }
+
+    /* Terminal */
+    .terminal {
+      background-color: #05050A;
+      border: 1px solid rgba(0, 255, 204, 0.2);
+      border-top: 4px solid #00ffcc;
+    }
+    .terminal-text { color: #00ffcc; }
+    .terminal-cursor {
+      display: inline-block;
+      width: 8px;
+      height: 18px;
+      background-color: #ff2d78;
+      animation: blink 1s step-end infinite;
+      vertical-align: middle;
+      margin-left: 4px;
+      box-shadow: 0 0 8px #ff2d78;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* Marquee */
+    .marquee-container {
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      border-top: 1px solid rgba(255, 45, 120, 0.2);
+      border-bottom: 1px solid rgba(255, 45, 120, 0.2);
+      background-color: rgba(255, 45, 120, 0.02);
+      padding: 10px 0;
+    }
+    .marquee-text {
+      display: inline-block;
+      animation: marquee 30s linear infinite;
+      color: #ff2d78;
+      font-family: 'Space Grotesk', monospace;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 0.875rem;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+    
+    .accent-text-primary {
+      color: #ff2d78;
+    }
+    .accent-text-secondary {
+      color: #00ffcc;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-kanji">ÒâìÒé¬Òâ│ÒâêÒéªÒé¡ÒâºÒéª</div>
+  <div class="bg-grid"></div>
+  <div class="bg-ambient"></div>
+
+  <!-- Marquee Header -->
+  <div class="marquee-container">
+    <div class="marquee-text">
+      // SYSTEM_ONLINE // ZERO_SERVER_ARCHITECTURE // AI_ASSISTED_DEVELOPMENT // OPEN_SOURCE_MAPPING // NEON_TOKYO_PROTOCOL // SYSTEM_ONLINE // ZERO_SERVER_ARCHITECTURE // AI_ASSISTED_DEVELOPMENT // OPEN_SOURCE_MAPPING // NEON_TOKYO_PROTOCOL //
+    </div>
+  </div>
+
+  <main>
+    <section id="hero" class="min-h-[90vh] flex flex-col justify-center px-6 lg:px-12 relative overflow-hidden">
+      <div class="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <div class="lg:col-span-8 space-y-8 z-10">
+          <div class="inline-block px-4 py-1.5 mb-6 border border-primary text-primary text-xs font-tech tracking-[0.2em] uppercase rounded-full bg-primary/10">
+            [STATUS: ABIERTO - VERSI├ôN 3]
+          </div>
+
+          <h1 class="text-5xl md:text-7xl lg:text-8xl font-sora font-extrabold uppercase leading-[0.9]">
+            <span class="block text-heading">Crea Apps Web</span>
+            <span class="block text-transparent" style="-webkit-text-stroke: 1px #ff2d78;">De Mapas</span>
+            <span class="block accent-text-primary">Con IA.</span>
+          </h1>
+
+          <p class="text-lg md:text-xl font-inter text-body max-w-2xl border-l-2 border-primary/50 pl-6">
+            De analista SIG a desarrollador web. Dise├▒a, programa y despliega dashboards territoriales interactivos en la nube sin servidores dedicados. 100% OpenSource.
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-6 pt-4">
+            <a href="#contact" class="btn-primary font-tech px-8 py-4 text-center">
+              // INICIAR PROTOCOLO
+            </a>
+            <a href="#syllabus" class="btn-secondary font-tech px-8 py-4 text-center">
+              LEER SPEC
+            </a>
+          </div>
+        </div>
+
+        <div class="hidden lg:block lg:col-span-4 relative">
+          <!-- Cyberpunk decoration element -->
+          <div class="absolute right-0 top-1/2 -translate-y-1/2 flex flex-col items-end space-y-4 font-tech text-xs text-secondary/40 select-none">
+            <div class="border-b border-secondary/30 w-32 pb-2 text-right">GEO_DATA.INIT</div>
+            <div class="border-b border-secondary/30 w-48 pb-2 text-right">LAT:-33.44 LON:-70.66</div>
+            <div class="border-b border-secondary/30 w-24 pb-2 text-right">ELEV:570M</div>
+            <div class="pt-8">
+              <svg width="100" height="100" viewBox="0 0 100 100" class="stroke-secondary/20 fill-none">
+                <circle cx="50" cy="50" r="40" stroke-width="1" stroke-dasharray="4 4" />
+                <circle cx="50" cy="50" r="20" stroke-width="1" />
+                <line x1="10" y1="50" x2="90" y2="50" stroke-width="1" />
+                <line x1="50" y1="10" x2="50" y2="90" stroke-width="1" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Syllabus Section -->
+    <section id="syllabus" class="py-24 px-6 lg:px-12 relative border-t border-primary/10">
+      <div class="max-w-6xl mx-auto">
+        <div class="mb-16">
+          <h2 class="text-4xl lg:text-5xl font-sora uppercase">
+            <span class="accent-text-secondary">01.</span> Syllabus_
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          <div class="lg:col-span-8 space-y-6">
+            
+            <!-- Session 1 -->
+            <div class="neo-card primary-hover p-8" data-session="1">
+              <div class="flex flex-col md:flex-row gap-6">
+                <div class="font-tech text-4xl font-bold accent-text-primary opacity-50 shrink-0">S01</div>
+                <div>
+                  <h3 class="text-2xl font-sora text-heading mb-6">Fundamentos de IA y Spec-Driven Development</h3>
+                  <ul class="space-y-6">
+                    <li>
+                      <div class="flex items-start gap-3">
+                        <span class="text-primary font-tech mt-1">&gt;</span>
+                        <strong class="text-white font-inter">┬┐Qu├® es un LLM y c├│mo programar asistido por IA usando Antigravity IDE y OpenCode?</strong>
+                      </div>
+                      <p class="text-sm mt-2 ml-6 text-body/80 border-l border-primary/20 pl-4">Entenderemos la arquitectura detr├ís de los grandes modelos de lenguaje y c├│mo interactuar con ellos gratuitamente desde el editor, transformando texto natural en estructura de proyecto de forma guiada.</p>
+                    </li>
+                    <li>
+                      <div class="flex items-start gap-3">
+                        <span class="text-primary font-tech mt-1">&gt;</span>
+                        <strong class="text-white font-inter">Ingenier├¡a de Prompts: Spec-Driven Development para c├│digo web.</strong>
+                      </div>
+                      <p class="text-sm mt-2 ml-6 text-body/80 border-l border-primary/20 pl-4">Aprenderemos la metodolog├¡a t├®cnica para escribir especificaciones (specs) claras y sin ambig├╝edades, logrando que la IA act├║e como un programador que escribe c├│digo web limpio y predecible.</p>
+                    </li>
+                    <li>
+                      <div class="flex items-start gap-3">
+                        <span class="text-primary font-tech mt-1">&gt;</span>
+                        <strong class="text-white font-inter">Generaci├│n de UI: Del mockup al c├│digo con IA.</strong>
+                      </div>
+                      <p class="text-sm mt-2 ml-6 text-body/80 border-l border-primary/20 pl-4">Dise├▒aremos las maquetas de nuestro visor territorial y las convertiremos instant├íneamente en una interfaz web moderna (HTML/Tailwind) sin tener que tipear CSS manualmente.</p>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Session 2 -->
+            <div class="neo-card secondary-hover p-8" data-session="2">
+              <div class="flex flex-col md:flex-row gap-6">
+                <div class="font-tech text-4xl font-bold accent-text-secondary opacity-50 shrink-0">S02</div>
+                <div>
+                  <h3 class="text-2xl font-sora text-heading mb-6">Dashboards Territoriales y Web Mapping Reactivo</h3>
+                  <ul class="space-y-6">
+                    <li>
+                      <div class="flex items-start gap-3">
+                        <span class="text-secondary font-tech mt-1">&gt;</span>
+                        <strong class="text-white font-inter">Ecosistema Open Source: MapLibre GL JS / Leaflet.</strong>
+                      </div>
+                      <p class="text-sm mt-2 ml-6 text-body/80 border-l border-secondary/20 pl-4">Dominaremos librer├¡as de web mapping de c├│digo abierto para renderizar mapas fluidos, liber├índonos por completo de licencias costosas y dependencias comerciales.</p>
+                    </li>
+                    <li>
+                      <div class="flex items-start gap-3">
+                        <span class="text-secondary font-tech mt-1">&gt;</span>
+                        <strong class="text-white font-inter">Ensamblaje ("Stitching"): Integrando dise├▒os generados en stitch.withgoogle.com.</strong>
+                      </div>
+                      <p class="text-sm mt-2 ml-6 text-body/80 border-l border-secondary/20 pl-4">Conectaremos las interfaces visuales generadas con la l├│gica de nuestro visor, aprendiendo el flujo para "coser" el mapa interactivo dentro del contenedor dise├▒ado de manera impecable.</p>
+                    </li>
+                    <li>
+                      <div class="flex items-start gap-3">
+                        <span class="text-secondary font-tech mt-1">&gt;</span>
+                        <strong class="text-white font-inter">Reactividad: Filtros espaciales interactivos.</strong>
+                      </div>
+                      <p class="text-sm mt-2 ml-6 text-body/80 border-l border-secondary/20 pl-4">Programaremos la comunicaci├│n entre el mapa y el dashboard, logrando que clics o controles actualicen din├ímicamente datos, popups y visualizaciones.</p>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Session 3 -->
+            <div class="neo-card primary-hover p-8" data-session="3">
+              <div class="flex flex-col md:flex-row gap-6">
+                <div class="font-tech text-4xl font-bold accent-text-primary opacity-50 shrink-0">S03</div>
+                <div>
+                  <h3 class="text-2xl font-sora text-heading mb-6">An├ílisis Espacial en el Navegador y Despliegue</h3>
+                  <ul class="space-y-6">
+                    <li>
+                      <div class="flex items-start gap-3">
+                        <span class="text-primary font-tech mt-1">&gt;</span>
+                        <strong class="text-white font-inter">Geoprocesamiento Client-Side: C├ílculos espaciales sin servidores.</strong>
+                      </div>
+                      <p class="text-sm mt-2 ml-6 text-body/80 border-l border-primary/20 pl-4">Implementaremos librer├¡as como Turf.js para realizar an├ílisis espaciales (buffers, ├íreas, uniones) directamente en el navegador del usuario, logrando una arquitectura ligera.</p>
+                    </li>
+                    <li>
+                      <div class="flex items-start gap-3">
+                        <span class="text-primary font-tech mt-1">&gt;</span>
+                        <strong class="text-white font-inter">Manejo de Datos: GeoJSON y formatos optimizados.</strong>
+                      </div>
+                      <p class="text-sm mt-2 ml-6 text-body/80 border-l border-primary/20 pl-4">Aprenderemos t├®cnicas para optimizar la carga y renderizado de informaci├│n espacial densa, logrando que nuestros visores respondan de forma ultrarr├ípida.</p>
+                    </li>
+                    <li>
+                      <div class="flex items-start gap-3">
+                        <span class="text-primary font-tech mt-1">&gt;</span>
+                        <strong class="text-white font-inter">A Producci├│n: Despliegue gratuito en GitHub Pages.</strong>
+                      </div>
+                      <p class="text-sm mt-2 ml-6 text-body/80 border-l border-primary/20 pl-4">Subiremos nuestro c├│digo terminado a la nube. Configurar├ís tu propio repositorio para obtener un enlace p├║blico y seguro (HTTPS) listo para el portafolio, a costo cero.</p>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <aside class="hidden lg:block lg:col-span-4 sticky top-12">
+            <div class="terminal font-tech p-6 min-h-[200px]">
+              <div class="text-xs text-secondary/60 mb-4 border-b border-secondary/20 pb-2">root@conmapas:~/bootcamp#</div>
+              <div id="terminal-output" class="text-sm">
+                <span class="terminal-text">&gt; SYSTEM IDLE. WAITING FOR HOVER...</span>
+                <span class="terminal-cursor"></span>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-24 px-6 lg:px-12 relative border-t border-secondary/10">
+      <div class="max-w-6xl mx-auto">
+        <div class="mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+          <h2 class="text-4xl lg:text-5xl font-sora uppercase">
+            <span class="text-primary">02.</span> Inversi├│n_
+          </h2>
+          <div class="alert-kanji font-tech text-sm px-4 py-2 uppercase tracking-wide">
+            [WARNING: ├ÜLTIMOS CUPOS DISPONIBLES]
+          </div>
+        </div>
+
+        <!-- Fechas / Calendario Oficial -->
+        <div class="mb-12 border border-white/10 bg-gradient-to-br from-[#0a0a12] to-[#12121a] p-8 md:p-10 relative overflow-hidden rounded-xl shadow-2xl group">
+          <!-- Animated glowing orb in background -->
+          <div class="absolute -right-32 -top-32 w-96 h-96 bg-primary/10 rounded-full blur-[100px] group-hover:bg-primary/20 transition-all duration-700"></div>
+          <div class="absolute -left-32 -bottom-32 w-96 h-96 bg-secondary/10 rounded-full blur-[100px] group-hover:bg-secondary/20 transition-all duration-700"></div>
+          
+          <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            <div class="lg:col-span-7">
+              <h3 class="text-3xl font-sora text-white mb-4 flex items-center gap-3">
+                <span class="text-primary">/</span> Calendario Oficial
+              </h3>
+              <p class="text-body font-inter text-lg text-white/70 mb-8 leading-relaxed">El curso se impartir├í de forma intensiva y en vivo a trav├®s de Google Meet.</p>
+              
+              <div class="flex items-start gap-4 p-5 bg-white/5 border-l-2 border-secondary rounded-r-lg backdrop-blur-sm">
+                <svg class="w-6 h-6 text-secondary shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <p class="text-white/70 text-sm font-inter leading-relaxed"><i>Todas las sesiones quedar├ín grabadas de por vida en caso de que no puedas conectarte sincr├│nicamente, y tendr├ís soporte directo para resolver tus dudas.</i></p>
+              </div>
+            </div>
+            
+            <div class="lg:col-span-5">
+              <div class="bg-[#050508]/80 backdrop-blur-md p-8 border border-white/10 rounded-xl relative overflow-hidden shadow-xl transform transition-transform hover:-translate-y-1 duration-300">
+                <!-- Glowing top border -->
+                <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-primary to-secondary"></div>
+                
+                <div class="text-white/40 font-tech text-xs tracking-[0.2em] mb-6">FECHAS VERSI├ôN 3</div>
+                
+                <div class="flex flex-col gap-6">
+                  <div class="flex items-center gap-5">
+                    <div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 border border-primary/20 shadow-[0_0_15px_rgba(255,45,120,0.15)]">
+                      <svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <div>
+                      <div class="text-white font-sora font-bold text-xl tracking-tight">7, 8 y 9 de Agosto</div>
+                      <div class="text-white/50 text-sm font-inter mt-1">Viernes, S├íbado y Domingo</div>
+                    </div>
+                  </div>
+                  
+                  <div class="h-[1px] w-full bg-gradient-to-r from-white/10 via-white/5 to-transparent"></div>
+                  
+                  <div class="flex items-center gap-5">
+                    <div class="w-14 h-14 rounded-xl bg-secondary/10 flex items-center justify-center shrink-0 border border-secondary/20 shadow-[0_0_15px_rgba(0,255,204,0.15)]">
+                      <svg class="w-7 h-7 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <div>
+                      <div class="text-white font-sora font-bold text-xl tracking-tight">20:00 a 21:30 hrs</div>
+                      <div class="text-white/50 text-sm font-inter mt-1">Hora de Chile (GMT-4)</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- General -->
+          <div class="neo-card p-10 border-t-4 border-t-secondary relative overflow-hidden group">
+            <div class="absolute -right-20 -top-20 w-40 h-40 bg-secondary/5 rounded-full blur-3xl group-hover:bg-secondary/10 transition"></div>
+            <h3 class="text-3xl font-sora text-white mb-2">Acceso General</h3>
+            <p class="text-body text-sm mb-8 font-inter">Para profesionales del sector que buscan dominar herramientas web territoriales con IA.</p>
+            <div class="mb-8 border-l-4 border-secondary pl-4">
+              <span class="text-5xl font-bold font-sora text-secondary">$30.000</span>
+              <span class="text-white font-tech ml-2">CLP</span>
+            </div>
+            <ul class="space-y-4 mb-10 font-tech text-sm text-body/80">
+              <li class="flex items-start gap-3">
+                <span class="text-secondary mt-0.5">Ôûá</span> Acceso completo a las 3 sesiones del bootcamp
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-secondary mt-0.5">Ôûá</span> Material de apoyo y scripts
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-secondary mt-0.5">Ôûá</span> Grabaciones de por vida
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-secondary mt-0.5">Ôûá</span> Certificado de participaci├│n
+              </li>
+            </ul>
+            <a href="#contact" class="block w-full btn-secondary font-tech py-4 text-center">
+              TOMAR CUPO GENERAL
+            </a>
+          </div>
+
+          <!-- Estudiante -->
+          <div class="neo-card p-10 border-t-4 border-t-primary relative overflow-hidden group">
+            <div class="absolute -right-20 -top-20 w-40 h-40 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition"></div>
+            <h3 class="text-3xl font-sora text-white mb-2">Pase Estudiantes</h3>
+            <p class="text-body text-sm mb-8 font-inter">Para alumnos universitarios o de programas de formaci├│n en geom├ítica.</p>
+            <div class="mb-8 border-l-4 border-primary pl-4">
+              <span class="text-5xl font-bold font-sora text-primary">$25.000</span>
+              <span class="text-white font-tech ml-2">CLP</span>
+            </div>
+            <ul class="space-y-4 mb-10 font-tech text-sm text-body/80">
+              <li class="flex items-start gap-3">
+                <span class="text-primary mt-0.5">Ôûá</span> Todos los beneficios del Acceso General
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-tertiary mt-0.5">Ôû▓</span> Requiere comprobante de alumno regular
+              </li>
+            </ul>
+            <a href="#contact" class="block w-full btn-primary font-tech py-4 text-center mt-auto">
+              TOMAR CUPO ESTUDIANTE
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section id="contact" class="py-24 px-6 lg:px-12 relative border-t border-primary/10">
+      <div class="max-w-4xl mx-auto neo-card p-8 md:p-12">
+        <div class="mb-10 border-b border-primary/20 pb-6">
+          <h2 class="text-3xl font-sora uppercase mb-2 break-all md:break-normal">
+            <span class="text-primary">03.</span> Iniciar_Protocolo
+          </h2>
+          <p class="text-body font-inter">Completa el formulario para reservar tu cupo para la Versi├│n 3. Las instrucciones de pago llegar├ín al instante a tu correo v├¡a protocolo seguro.</p>
+        </div>
+
+        <form id="contact-form" action="https://script.google.com/macros/s/AKfycby_1yHpKDzyHS8BPtFOWOGbZxhDHDNbsjJdOuwSM1ffcw3QAfDJJ0yWpyfRCtawpnp8/exec" method="POST" class="space-y-8">
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <label class="block font-tech text-xs text-primary mb-2 uppercase">/ Nombre</label>
+              <input type="text" name="name" required placeholder="Tu nombre completo" class="neo-input">
+            </div>
+            <div>
+              <label class="block font-tech text-xs text-primary mb-2 uppercase">/ Email</label>
+              <input type="email" name="email" required placeholder="tu@correo.com" class="neo-input">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <label class="block font-tech text-xs text-secondary mb-2 uppercase">/ Pa├¡s</label>
+              <select name="country" required class="neo-input appearance-none">
+                <option value="" disabled selected>Selecciona tu pa├¡s</option>
+                <option value="Chile">Chile</option>
+                <option value="Argentina">Argentina</option>
+                <option value="Colombia">Colombia</option>
+                <option value="M├®xico">M├®xico</option>
+                <option value="Per├║">Per├║</option>
+                <option value="Ecuador">Ecuador</option>
+                <option value="Bolivia">Bolivia</option>
+                <option value="Espa├▒a">Espa├▒a</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-tech text-xs text-secondary mb-2 uppercase">/ Conocimiento SIG</label>
+              <select name="nivel_sig" required class="neo-input appearance-none">
+                <option value="" disabled selected>Selecciona tu nivel</option>
+                <option value="Principiante">Principiante</option>
+                <option value="Intermedio">Intermedio (QGIS/ArcGIS)</option>
+                <option value="Avanzado">Avanzado (Desarrollo)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <label class="block font-tech text-xs text-tertiary mb-2 uppercase">/ Profesi├│n</label>
+              <input type="text" name="ocupacion" required placeholder="Ej: Ge├│grafa, Ingeniero..." class="neo-input">
+            </div>
+            <div>
+              <label class="block font-tech text-xs text-tertiary mb-2 uppercase">/ Plan de Acceso</label>
+              <select name="plan" required class="neo-input appearance-none">
+                <option value="" disabled selected>Selecciona tu plan</option>
+                <option value="Acceso General ÔÇö $30.000 CLP">Acceso General ÔÇö $30.000 CLP</option>
+                <option value="Pase Estudiantes ÔÇö $25.000 CLP">Pase Estudiantes ÔÇö $25.000 CLP</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" id="contact-submit" class="w-full btn-primary font-tech py-4 text-center mt-4">
+            ENVIAR_DATOS
+          </button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Terminal interaction
+    const terminalOutput = document.getElementById('terminal-output');
+    const sessionCards = document.querySelectorAll('.neo-card[data-session]');
+    const defaultTerminalText = '<span class="terminal-text">&gt; SYSTEM IDLE. WAITING FOR HOVER...</span><span class="terminal-cursor"></span>';
+
+    const sessionMessages = {
+      1: '<span class="terminal-text" style="color:#ff2d78">&gt; LOADING OPENCODE...<br>&gt; GENERATING UI FROM SPEC...</span><span class="terminal-cursor"></span>',
+      2: '<span class="terminal-text" style="color:#00ffcc">&gt; IMPORTING MAPLIBRE...<br>&gt; STITCHING UI COMPONENTS...</span><span class="terminal-cursor"></span>',
+      3: '<span class="terminal-text" style="color:#ff2d78">&gt; RUNNING TURF.JS...<br>&gt; DEPLOYING TO GITHUB PAGES...</span><span class="terminal-cursor"></span>'
+    };
+
+    sessionCards.forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        const session = card.getAttribute('data-session');
+        if (sessionMessages[session]) {
+          terminalOutput.innerHTML = sessionMessages[session];
+        }
+      });
+      card.addEventListener('mouseleave', () => {
+        terminalOutput.innerHTML = defaultTerminalText;
+      });
+    });
+
+    // Form submission handler
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+      contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = document.getElementById('contact-submit');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'PROCESANDO_PAYLOAD...';
+        submitBtn.disabled = true;
+
+        const formData = new FormData(contactForm);
+        try {
+          await fetch(contactForm.action, {
+            method: 'POST',
+            body: formData,
+            mode: 'no-cors'
+          });
+
+          // Con no-cors la respuesta es opaca, si llegamos aqu├¡ asumimos ├®xito
+          contactForm.parentElement.innerHTML = `
+            <div class="text-center py-12 space-y-4">
+              <div class="text-4xl text-secondary mb-4">Ô£ô</div>
+              <h3 class="text-2xl font-sora text-white">PAYLOAD RECIBIDO</h3>
+              <p class="text-body font-inter">Tu cupo ha sido reservado. Revisa tu bandeja de entrada (y la carpeta de spam por si acaso) para continuar.</p>
+            </div>
+          `;
+        } catch (error) {
+          submitBtn.textContent = originalText;
+          submitBtn.disabled = false;
+          const errorDiv = document.createElement('div');
+          errorDiv.className = 'mt-4 p-4 border border-red-500 text-red-500 font-tech text-sm';
+          errorDiv.textContent = '[ERROR: Falla en la transmisi├│n. Intenta nuevamente]';
+          contactForm.appendChild(errorDiv);
+        }
+      });
+    }
+  </script>
+</body>
+</html>
+

@@ -163,7 +163,7 @@
       <div class="hidden md:flex gap-8 items-center">
         <a class="font-mono text-sm text-secondary hover:text-accent transition-colors uppercase" href="#syllabus">Syllabus</a>
         <a class="font-mono text-sm text-secondary hover:text-accent transition-colors uppercase" href="#instructor">Instructor</a>
-        <a class="font-mono text-sm text-secondary hover:text-accent transition-colors uppercase" href="#pricing">Pricing</a>
+        <a class="font-mono text-sm text-secondary hover:text-accent transition-colors uppercase" href="#pricing">PRECIO</a>
         <a href="#protocolo" class="btn-terminal">
           Acceso
         </a>
@@ -224,7 +224,9 @@
           
           <div class="space-y-6">
             <div class="flex items-start gap-4">
-              <div class="mt-1 text-accent">[🗓]</div>
+              <div class="mt-1 flex-shrink-0">
+                <img src="assets/icon_calendar.png" alt="Calendario" class="w-8 h-8 object-cover rounded-sm border border-bordercolor grayscale hover:grayscale-0 hover:border-accent transition-all duration-300">
+              </div>
               <div>
                 <h4 class="font-mono text-sm text-primary uppercase mb-1">Fechas del Evento</h4>
                 <p class="text-secondary text-sm">Viernes 7, Sábado 8 y Domingo 9 de Agosto, 2026</p>
@@ -232,7 +234,9 @@
             </div>
             
             <div class="flex items-start gap-4">
-              <div class="mt-1 text-accent">[⏱]</div>
+              <div class="mt-1 flex-shrink-0">
+                <img src="assets/icon_clock.png" alt="Reloj" class="w-8 h-8 object-cover rounded-sm border border-bordercolor grayscale hover:grayscale-0 hover:border-accent transition-all duration-300">
+              </div>
               <div>
                 <h4 class="font-mono text-sm text-primary uppercase mb-1">Horario y Duración</h4>
                 <p class="text-secondary text-sm">20:00 - 21:30 hrs (GMT-4, Hora Chile)</p>
@@ -241,7 +245,9 @@
             </div>
 
             <div class="flex items-start gap-4">
-              <div class="mt-1 text-accent">[📼]</div>
+              <div class="mt-1 flex-shrink-0">
+                <img src="assets/icon_video.png" alt="Video" class="w-8 h-8 object-cover rounded-sm border border-bordercolor grayscale hover:grayscale-0 hover:border-accent transition-all duration-300">
+              </div>
               <div>
                 <h4 class="font-mono text-sm text-primary uppercase mb-1">Modalidad Mixta</h4>
                 <p class="text-secondary text-sm">Sincrónica por Google Meet / Asincrónica vía Drive.</p>
@@ -453,7 +459,7 @@
         <form id="contact-form" action="https://script.google.com/macros/s/AKfycby_1yHpKDzyHS8BPtFOWOGbZxhDHDNbsjJdOuwSM1ffcw3QAfDJJ0yWpyfRCtawpnp8/exec" method="POST" class="space-y-8">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div class="space-y-3">
-              <label class="font-mono text-xs uppercase text-secondary">Name</label>
+              <label class="font-mono text-xs uppercase text-secondary">Nombre</label>
               <input name="name" required class="input-terminal" placeholder="John Doe" type="text"/>
             </div>
             <div class="space-y-3">
@@ -464,7 +470,7 @@
           
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div class="space-y-3">
-              <label class="font-mono text-xs uppercase text-secondary">Country</label>
+              <label class="font-mono text-xs uppercase text-secondary">País</label>
               <select name="country" required class="input-terminal appearance-none">
                 <option value="" disabled selected>Selecciona tu país</option>
                 <option value="Chile">Chile</option>
@@ -495,7 +501,7 @@
           </div>
           
           <div class="space-y-3 pb-4">
-            <label class="font-mono text-xs uppercase text-secondary">Plan Selection</label>
+            <label class="font-mono text-xs uppercase text-secondary">Tipo de Acceso</label>
             <select name="plan" required class="input-terminal appearance-none">
               <option value="" disabled selected>Selecciona tu plan...</option>
               <option value="Acceso General — $30.000 CLP">Acceso General — $30.000 CLP</option>
@@ -512,15 +518,13 @@
   </section>
 
   <!-- Footer -->
-  <footer class="wire-border-t bg-background py-8">
-    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
-      <div class="font-mono text-xs text-secondary uppercase">
-        © 2024 BOOTCAMP SIG. All systems nominal.
-      </div>
-      <div class="flex gap-6 font-mono text-xs uppercase text-secondary">
-        <a class="hover:text-primary transition-colors" href="#">Privacy</a>
-        <a class="hover:text-primary transition-colors" href="#">Terms</a>
-        <a class="text-accent transition-colors" href="#">Terminal</a>
+  <footer class="wire-border-t bg-background py-16">
+    <div class="max-w-4xl mx-auto px-6 text-center reveal">
+      <blockquote class="text-secondary font-light italic text-lg md:text-xl leading-relaxed mb-6">
+        "El espacio no es un escenario inerte. Es una instancia de la totalidad social, de la misma manera que la economía o la estructura político-institucional."
+      </blockquote>
+      <div class="font-mono text-xs text-accent uppercase tracking-widest">
+        — Milton Santos
       </div>
     </div>
   </footer>

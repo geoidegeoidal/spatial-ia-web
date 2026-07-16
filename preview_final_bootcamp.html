@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Previsualización Cierre Bootcamp V2</title>
+  <style>
+    body {
+      background-color: #1a1a1a;
+      color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 40px;
+      margin: 0;
+    }
+    h1 {
+      color: #D4FF00;
+      margin-bottom: 40px;
+    }
+    h2 {
+      margin-top: 40px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #333;
+    }
+    iframe {
+      width: 100%;
+      border: 2px solid #333;
+      border-radius: 8px;
+      background-color: #000;
+    }
+  </style>
+</head>
+<body>
+  <h1>Previsualización de Entregables V2</h1>
+  
+  <h2>1. Correo de Agradecimiento</h2>
+  <p>Así se verá el cuerpo del correo en la bandeja de entrada del alumno:</p>
+  <iframe id="iframe-email" height="850"></iframe>
+
+  <h2>2. Diploma Oficial (Se enviará como PDF adjunto)</h2>
+  <p>Así se renderizará el diseño del PDF (Formato A4 Apaisado). La escala se autoajustará en el PDF:</p>
+  <iframe id="iframe-diploma" height="850"></iframe>
+
+  <script>
+    const emailHtml = `
+<div style="font-family: 'Space Grotesk', 'Courier New', monospace; background-color: #000000; color: #FFFFFF; padding: 40px 20px; text-align: left; line-height: 1.6;">
+  <div style="max-width: 600px; margin: 0 auto; background-color: #0A0A0A; border: 1px solid #222222; padding: 40px;">
+    <div style="display: inline-block; padding: 4px 8px; border: 1px solid #D4FF00; color: #D4FF00; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: bold; margin-bottom: 20px;">
+      [BOOTCAMP COMPLETED]
+    </div>
+
+    <h1 style="color: #FFFFFF; margin-top: 0; font-size: 24px; font-weight: normal; font-family: 'Inter', Arial, sans-serif; letter-spacing: -0.5px;">¡Misión Cumplida, Jorge Ulloa!</h1>
+    
+    <p style="color: #888888; font-size: 14px; margin-bottom: 30px;">
+      Han sido unos días intensos de mucho código, mapas y aprendizaje. Quiero agradecerte enormemente por tu participación, tu energía y por haber confiado en este Bootcamp para llevar tus habilidades espaciales al siguiente nivel.
+    </p>
+
+    <div style="background-color: #000000; border: 1px solid #222222; border-left: 2px solid #D4FF00; padding: 20px; margin-bottom: 30px;">
+      <h3 style="color: #D4FF00; margin-top: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">> TU DIPLOMA OFICIAL</h3>
+      <p style="color: #888888; font-size: 13px; margin-bottom: 0;">
+        He adjuntado a este correo tu certificado oficial de aprobación en formato PDF. ¡Compártelo con orgullo!
+      </p>
+    </div>
+
+    <div style="background-color: #000000; border: 1px solid #222222; border-left: 2px solid #888888; padding: 20px; margin-bottom: 30px;">
+      <h3 style="color: #888888; margin-top: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">> REPOSITORIO FINAL</h3>
+      <p style="color: #888888; font-size: 13px; margin-bottom: 15px;">
+        Aquí tienes el acceso permanente a la bóveda con todas las grabaciones, transcripciones y la presentación PPT utilizada en clases:
+      </p>
+      <a href="https://drive.google.com/drive/folders/1RzqsahkJU32TQd_0fhg_qmjteFrdK8bD?usp=sharing" style="display: block; background-color: transparent; border: 1px solid #888888; color: #FFFFFF; text-align: center; padding: 14px 20px; text-decoration: none; font-weight: bold; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin: 15px 0;">[ ABRIR BÓVEDA DE RECURSOS ]</a>
+    </div>
+
+    <div style="border: 1px dashed #222222; padding: 20px; margin-bottom: 30px;">
+      <h4 style="color: #FFFFFF; margin-top: 0; font-size:12px; margin-bottom: 15px; text-transform: uppercase;">> ¿ME AYUDAS A SEGUIR CRECIENDO?</h4>
+      <p style="color: #888888; font-size: 13px; margin-bottom: 15px;">
+        Tu validación es lo más importante para mí. Te invito a publicar tu visor terminado o tu diploma en LinkedIn y etiquetarme. ¡Cualquier recomendación o feedback que puedas dejar en la publicación me ayuda muchísimo a seguir creando estos espacios!
+      </p>
+      <p style="color: #888888; font-size: 13px; margin-bottom: 0;">
+        🔗 <a href="https://www.linkedin.com/in/jorge-ulloa-roa/" style="color: #D4FF00; text-decoration: none;">Mi perfil de LinkedIn</a>
+      </p>
+    </div>
+
+    <div style="border-top: 1px solid #222222; margin-top: 30px; padding-top: 20px;">
+      <p style="color: #888888; font-size: 12px; text-transform: uppercase;">¡Nos vemos en la V3 o en próximos proyectos!<br><span style="color:#FFF;">Jorge Ulloa Roa</span></p>
+    </div>
+  </div>
+</div>`;
+
+    const diplomaHtml = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Inter:wght@400;600&display=swap');
+    @page { size: A4 landscape; margin: 0; }
+    body {
+      margin: 0; padding: 0;
+      background-color: #000000;
+      color: #FFFFFF;
+      font-family: 'Space Grotesk', 'Courier New', monospace;
+      -webkit-print-color-adjust: exact;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .diploma-container {
+      width: 1040px;
+      height: 700px;
+      border: 2px solid #222222;
+      background-color: #0A0A0A;
+      position: relative;
+      padding: 60px;
+      box-sizing: border-box;
+      transform-origin: top center;
+    }
+    .corner-tl { position: absolute; top: 0; left: 0; width: 30px; height: 30px; border-top: 4px solid #D4FF00; border-left: 4px solid #D4FF00; }
+    .corner-br { position: absolute; bottom: 0; right: 0; width: 30px; height: 30px; border-bottom: 4px solid #D4FF00; border-right: 4px solid #D4FF00; }
+    
+    .badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border: 1px solid #D4FF00;
+      color: #D4FF00;
+      font-size: 14px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: bold;
+      margin-bottom: 40px;
+    }
+    .title {
+      font-family: 'Inter', sans-serif;
+      font-size: 56px;
+      font-weight: 600;
+      letter-spacing: -1px;
+      margin: 0 0 10px 0;
+      color: #FFFFFF;
+    }
+    .subtitle {
+      font-size: 18px;
+      color: #888888;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 60px;
+    }
+    .student-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 48px;
+      font-weight: 700;
+      color: #D4FF00;
+      margin: 0 0 20px 0;
+      border-bottom: 1px solid #333333;
+      padding-bottom: 10px;
+      display: inline-block;
+      min-width: 600px;
+    }
+    .description {
+      font-size: 16px;
+      color: #AAAAAA;
+      line-height: 1.6;
+      max-width: 700px;
+      margin-bottom: 60px;
+    }
+    .footer-grid {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid #222222;
+      padding-top: 30px;
+    }
+    .footer-block {
+      text-align: left;
+    }
+    .footer-label {
+      font-size: 12px;
+      color: #666666;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
+    }
+    .footer-value {
+      font-size: 16px;
+      color: #FFFFFF;
+      font-weight: bold;
+    }
+    .signature {
+      font-family: 'Courier New', monospace;
+      color: #D4FF00;
+      font-size: 18px;
+      font-style: italic;
+    }
+    .stamp {
+      position: absolute;
+      bottom: 60px;
+      right: 60px;
+      width: 100px;
+      height: 100px;
+      border: 2px dashed #333333;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 10px;
+      color: #666666;
+      transform: rotate(-15deg);
+    }
+  </style>
+</head>
+<body>
+  <div class="diploma-container">
+    <div class="corner-tl"></div>
+    <div class="corner-br"></div>
+    
+    <div class="badge">SYS.CERTIFICATE_OF_COMPLETION</div>
+    
+    <h1 class="title">Certificado de Aprobación</h1>
+    <div class="subtitle">Desarrollo Web Territorial con IA (Bootcamp V2)</div>
+    
+    <p style="color: #666666; margin-bottom: 10px;">Este documento certifica que:</p>
+    <h2 class="student-name">Jorge Ulloa Roa</h2>
+    
+    <p class="description">
+      Ha completado satisfactoriamente los módulos teóricos y prácticos del Bootcamp Geo-IA V2, demostrando competencias en análisis espacial, programación web (HTML, CSS, JS), uso de MapLibre GL JS, Turf.js y despliegue de visores geográficos en la nube con arquitectura Zero-Server.
+    </p>
+    
+    <div class="footer-grid">
+      <div class="footer-block">
+        <div class="footer-label">Intensidad Horaria</div>
+        <div class="footer-value">05 Horas Académicas</div>
+      </div>
+      <div class="footer-block">
+        <div class="footer-label">Fecha de Emisión</div>
+        <div class="footer-value">14 de Julio de 2026</div>
+      </div>
+      <div class="footer-block">
+        <div class="footer-label">Instructor / Director</div>
+        <div class="signature">Jorge Ulloa Roa</div>
+      </div>
+    </div>
+
+    <div class="stamp">
+      GEO-IA<br>VERIFIED<br>V2.0
+    </div>
+  </div>
+</body>
+</html>`;
+
+    document.getElementById('iframe-email').srcdoc = emailHtml;
+    document.getElementById('iframe-diploma').srcdoc = diplomaHtml;
+  </script>
+</body>
+</html>
