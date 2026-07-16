@@ -150,6 +150,15 @@
       height: 1px;
       background-color: #D4FF00;
     }
+    
+    /* Glow Animation */
+    @keyframes text-glow {
+      0%, 100% { text-shadow: 0 0 2px rgba(212, 255, 0, 0); opacity: 0.7; }
+      50% { text-shadow: 0 0 10px rgba(212, 255, 0, 0.4); opacity: 1; }
+    }
+    .animate-glow {
+      animation: text-glow 4s ease-in-out infinite;
+    }
   </style>
 </head>
 <body class="bg-background text-primary selection:bg-accent selection:text-onaccent">
@@ -520,11 +529,12 @@
   <!-- Footer -->
   <footer class="wire-border-t bg-background py-16">
     <div class="max-w-4xl mx-auto px-6 text-center reveal">
-      <blockquote class="text-secondary font-light italic text-lg md:text-xl leading-relaxed mb-6">
+      <blockquote class="text-secondary font-light italic text-sm md:text-base leading-relaxed mb-4 animate-glow">
         "El aspecto más triste de la vida actual es que la ciencia reúne conocimiento más rápidamente de lo que la sociedad reúne sabiduría."
       </blockquote>
-      <div class="font-mono text-xs text-accent uppercase tracking-widest">
-        — Isaac Asimov
+      <div class="font-mono text-xs text-accent uppercase tracking-widest flex items-center justify-center gap-1">
+        <span>— Isaac Asimov</span>
+        <span class="animate-pulse">_</span>
       </div>
     </div>
   </footer>
