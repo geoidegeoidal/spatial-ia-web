@@ -303,18 +303,9 @@ function enviarLinksConexion() {
   for (var i = 1; i < data.length; i++) {
     var email = data[i][2] ? data[i][2].toString().trim() : "";
     var estado = data[i][7] ? data[i][7].toString().trim() : "";
-    var estadoLower = estado.toLowerCase();
     
-    // Filtro amplio: Todos los que ya pagaron o están OK con todo
-    var estaPagado = estadoLower.indexOf("pagado") >= 0 || 
-                     estadoLower.indexOf("tutorial enviado") >= 0 || 
-                     estadoLower === "ok" || 
-                     estadoLower.indexOf("confirmado") >= 0;
-                     
-    var yaTieneAccesos = estadoLower.indexOf("accesos enviados") >= 0 || 
-                         estadoLower.indexOf("links enviados") >= 0;
-    
-    if (email && estaPagado && !yaTieneAccesos) {
+    // Condición estricta: Solo alumnos en estado "Tutorial Enviado" o "Tutorial Enviado V3"
+    if (estado === "Tutorial Enviado" || estado === "Tutorial Enviado V3") {
       var name = data[i][1];
       
       var bodyLinks = `
@@ -326,7 +317,7 @@ function enviarLinksConexion() {
               Hoy arranca el <b>Bootcamp Geo-IA V3</b>. Estos son los sockets (Google Meet) de acceso directo a la consola en vivo. Recordatorio: Nos vemos hoy <b>Viernes 7</b>, <b>Sábado 8</b> y <b>Domingo 9</b> de <b>20:00 a 21:30 hrs (Horario de Chile)</b>.
             </p>
 
-            <!-- SESIÓN 1 (VIERNES 7) -->
+            <!-- SESIÓN 1 (VIERNES 7 - HOY) -->
             <div style="${BLOQUE_INFO}">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                 <h3 style="color: #D4FF00; margin: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">> MODULE.01: WORKSHOP (SESIÓN 1)</h3>
