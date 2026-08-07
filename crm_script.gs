@@ -12,7 +12,10 @@ const TEXTO_SECUNDARIO = "color: #888888; font-size: 14px; margin-bottom: 30px;"
 const BLOQUE_INFO = "background-color: #000000; border: 1px solid #222222; border-left: 2px solid #D4FF00; padding: 20px; margin-bottom: 30px;";
 const BLOQUE_INFO_SECUNDARIO = "background-color: #000000; border: 1px solid #222222; border-left: 2px solid #888888; padding: 20px; margin-bottom: 30px;";
 const BOTON_SOLIDO = "display: block; background-color: #D4FF00; color: #000000; text-align: center; padding: 14px 20px; text-decoration: none; font-weight: bold; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin: 15px 0;";
-const BOTON_TERMINAL = "display: inline-block; background-color: transparent; color: #D4FF00; text-decoration: none; font-weight: bold; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-top: 20px;"; // Use [ BOTON ] in text
+const BOTON_TERMINAL = "display: inline-block; background-color: transparent; color: #D4FF00; text-decoration: none; font-weight: bold; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-top: 20px;";
+
+// Enlace de la Carpeta Maestra de Grabaciones (Google Drive)
+const LINK_GRABACIONES_DRIVE = "https://drive.google.com/drive/folders/1vRA1fkfG01kLL3DfMeVres5re51YqlTg?usp=sharing";
 
 function doPost(e) {
   try {
@@ -229,7 +232,7 @@ function enviarAvisoPayPalAtrasados() {
               Hola ${name}, detectamos que te conectas desde fuera de Chile y el proceso quedó en timeout.
               <br><br>Hemos habilitado <b>PayPal</b> en nuestro endpoint para transacciones globales.
             </p>
-            <a href="https://www.paypal.com/ncp/payment/2PVCP7EQT3DWU" style="${BOTON_SOLIDO}">EJECUTAR_PAYPAL</a>
+            <a href="https://www.paypal.com/ncp/payment/2PVCP7EQT3DWU" style="${BOTON_SOLIDO}">EJECUTAR_PAGO_PAYPAL</a>
             <p style="color: #888888; font-size: 12px; margin-top: 30px; text-transform:uppercase;">> RECUERDA ENVIAR EL COMPROBANTE AL FINALIZAR.</p>
           </div>
         </div>
@@ -314,37 +317,46 @@ function enviarLinksConexion() {
             <div style="${BADGE_VERDE}">SYSTEM.ONLINE</div>
             <h1 style="${TITULO_H1}">Conexión Iniciada, ${name}.</h1>
             <p style="${TEXTO_SECUNDARIO}">
-              Hoy arranca el <b>Bootcamp Geo-IA V3</b>. Estos son los sockets (Google Meet) de acceso directo a la consola en vivo. Recordatorio: Nos vemos hoy <b>Viernes 7</b>, <b>Sábado 8</b> y <b>Domingo 9</b> de <b>20:00 a 21:30 hrs (Horario de Chile)</b>.
+              Hoy arranca el <b>Bootcamp Geo-IA V3</b>. A continuación tienes los accesos directos de Google Meet para las 3 sesiones del fin de semana (20:00 a 21:30 hrs - Horario de Chile). ¡Guarda este correo!
             </p>
 
             <!-- SESIÓN 1 (VIERNES 7 - HOY) -->
             <div style="${BLOQUE_INFO}">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                 <h3 style="color: #D4FF00; margin: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">> MODULE.01: WORKSHOP (SESIÓN 1)</h3>
-                <span style="font-size: 10px; color: #D4FF00;">[ EXEC_TODAY ]</span>
+                <span style="font-size: 10px; color: #D4FF00; font-weight: bold;">[ EXEC_TODAY ]</span>
               </div>
-              <p style="color: #888888; font-size: 13px; margin: 0;">Viernes, 7 de Agosto | 20:00 – 21:30 hrs (Chile)</p>
-              <a href="https://meet.google.com/dkp-rpqg-ktc" style="${BOTON_SOLIDO} margin-top: 15px;">[ INICIAR CONEXIÓN DÍA 1 ]</a>
+              <p style="color: #888888; font-size: 13px; margin: 0 0 10px 0;">📅 Viernes, 7 de Agosto | ⏰ 20:00 – 21:30 hrs (Chile)</p>
+              <a href="https://meet.google.com/dkp-rpqg-ktc" style="${BOTON_SOLIDO}">▶ ENTRAR A SALA DÍA 1 (MEET)</a>
             </div>
 
             <!-- SESIÓN 2 (SÁBADO 8) -->
-            <div style="${BLOQUE_INFO_SECUNDARIO}">
-              <h3 style="color: #888888; margin: 0 0 10px 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">> MODULE.02: WORKSHOP (SESIÓN 2)</h3>
-              <p style="color: #888888; font-size: 13px; margin: 0;">Sábado, 8 de Agosto | 20:00 – 21:30 hrs (Chile)</p>
-              <a href="https://meet.google.com/pgc-rmvk-dgj" style="color:#D4FF00; display:inline-block; font-size:13px; font-weight:bold; margin-top:15px; text-decoration:none;">[ LINK_DÍA_2: meet.google.com/pgc-rmvk-dgj ]</a>
+            <div style="${BLOQUE_INFO}">
+              <h3 style="color: #D4FF00; margin: 0 0 10px 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">> MODULE.02: WORKSHOP (SESIÓN 2)</h3>
+              <p style="color: #888888; font-size: 13px; margin: 0 0 10px 0;">📅 Sábado, 8 de Agosto | ⏰ 20:00 – 21:30 hrs (Chile)</p>
+              <a href="https://meet.google.com/pgc-rmvk-dgj" style="${BOTON_SOLIDO} background-color:#12121a; color:#D4FF00; border:1px solid #D4FF00;">▶ ENTRAR A SALA DÍA 2 (MEET)</a>
             </div>
 
             <!-- SESIÓN 3 (DOMINGO 9) -->
+            <div style="${BLOQUE_INFO}">
+              <h3 style="color: #D4FF00; margin: 0 0 10px 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">> MODULE.03: WORKSHOP (SESIÓN 3)</h3>
+              <p style="color: #888888; font-size: 13px; margin: 0 0 10px 0;">📅 Domingo, 9 de Agosto | ⏰ 20:00 – 21:30 hrs (Chile)</p>
+              <a href="https://meet.google.com/dos-fcdq-kee" style="${BOTON_SOLIDO} background-color:#12121a; color:#D4FF00; border:1px solid #D4FF00;">▶ ENTRAR A SALA DÍA 3 (MEET)</a>
+            </div>
+
+            <!-- BÓVEDA DE GRABACIONES -->
             <div style="${BLOQUE_INFO_SECUNDARIO}">
-              <h3 style="color: #888888; margin: 0 0 10px 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">> MODULE.03: WORKSHOP (SESIÓN 3)</h3>
-              <p style="color: #888888; font-size: 13px; margin: 0;">Domingo, 9 de Agosto | 20:00 – 21:30 hrs (Chile)</p>
-              <a href="https://meet.google.com/dos-fcdq-kee" style="color:#D4FF00; display:inline-block; font-size:13px; font-weight:bold; margin-top:15px; text-decoration:none;">[ LINK_DÍA_3: meet.google.com/dos-fcdq-kee ]</a>
+              <h3 style="color: #888888; margin: 0 0 10px 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">> BÓVEDA DE GRABACIONES Y RECURSOS</h3>
+              <p style="color: #888888; font-size: 13px; margin-bottom: 15px;">
+                Guarda este enlace en tus favoritos. Aquí iremos subiendo las grabaciones y recursos del curso tras cada clase:
+              </p>
+              <a href="${LINK_GRABACIONES_DRIVE}" style="${BOTON_TERMINAL}">[ ABRIR CARPETA MAESTRA EN DRIVE ]</a>
             </div>
 
             <div style="border: 1px dashed #222222; padding: 20px;">
               <h4 style="color: #FFFFFF; margin-top: 0; font-size:12px; margin-bottom: 10px;">> AVISOS DE SISTEMA</h4>
               <p style="color: #888888; font-size: 12px; margin-bottom: 5px;">01. Iniciar conexión 5 minutos antes (19:55 hrs) para handshake y ping.</p>
-              <p style="color: #888888; font-size: 12px; margin-bottom: 0;">02. Verificar que las dependencias locales estén instaladas.</p>
+              <p style="color: #888888; font-size: 12px; margin-bottom: 0;">02. Verificar que las dependencias locales estén instaladas como vimos en el tutorial.</p>
             </div>
           </div>
         </div>
@@ -390,7 +402,7 @@ function enviarGrabaciones() {
               <p style="color: #888888; font-size: 13px; margin-bottom: 20px;">
                 Guarda este directorio en caché. Las sesiones de Sábado y Domingo se sincronizarán aquí automáticamente al compilar.
               </p>
-              <a href="https://drive.google.com/drive/folders/1RzqsahkJU32TQd_0fhg_qmjteFrdK8bD?usp=sharing" style="${BOTON_SOLIDO}">ACCEDER AL REPOSITORIO</a>
+              <a href="${LINK_GRABACIONES_DRIVE}" style="${BOTON_SOLIDO}">ACCEDER AL REPOSITORIO</a>
             </div>
 
             <div style="border-top: 1px solid #222222; margin-top: 30px; padding-top: 20px;">
