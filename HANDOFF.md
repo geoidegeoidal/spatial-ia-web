@@ -9,5 +9,8 @@
   - Actualización de botones CTA en la navegación, sección principal (hero) y tarjetas de precios.
   - Protección y desacoplamiento del handler JS del formulario (`if (form)`) para garantizar que la ejecución de scripts (scroll suave, animaciones de intersección, efecto typewriter) permanezca intacta.
 - **Decisions:** Mantener el identificador `#protocolo` en la sección de estado para preservar la funcionalidad de navegación por scroll suave.
-- **Commits & Deploy:** Commit `e8cf4af` enviado a `origin/master` (despliegue automático vía GitHub Pages/hosting conectado).
+- **Commits & Deploy:** 
+  - Commit `e8cf4af` enviado a `origin/master`.
+  - Rama `master` fusionada y subida a `origin/gh-pages` (commit `d1ca20d`).
+  - Despliegue verificado en producción a través de GitHub Pages (`https://geoidegeoidal.github.io/spatial-ia-web/`).
 - **Next Steps:** Anunciar el lanzamiento oficial de la Versión 4.0 cuando los contenidos estén definidos.
