@@ -174,7 +174,7 @@
         <a class="font-mono text-sm text-secondary hover:text-accent transition-colors uppercase" href="#instructor">Instructor</a>
         <a class="font-mono text-sm text-secondary hover:text-accent transition-colors uppercase" href="#pricing">PRECIO</a>
         <a href="#protocolo" class="btn-terminal">
-          Acceso
+          Estado
         </a>
       </div>
     </div>
@@ -196,7 +196,7 @@
         </p>
         <div class="flex flex-wrap gap-8 items-center">
           <a href="#protocolo" class="btn-solid">
-            Iniciar Protocolo
+            Inscripciones Cerradas
           </a>
           <a href="#syllabus" class="btn-terminal">
             Ver Syllabus
@@ -423,8 +423,8 @@
               <span class="text-secondary text-sm">Certificado de participación</span>
             </li>
           </ul>
-          <a href="#protocolo" class="btn-solid w-full">
-            Tomar Cupo General
+          <a href="#protocolo" class="btn-solid w-full opacity-60">
+            Inscripciones Cerradas
           </a>
         </div>
 
@@ -446,8 +446,8 @@
               <span class="text-secondary text-sm">Requiere comprobante de alumno regular</span>
             </li>
           </ul>
-          <a href="#protocolo" class="btn-solid w-full" style="background-color: transparent; color: #FFFFFF; border-color: #222222;">
-            Tomar Cupo Estudiante
+          <a href="#protocolo" class="btn-solid w-full opacity-60" style="background-color: transparent; color: #888888; border-color: #222222;">
+            Inscripciones Cerradas
           </a>
         </div>
 
@@ -455,73 +455,23 @@
     </div>
   </section>
 
-  <!-- Contact Form Section -->
+  <!-- Contact Form Section / Closed Registrations -->
   <section class="wire-border-t bg-surface" id="protocolo">
     <div class="max-w-7xl mx-auto px-6 py-24">
-      <div class="max-w-3xl mx-auto wire-border bg-background p-10 md:p-16 reveal">
-        <div class="mb-12 border-b border-bordercolor pb-8">
-          <div class="num-indicator mb-4 uppercase">Module.04</div>
-          <h2 class="font-sans font-semibold text-3xl tracking-tight mb-2">Inscripción al Bootcamp.</h2>
-          <p class="font-mono text-secondary text-xs uppercase">Inicialización de Parámetros de Usuario</p>
+      <div class="max-w-3xl mx-auto wire-border bg-background p-10 md:p-16 text-center reveal">
+        <div class="inline-flex items-center gap-2 px-3 py-1 border border-accent/40 bg-accent/5 text-accent font-mono text-xs uppercase tracking-widest mb-6">
+          <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+          Estado: Registro Suspendido
         </div>
-        
-        <form id="contact-form" action="https://script.google.com/macros/s/AKfycby_1yHpKDzyHS8BPtFOWOGbZxhDHDNbsjJdOuwSM1ffcw3QAfDJJ0yWpyfRCtawpnp8/exec" method="POST" class="space-y-8">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div class="space-y-3">
-              <label class="font-mono text-xs uppercase text-secondary">Nombre</label>
-              <input name="name" required class="input-terminal" placeholder="John Doe" type="text"/>
-            </div>
-            <div class="space-y-3">
-              <label class="font-mono text-xs uppercase text-secondary">Email</label>
-              <input name="email" required class="input-terminal" placeholder="data@node.com" type="email"/>
-            </div>
-          </div>
-          
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div class="space-y-3">
-              <label class="font-mono text-xs uppercase text-secondary">País</label>
-              <select name="country" required class="input-terminal appearance-none">
-                <option value="" disabled selected>Selecciona tu país</option>
-                <option value="Chile">Chile</option>
-                <option value="Argentina">Argentina</option>
-                <option value="Colombia">Colombia</option>
-                <option value="México">México</option>
-                <option value="Perú">Perú</option>
-                <option value="Ecuador">Ecuador</option>
-                <option value="Bolivia">Bolivia</option>
-                <option value="España">España</option>
-                <option value="Otro">Otro</option>
-              </select>
-            </div>
-            <div class="space-y-3">
-              <label class="font-mono text-xs uppercase text-secondary">Nivel SIG</label>
-              <select name="nivel_sig" required class="input-terminal appearance-none">
-                <option value="" disabled selected>Selecciona tu nivel</option>
-                <option value="Principiante">Principiante</option>
-                <option value="Intermedio">Intermedio (QGIS/ArcGIS)</option>
-                <option value="Avanzado">Avanzado (Desarrollo)</option>
-              </select>
-            </div>
-          </div>
-          
-          <div class="space-y-3">
-            <label class="font-mono text-xs uppercase text-secondary">Ocupación</label>
-            <input name="ocupacion" required class="input-terminal" placeholder="Analista Territorial / Dev" type="text"/>
-          </div>
-          
-          <div class="space-y-3 pb-4">
-            <label class="font-mono text-xs uppercase text-secondary">Tipo de Acceso</label>
-            <select name="plan" required class="input-terminal appearance-none">
-              <option value="" disabled selected>Selecciona tu plan...</option>
-              <option value="Acceso General — $30.000 CLP">Acceso General — $30.000 CLP</option>
-              <option value="Pase Estudiantes — $25.000 CLP">Pase Estudiantes — $25.000 CLP</option>
-            </select>
-          </div>
-          
-          <button id="contact-submit" class="btn-solid w-full" type="submit">
-            Ejecutar_Solicitud
-          </button>
-        </form>
+        <h2 class="font-sans font-semibold text-3xl md:text-4xl tracking-tight mb-4 text-primary">
+          Inscripciones Cerradas
+        </h2>
+        <p class="font-mono text-secondary text-sm md:text-base max-w-xl mx-auto leading-relaxed mb-8">
+          Pronto comunicaremos la versión 4 del taller.
+        </p>
+        <div class="inline-block p-4 wire-border bg-surface text-xs font-mono text-secondary">
+          <span class="text-accent">></span> Mantente atento a nuestras redes y canales oficiales para la apertura de la V4.
+        </div>
       </div>
     </div>
   </section>
@@ -539,43 +489,45 @@
   </footer>
 
   <script>
-    // Form submission handling
+    // Form submission handling (Guarded if form is absent)
     const form = document.getElementById('contact-form');
     const submitBtn = document.getElementById('contact-submit');
 
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      const originalText = submitBtn.innerText;
-      submitBtn.innerText = 'EJECUTANDO...';
-      submitBtn.disabled = true;
-      submitBtn.style.opacity = '0.5';
+    if (form && submitBtn) {
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        const originalText = submitBtn.innerText;
+        submitBtn.innerText = 'EJECUTANDO...';
+        submitBtn.disabled = true;
+        submitBtn.style.opacity = '0.5';
 
-      const formData = new FormData(form);
-      const action = form.getAttribute('action');
+        const formData = new FormData(form);
+        const action = form.getAttribute('action');
 
-      fetch(action, {
-        method: 'POST',
-        body: formData,
-        mode: 'no-cors' // Google Script requires no-cors if not returning proper headers
-      })
-      .then(() => {
-        submitBtn.innerText = 'ACCESO CONCEDIDO';
-        submitBtn.style.backgroundColor = '#FFFFFF';
-        submitBtn.style.color = '#000000';
-        submitBtn.style.borderColor = '#FFFFFF';
-        submitBtn.style.opacity = '1';
-        form.reset();
-      })
-      .catch(error => {
-        console.error('Error!', error.message);
-        submitBtn.innerText = 'ERROR - REINTENTAR';
-        submitBtn.disabled = false;
-        submitBtn.style.opacity = '1';
-        submitBtn.style.backgroundColor = 'transparent';
-        submitBtn.style.color = '#ff3333';
-        submitBtn.style.borderColor = '#ff3333';
+        fetch(action, {
+          method: 'POST',
+          body: formData,
+          mode: 'no-cors' // Google Script requires no-cors if not returning proper headers
+        })
+        .then(() => {
+          submitBtn.innerText = 'ACCESO CONCEDIDO';
+          submitBtn.style.backgroundColor = '#FFFFFF';
+          submitBtn.style.color = '#000000';
+          submitBtn.style.borderColor = '#FFFFFF';
+          submitBtn.style.opacity = '1';
+          form.reset();
+        })
+        .catch(error => {
+          console.error('Error!', error.message);
+          submitBtn.innerText = 'ERROR - REINTENTAR';
+          submitBtn.disabled = false;
+          submitBtn.style.opacity = '1';
+          submitBtn.style.backgroundColor = 'transparent';
+          submitBtn.style.color = '#ff3333';
+          submitBtn.style.borderColor = '#ff3333';
+        });
       });
-    });
+    }
 
     // Smooth scroll for nav links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
