@@ -1,140 +1,419 @@
-/**
- * ==============================================================================
- * SCRIPT CRM GOOGLE APPS SCRIPT - BOOTCAMP GEO-IA (ENVÍO ACCESOS GOOGLE MEET)
- * ==============================================================================
- * Instrucciones:
- * 1. Abre tu Google Sheet de Alumnos / CRM.
- * 2. Ve a Extensiones > Apps Script.
- * 3. Copia y reemplaza todo el contenido de este archivo en Code.gs (o añade la función).
- * 4. Ejecuta la función `enviarLinksConexion()`.
- */
+// =======================================================================
+// CÓDIGO MAESTRO BOOTCAMP VERSIÓN 3 (EDICIÓN PREMIUM - HIGH-TECH)
+// =======================================================================
 
-// Enlaces de Google Meet actualizados
-const MEET_LINKS = {
-  sesion1: "https://meet.google.com/dkp-rpqg-ktc", // Viernes 7 de Agosto (20:00 - 21:30 hrs)
-  sesion2: "https://meet.google.com/pgc-rmvk-dgj", // Sábado 8 de Agosto (20:00 - 21:30 hrs)
-  sesion3: "https://meet.google.com/dos-fcdq-kee"  // Domingo 9 de Agosto (20:00 - 21:30 hrs)
-};
+// Constantes de Diseño (ADN Spur.us)
+const ESTILO_BASE = "font-family: 'Space Grotesk', 'Courier New', monospace; background-color: #000000; color: #FFFFFF; padding: 40px 20px; text-align: left; line-height: 1.6;";
+const CONTENEDOR = "max-width: 600px; margin: 0 auto; background-color: #0A0A0A; border: 1px solid #222222; padding: 40px;";
+const BADGE_VERDE = "display: inline-block; padding: 4px 8px; border: 1px solid #D4FF00; color: #D4FF00; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: bold; margin-bottom: 20px;";
+const BADGE_ROJO = "display: inline-block; padding: 4px 8px; border: 1px solid #ff3333; color: #ff3333; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: bold; margin-bottom: 20px;";
+const TITULO_H1 = "color: #FFFFFF; margin-top: 0; font-size: 24px; font-weight: normal; font-family: 'Inter', Arial, sans-serif; letter-spacing: -0.5px;";
+const TEXTO_SECUNDARIO = "color: #888888; font-size: 14px; margin-bottom: 30px;";
+const BLOQUE_INFO = "background-color: #000000; border: 1px solid #222222; border-left: 2px solid #D4FF00; padding: 20px; margin-bottom: 30px;";
+const BLOQUE_INFO_SECUNDARIO = "background-color: #000000; border: 1px solid #222222; border-left: 2px solid #888888; padding: 20px; margin-bottom: 30px;";
+const BOTON_SOLIDO = "display: block; background-color: #D4FF00; color: #000000; text-align: center; padding: 14px 20px; text-decoration: none; font-weight: bold; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin: 15px 0;";
+const BOTON_TERMINAL = "display: inline-block; background-color: transparent; color: #D4FF00; text-decoration: none; font-weight: bold; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-top: 20px;"; // Use [ BOTON ] in text
 
-/**
- * Envía los links de conexión a todos los alumnos que ya pagaron / están confirmados.
- */
-function enviarLinksConexion() {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-  const data = sheet.getDataRange().getValues();
-  
-  if (data.length <= 1) {
-    Logger.log("No hay datos en la hoja.");
-    return;
-  }
-  
-  // Buscar índices de columnas por encabezado (insensible a mayúsculas)
-  const headers = data[0].map(h => String(h).trim().toLowerCase());
-  
-  const colNombre = headers.findIndex(h => h.includes("nombre"));
-  const colEmail = headers.findIndex(h => h.includes("correo") || h.includes("email"));
-  const colEstado = headers.findIndex(h => h.includes("estado") || h.includes("status"));
-  
-  if (colEmail === -1 || colEstado === -1) {
-    Logger.log("ERROR: No se encontraron las columnas de Email o Estado.");
-    return;
-  }
-  
-  let enviadosCount = 0;
-  
-  for (let i = 1; i < data.length; i++) {
-    const row = data[i];
-    const nombre = colNombre !== -1 && row[colNombre] ? row[colNombre].toString().split(" ")[0] : "Alumno(a)";
-    const email = row[colEmail] ? row[colEmail].toString().trim() : "";
-    const estado = row[colEstado] ? row[colEstado].toString().trim() : "";
+function doPost(e) {
+  try {
+    var name = e.parameter.name;
+    var userEmail = e.parameter.email;
+    var country = e.parameter.country || "";
+    var nivel_sig = e.parameter.nivel_sig;
+    var ocupacion = e.parameter.ocupacion;
+    var plan = e.parameter.plan;
+    var timestamp = new Date();
+
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow(["Fecha", "Nombre", "Email", "País", "Nivel SIG", "Profesión", "Plan", "Estado Pago"]);
+      sheet.getRange("A1:H1").setFontWeight("bold").setBackground("#D4FF00");
+    }
+    sheet.appendRow([timestamp, name, userEmail, country, nivel_sig, ocupacion, plan, "Pendiente"]);
+
+    var adminEmail = "jorge.ulloa.roa@gmail.com";
+    MailApp.sendEmail(adminEmail, "[SYS.NOTIFY] NUEVO INSCRITO: Bootcamp V3", "Nuevo inscrito:\nNombre: " + name + "\nPaís: " + country + "\nEmail: " + userEmail);
+
+    var esChile = country.toLowerCase().trim() === "chile";
+    var opcionesPago = "";
     
-    // Filtrar alumnos pagados / ok que no tengan aún los accesos enviados
-    // Acepta estados: "PAGADO", "OK", "CONFIRMADO", "TUTORIAL ENVIADO", etc.
-    const estaOk = /pagado|ok|confirmado|tutorial enviado/i.test(estado);
-    const yaEnviado = /links enviados|accesos enviados/i.test(estado);
+    if (esChile) {
+      opcionesPago = `
+        <div style="${BLOQUE_INFO}">
+          <h3 style="color: #D4FF00; margin-top: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">[ OPT.01 ] PAGO VÍA MERCADOPAGO</h3>
+          <a href="https://www.mercadopago.cl/payment-link/v1/go?link-id=f7b0764f-2801-4b26-a858-59c416eebe42" style="${BOTON_SOLIDO}">EJECUTAR_PAGO_MERCADOPAGO</a>
+        </div>
+        <div style="${BLOQUE_INFO_SECUNDARIO}">
+          <h3 style="color: #888888; margin-top: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">[ OPT.02 ] TRANSFERENCIA BANCARIA</h3>
+          <p style="color: #888888; font-size: 13px; margin-bottom: 5px;">TITULAR: <span style="color:#FFF">JORGE FERNANDO ULLOA ROA</span></p>
+          <p style="color: #888888; font-size: 13px; margin-bottom: 5px;">RUT: <span style="color:#FFF">18.223.053-7</span></p>
+          <p style="color: #888888; font-size: 13px; margin-bottom: 5px;">BANCO FALABELLA / CTA. CORRIENTE: <span style="color:#FFF">019823326523</span></p>
+          <p style="color: #888888; font-size: 13px; margin-bottom: 0;">CORREO: <span style="color:#FFF">jorge.ulloa.roa@gmail.com</span></p>
+        </div>
+      `;
+    } else {
+      opcionesPago = `
+        <div style="border: 1px solid #888888; padding: 15px; margin-bottom: 20px;">
+          <p style="color: #888888; font-size: 12px; margin: 0; text-transform: uppercase;">[ SYS.INFO ] Acceso Internacional detectado. Protocolo de pago adaptado a moneda local vía PayPal.</p>
+        </div>
+        <div style="${BLOQUE_INFO}">
+          <h3 style="color: #D4FF00; margin-top: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">[ OPT.01 ] PAGO MUNDIAL: PAYPAL</h3>
+          <p style="color: #888888; font-size: 13px; margin-bottom: 15px;">Transacción segura internacionalmente con tarjeta o saldo PayPal.</p>
+          <a href="https://www.paypal.com/ncp/payment/2PVCP7EQT3DWU" style="${BOTON_SOLIDO}">EJECUTAR_PAGO_PAYPAL</a>
+        </div>
+        <div style="${BLOQUE_INFO_SECUNDARIO}">
+          <h3 style="color: #888888; margin-top: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">[ OPT.02 ] ALTERNATIVA (MERCADOPAGO LATAM)</h3>
+          <a href="https://www.mercadopago.cl/payment-link/v1/go?link-id=f7b0764f-2801-4b26-a858-59c416eebe42" style="color: #888888; text-decoration: underline; font-size: 13px;">Si prefieres MercadoPago, usa este enlace</a>
+        </div>
+      `;
+    }
+
+    var userHtmlBody = `
+      <div style="${ESTILO_BASE}">
+        <div style="${CONTENEDOR}">
+          <div style="${BADGE_VERDE}">STATUS: CUPO_RESERVADO</div>
+          <h1 style="${TITULO_H1}">System.Welcome(${name});</h1>
+          <p style="${TEXTO_SECUNDARIO}">
+            Has iniciado el protocolo para dominar el Desarrollo Web Territorial con IA. Tu lugar para la <b>Versión 3</b> está en modo de espera. Se requiere confirmación de inscripción.
+          </p>
+          
+          ${opcionesPago}
+
+          <div style="border-top: 1px solid #222222; border-bottom: 1px solid #222222; padding: 20px 0;">
+            <h4 style="color: #FFFFFF; margin-top: 0; font-size: 14px; text-transform: uppercase;">> PASO FINAL OBLIGATORIO</h4>
+            <p style="${TEXTO_SECUNDARIO} margin-bottom: 15px;">
+              Una vez ejecutado el pago, <b>responde este correo adjuntando tu comprobante</b>. El sistema validará el acceso y enviará automáticamente los binarios y dependencias.
+            </p>
+            <div style="background-color: #000000; padding: 15px; border: 1px solid #222222;">
+              <p style="margin: 0; color: #888888; font-size: 12px; text-transform: uppercase;">> FECHAS: <span style="color:#FFF">Viernes 7, Sábado 8 y Domingo 9 de Agosto</span></p>
+              <p style="margin: 5px 0 0 0; color: #888888; font-size: 12px; text-transform: uppercase;">> HORARIO: <span style="color:#FFF">20:00 a 21:30 hrs (Hora de Chile)</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    MailApp.sendEmail({ to: userEmail, subject: "[ACCIÓN REQUERIDA] Confirma tu cupo en el Bootcamp Geo-IA V3", htmlBody: userHtmlBody, name: "Bootcamp Geo-IA" });
+
+    return ContentService.createTextOutput(JSON.stringify({"result": "success"})).setMimeType(ContentService.MimeType.JSON);
+  } catch (error) {
+    return ContentService.createTextOutput(JSON.stringify({"result": "error", "error": error.toString()})).setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function enviarRecordatoriosPago() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var data = sheet.getDataRange().getValues();
+  var ahora = new Date();
+  
+  for (var i = 1; i < data.length; i++) {
+    var diffHoras = (ahora - new Date(data[i][0])) / (1000 * 60 * 60);
+    var name = data[i][1];
+    var email = data[i][2];
+    var country = data[i][3] ? data[i][3].toString() : "";
+    var estado = data[i][7];
     
-    if (email && estaOk && !yaEnviado) {
+    var esChile = country.toLowerCase().trim() === "chile";
+    var linkPago = esChile ? "https://www.mercadopago.cl/payment-link/v1/go?link-id=f7b0764f-2801-4b26-a858-59c416eebe42" : "https://www.paypal.com/ncp/payment/2PVCP7EQT3DWU";
+    var textoBoton = esChile ? "EJECUTAR_MERCADOPAGO" : "EJECUTAR_PAYPAL";
+
+    if (diffHoras >= 72 && estado === "Recordatorio Enviado") {
+      var body72h = `
+        <div style="${ESTILO_BASE}">
+          <div style="${CONTENEDOR} border-left: 2px solid #ff3333;">
+            <div style="${BADGE_ROJO}">WARN: TIMEOUT_INMINENTE</div>
+            <h1 style="${TITULO_H1} color: #ff3333;">System.Timeout(${name});</h1>
+            <p style="${TEXTO_SECUNDARIO}">
+              Han transcurrido 72 horas desde la inicialización. La memoria está al límite para el evento del fin de semana del 7 de Agosto. Si no se detecta respuesta, el cupo será liberado de la caché.
+            </p>
+            <p style="color: #FFFFFF; font-size: 14px;">> Para mantener la sesión activa, ejecuta el pago y responde este correo hoy.</p>
+            <a href="${linkPago}" style="${BOTON_SOLIDO} background-color:#ff3333; border-color:#ff3333; color:#000;">${textoBoton}</a>
+          </div>
+        </div>
+      `;
+      MailApp.sendEmail({to: email, subject: "[ALERTA] Aviso Final: Liberaremos tu cupo del Bootcamp V3", htmlBody: body72h, name: "Bootcamp Geo-IA"});
+      sheet.getRange(i + 1, 8).setValue("Recordatorio Final Enviado");
+    } 
+    else if (diffHoras >= 24 && (estado === "Pendiente" || estado === "Pendiente*")) {
+      var body24h = `
+        <div style="${ESTILO_BASE}">
+          <div style="${CONTENEDOR} border-left: 2px solid #D4FF00;">
+            <div style="${BADGE_VERDE}">INFO: TIEMPO_CORRIENDO</div>
+            <h1 style="${TITULO_H1}">El proceso sigue activo.</h1>
+            <p style="${TEXTO_SECUNDARIO}">
+              Hola ${name}, detectamos que la inscripción no ha sido confirmada. Los slots para la V3 se están llenando. No te quedes fuera del sistema.
+            </p>
+            <p style="color: #FFFFFF; font-size: 14px;">> Envía el comprobante respondiendo el correo anterior para recibir las instrucciones de instalación.</p>
+            <a href="${linkPago}" style="${BOTON_TERMINAL}">[ ${textoBoton} ]</a>
+          </div>
+        </div>
+      `;
+      MailApp.sendEmail({to: email, subject: "[RECORDATORIO] Tu cupo en el Bootcamp Geo-IA V3 expira pronto", htmlBody: body24h, name: "Bootcamp Geo-IA"});
+      sheet.getRange(i + 1, 8).setValue("Recordatorio Enviado");
+    }
+  }
+}
+
+function enviarTutorialAutomático() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var data = sheet.getDataRange().getValues();
+  
+  for (var i = 1; i < data.length; i++) {
+    if (data[i][7] === "Pagado") {
+      var name = data[i][1];
+      var bodyTutorial = `
+        <div style="${ESTILO_BASE}">
+          <div style="${CONTENEDOR}">
+            <div style="${BADGE_VERDE}">STATUS: ACCESO_CONCEDIDO</div>
+            <h1 style="${TITULO_H1}">System.Connect(${name});</h1>
+            <p style="${TEXTO_SECUNDARIO}">
+              Pago verificado en base de datos. Prepárate, porque este <b>Viernes 7, Sábado 8 y Domingo 9 de Agosto (de 20:00 a 21:30 hrs - Hora Chile)</b> vamos a programar.
+            </p>
+            
+            <div style="${BLOQUE_INFO}">
+              <h3 style="color: #D4FF00; margin-top: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">> PASO 01: INSTALACIÓN DE DEPENDENCIAS</h3>
+              <p style="color: #888888; font-size: 13px; margin-bottom: 15px;">
+                Para la ejecución correcta, debes preparar tu entorno. Visualiza el log de instalación:
+              </p>
+              <a href="https://drive.google.com/file/d/1zta-19rP4KlyDLXrU3Tgjsk9gKarmX7e/view?usp=sharing" style="${BOTON_TERMINAL}">[ ABRIR TUTORIAL ]</a>
+            </div>
+
+            <div style="${BLOQUE_INFO_SECUNDARIO}">
+              <h3 style="color: #888888; margin-top: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">> PASO 02: PUERTOS DE CONEXIÓN</h3>
+              <p style="color: #888888; font-size: 13px; margin-bottom: 0;">
+                El día del evento se despachará el socket (link de Google Meet) por este canal.
+              </p>
+            </div>
+
+            <div style="border-top: 1px solid #222222; margin-top: 30px; padding-top: 20px;">
+              <p style="color: #888888; font-size: 12px; text-transform: uppercase;">SYS.ADMIN // Jorge Ulloa Roa</p>
+            </div>
+          </div>
+        </div>
+      `;
       try {
-        const htmlBody = getTemplateHTML(nombre);
-        const subject = "🚨 ACCESOS OFICIALES: Links de Conexión Bootcamp Geo-IA V3";
-        
-        GmailApp.sendEmail(email, subject, "Hola " + nombre + ", aquí tienes tus accesos al Bootcamp Geo-IA V3:\n\n" +
-          "Sesión 1 (Viernes 7): " + MEET_LINKS.sesion1 + "\n" +
-          "Sesión 2 (Sábado 8): " + MEET_LINKS.sesion2 + "\n" +
-          "Sesión 3 (Domingo 9): " + MEET_LINKS.sesion3, {
-            htmlBody: htmlBody,
-            name: "Jorge Ulloa - Geo-IA"
-          });
-        
-        // Actualizar estado en la hoja
-        sheet.getRange(i + 1, colEstado + 1).setValue("Links Enviados V3");
-        enviadosCount++;
-        Logger.log("Enviado con éxito a: " + email);
-        
-        // Pausa ligera para no saturar la cuota de correo
-        Utilities.sleep(500);
-      } catch (err) {
-        Logger.log("Error al enviar a " + email + ": " + err.toString());
+        MailApp.sendEmail({ to: data[i][2], subject: "[PREPARACIÓN] Bootcamp V3: Binarios y Tutorial de Instalación", htmlBody: bodyTutorial, name: "Bootcamp Geo-IA" });
+        sheet.getRange(i + 1, 8).setValue("Tutorial Enviado");
+      } catch(e) {
+        console.log("Error enviando a: " + data[i][2]);
       }
     }
   }
-  
-  SpreadsheetApp.getUi().alert("✅ Proceso finalizado. Se enviaron " + enviadosCount + " correos con los links de conexión.");
 }
 
-/**
- * Plantilla HTML del correo con el diseño oscuro Neobrutalista y los Meet Links actualizados.
- */
-function getTemplateHTML(nombre) {
-  return `
-  <div style="font-family: 'Segoe UI', Arial, sans-serif; background-color: #050508; color: #ffffff; padding: 40px 20px; text-align: center;">
-    <div style="max-width: 600px; margin: 0 auto; background-color: #0a0a12; border: 1px solid #1a1a24; border-radius: 12px; padding: 40px; box-shadow: 0 10px 30px rgba(0,255,204,0.05);">
-      
-      <div style="display: inline-block; padding: 8px 16px; background-color: rgba(0,255,204,0.1); border: 1px solid rgba(0,255,204,0.3); border-radius: 30px; color: #00ffcc; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; font-weight: bold; margin-bottom: 20px;">
-        [ACCESOS OFICIALES]
-      </div>
+function ejecutarCRM() {
+  enviarRecordatoriosPago();
+  enviarTutorialAutomático();
+}
 
-      <h1 style="color: #ffffff; margin-top: 0; font-size: 26px;">¡Llegó el Gran Día, ${nombre}!</h1>
-      <p style="color: #a0a0b0; font-size: 16px; line-height: 1.6; margin-bottom: 30px;">
-        Hoy comenzamos oficialmente el <b>Bootcamp Geo-IA V3</b>. A continuación tienes los enlaces directos de Google Meet para acceder a la sala en vivo de cada sesión. ¡Guarda este correo para todo el fin de semana!
-      </p>
-
-      <!-- DÍA 1 -->
-      <div style="background-color: #12121a; border-left: 4px solid #00ffcc; padding: 25px; border-radius: 4px; text-align: left; margin-bottom: 20px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-          <h3 style="color: #00ffcc; margin: 0; font-size: 16px; letter-spacing: 1px; text-transform: uppercase;">DÍA 1: Workshop (Sesión 1)</h3>
-          <span style="background-color: rgba(0,255,204,0.1); padding: 4px 8px; border-radius: 4px; font-size: 12px; color: #00ffcc; font-weight: bold;">HOY</span>
+// ---------------------------------------------------------------------------------
+// FUNCIÓN MANUAL PARA AVISARLE A LOS EXTRANJEROS
+// ---------------------------------------------------------------------------------
+function enviarAvisoPayPalAtrasados() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var data = sheet.getDataRange().getValues();
+  var contadorEnviados = 0;
+  
+  for (var i = 1; i < data.length; i++) {
+    var email = data[i][2] ? data[i][2].toString().trim() : "";
+    var country = data[i][3] ? data[i][3].toString().toLowerCase().trim() : "";
+    var estado = data[i][7] ? data[i][7].toString().toLowerCase().trim() : ""; 
+    
+    if (estado === "pendiente" && country !== "chile") {
+      var name = data[i][1];
+      var bodyFix = `
+        <div style="${ESTILO_BASE}">
+          <div style="${CONTENEDOR}">
+            <div style="${BADGE_VERDE}; border-color:#888888; color:#888888;">SYS.UPDATE</div>
+            <h1 style="${TITULO_H1}">Protocolo de pago actualizado.</h1>
+            <p style="${TEXTO_SECUNDARIO}">
+              Hola ${name}, detectamos que te conectas desde fuera de Chile y el proceso quedó en timeout.
+              <br><br>Hemos habilitado <b>PayPal</b> en nuestro endpoint para transacciones globales.
+            </p>
+            <a href="https://www.paypal.com/ncp/payment/2PVCP7EQT3DWU" style="${BOTON_SOLIDO}">EJECUTAR_PAYPAL</a>
+            <p style="color: #888888; font-size: 12px; margin-top: 30px; text-transform:uppercase;">> RECUERDA ENVIAR EL COMPROBANTE AL FINALIZAR.</p>
+          </div>
         </div>
-        <p style="color: #d0d0e0; font-size: 14px; margin-bottom: 5px;">📅 <b>Viernes, 7 de Agosto</b></p>
-        <p style="color: #d0d0e0; font-size: 14px; margin-bottom: 15px;">⏰ <b>20:00 – 21:30 hrs</b> (Hora de Chile)</p>
-        <a href="${MEET_LINKS.sesion1}" style="display: inline-block; background-color: #00ffcc; color: #050508; padding: 12px 22px; text-decoration: none; font-weight: bold; border-radius: 6px; font-size: 14px;">▶ ENTRAR A SALA DÍA 1</a>
-      </div>
+      `;
+      try {
+        MailApp.sendEmail({to: email, subject: "[UPDATE] Habilitamos PayPal para tu inscripción al Bootcamp V3", htmlBody: bodyFix, name: "Bootcamp Geo-IA"});
+        sheet.getRange(i + 1, 8).setValue("Pendiente*"); 
+        contadorEnviados++;
+      } catch(e) {}
+    }
+  }
+}
 
-      <!-- DÍA 2 -->
-      <div style="background-color: #12121a; border-left: 4px solid #ff2d78; padding: 25px; border-radius: 4px; text-align: left; margin-bottom: 20px;">
-        <h3 style="color: #ff2d78; margin: 0 0 15px 0; font-size: 16px; letter-spacing: 1px; text-transform: uppercase;">DÍA 2: Workshop (Sesión 2)</h3>
-        <p style="color: #d0d0e0; font-size: 14px; margin-bottom: 5px;">📅 <b>Sábado, 8 de Agosto</b></p>
-        <p style="color: #d0d0e0; font-size: 14px; margin-bottom: 15px;">⏰ <b>20:00 – 21:30 hrs</b> (Hora de Chile)</p>
-        <a href="${MEET_LINKS.sesion2}" style="display: inline-block; background-color: #ff2d78; color: #ffffff; padding: 12px 22px; text-decoration: none; font-weight: bold; border-radius: 6px; font-size: 14px;">▶ ENTRAR A SALA DÍA 2</a>
-      </div>
+// ---------------------------------------------------------------------------------
+// FUNCIÓN DE EMERGENCIA: FÉ DE ERRATAS
+// ---------------------------------------------------------------------------------
+function enviarFeDeErratasTutorial() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var data = sheet.getDataRange().getValues();
+  var enviados = 0;
+  
+  for (var i = 1; i < data.length; i++) {
+    var email = data[i][2] ? data[i][2].toString().trim() : "";
+    var estado = data[i][7] ? data[i][7].toString().trim() : "";
+    
+    if (estado === "Tutorial Enviado") {
+      var name = data[i][1];
+      var bodyFix = `
+        <div style="${ESTILO_BASE}">
+          <div style="${CONTENEDOR} border-left: 2px solid #ff3333;">
+            <div style="${BADGE_ROJO}">ERR_CONNECTION_RESET</div>
+            <h1 style="${TITULO_H1} color:#ff3333;">Fallo técnico detectado.</h1>
+            <p style="${TEXTO_SECUNDARIO}">
+              Hola ${name}, el endpoint de video que enviamos anteriormente devolvió un error 404 de formato.
+            </p>
+            
+            <div style="${BLOQUE_INFO}">
+              <h3 style="color: #D4FF00; margin-top: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">> ENLACE CORREGIDO</h3>
+              <p style="color: #888888; font-size: 13px; margin-bottom: 15px;">
+                Este enlace enruta correctamente al tutorial de preparación. Disculpas por el packet loss.
+              </p>
+              <a href="https://drive.google.com/file/d/1zta-19rP4KlyDLXrU3Tgjsk9gKarmX7e/view?usp=sharing" style="${BOTON_TERMINAL}">[ ABRIR TUTORIAL PARCHADO ]</a>
+            </div>
 
-      <!-- DÍA 3 -->
-      <div style="background-color: #12121a; border-left: 4px solid #ffcc00; padding: 25px; border-radius: 4px; text-align: left; margin-bottom: 30px;">
-        <h3 style="color: #ffcc00; margin: 0 0 15px 0; font-size: 16px; letter-spacing: 1px; text-transform: uppercase;">DÍA 3: Workshop (Sesión 3)</h3>
-        <p style="color: #d0d0e0; font-size: 14px; margin-bottom: 5px;">📅 <b>Domingo, 9 de Agosto</b></p>
-        <p style="color: #d0d0e0; font-size: 14px; margin-bottom: 15px;">⏰ <b>20:00 – 21:30 hrs</b> (Hora de Chile)</p>
-        <a href="${MEET_LINKS.sesion3}" style="display: inline-block; background-color: #ffcc00; color: #050508; padding: 12px 22px; text-decoration: none; font-weight: bold; border-radius: 6px; font-size: 14px;">▶ ENTRAR A SALA DÍA 3</a>
-      </div>
+            <div style="border-top: 1px solid #222222; margin-top: 30px; padding-top: 20px;">
+              <p style="color: #888888; font-size: 12px; text-transform: uppercase;">SYS.ADMIN // Jorge Ulloa Roa</p>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      try {
+        MailApp.sendEmail({to: email, subject: "[PATCH] Corrección Link de Instalación Bootcamp Geo-IA", htmlBody: bodyFix, name: "Bootcamp Geo-IA"});
+        sheet.getRange(i + 1, 8).setValue("Tutorial Enviado V3"); 
+        enviados++;
+      } catch(e) {
+        console.log("Error enviando a: " + email);
+      }
+    }
+  }
+}
 
-      <div style="border: 1px dashed rgba(255,255,255,0.2); padding: 20px; border-radius: 8px;">
-        <h4 style="color: #ffffff; margin-top: 0; margin-bottom: 15px;">⚠️ Recordatorios Clave</h4>
-        <p style="color: #a0a0b0; font-size: 14px; margin-bottom: 5px; text-align: left;">1. Conéctate <b>5 minutos antes</b> (19:55 hrs) para probar tu audio y video.</p>
-        <p style="color: #a0a0b0; font-size: 14px; margin-bottom: 0; text-align: left;">2. Asegúrate de tener el software listo como vimos en el tutorial.</p>
-      </div>
+// ---------------------------------------------------------------------------------
+// FUNCIÓN FINAL: ENVIAR LINKS DE CONEXIÓN
+// ---------------------------------------------------------------------------------
+function enviarLinksConexion() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var data = sheet.getDataRange().getValues();
+  var enviados = 0;
+  
+  for (var i = 1; i < data.length; i++) {
+    var email = data[i][2] ? data[i][2].toString().trim() : "";
+    var estado = data[i][7] ? data[i][7].toString().trim() : "";
+    var estadoLower = estado.toLowerCase();
+    
+    // Filtro amplio: Todos los que ya pagaron o están OK con todo
+    var estaPagado = estadoLower.indexOf("pagado") >= 0 || 
+                     estadoLower.indexOf("tutorial enviado") >= 0 || 
+                     estadoLower === "ok" || 
+                     estadoLower.indexOf("confirmado") >= 0;
+                     
+    var yaTieneAccesos = estadoLower.indexOf("accesos enviados") >= 0 || 
+                         estadoLower.indexOf("links enviados") >= 0;
+    
+    if (email && estaPagado && !yaTieneAccesos) {
+      var name = data[i][1];
+      
+      var bodyLinks = `
+        <div style="${ESTILO_BASE}">
+          <div style="${CONTENEDOR}">
+            <div style="${BADGE_VERDE}">SYSTEM.ONLINE</div>
+            <h1 style="${TITULO_H1}">Conexión Iniciada, ${name}.</h1>
+            <p style="${TEXTO_SECUNDARIO}">
+              Hoy arranca el <b>Bootcamp Geo-IA V3</b>. Estos son los sockets (Google Meet) de acceso directo a la consola en vivo. Recordatorio: Nos vemos hoy <b>Viernes 7</b>, <b>Sábado 8</b> y <b>Domingo 9</b> de <b>20:00 a 21:30 hrs (Horario de Chile)</b>.
+            </p>
 
-      <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 30px 0;">
-      <p style="color: #a0a0b0; font-size: 14px;">¡Nos vemos esta noche!<br><b>Jorge Ulloa Roa</b></p>
-    </div>
-  </div>
-  `;
+            <!-- SESIÓN 1 (VIERNES 7) -->
+            <div style="${BLOQUE_INFO}">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h3 style="color: #D4FF00; margin: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">> MODULE.01: WORKSHOP (SESIÓN 1)</h3>
+                <span style="font-size: 10px; color: #D4FF00;">[ EXEC_TODAY ]</span>
+              </div>
+              <p style="color: #888888; font-size: 13px; margin: 0;">Viernes, 7 de Agosto | 20:00 – 21:30 hrs (Chile)</p>
+              <a href="https://meet.google.com/dkp-rpqg-ktc" style="${BOTON_SOLIDO} margin-top: 15px;">[ INICIAR CONEXIÓN DÍA 1 ]</a>
+            </div>
+
+            <!-- SESIÓN 2 (SÁBADO 8) -->
+            <div style="${BLOQUE_INFO_SECUNDARIO}">
+              <h3 style="color: #888888; margin: 0 0 10px 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">> MODULE.02: WORKSHOP (SESIÓN 2)</h3>
+              <p style="color: #888888; font-size: 13px; margin: 0;">Sábado, 8 de Agosto | 20:00 – 21:30 hrs (Chile)</p>
+              <a href="https://meet.google.com/pgc-rmvk-dgj" style="color:#D4FF00; display:inline-block; font-size:13px; font-weight:bold; margin-top:15px; text-decoration:none;">[ LINK_DÍA_2: meet.google.com/pgc-rmvk-dgj ]</a>
+            </div>
+
+            <!-- SESIÓN 3 (DOMINGO 9) -->
+            <div style="${BLOQUE_INFO_SECUNDARIO}">
+              <h3 style="color: #888888; margin: 0 0 10px 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">> MODULE.03: WORKSHOP (SESIÓN 3)</h3>
+              <p style="color: #888888; font-size: 13px; margin: 0;">Domingo, 9 de Agosto | 20:00 – 21:30 hrs (Chile)</p>
+              <a href="https://meet.google.com/dos-fcdq-kee" style="color:#D4FF00; display:inline-block; font-size:13px; font-weight:bold; margin-top:15px; text-decoration:none;">[ LINK_DÍA_3: meet.google.com/dos-fcdq-kee ]</a>
+            </div>
+
+            <div style="border: 1px dashed #222222; padding: 20px;">
+              <h4 style="color: #FFFFFF; margin-top: 0; font-size:12px; margin-bottom: 10px;">> AVISOS DE SISTEMA</h4>
+              <p style="color: #888888; font-size: 12px; margin-bottom: 5px;">01. Iniciar conexión 5 minutos antes (19:55 hrs) para handshake y ping.</p>
+              <p style="color: #888888; font-size: 12px; margin-bottom: 0;">02. Verificar que las dependencias locales estén instaladas.</p>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      try {
+        MailApp.sendEmail({to: email, subject: "[ACCESOS OFICIALES] Sockets de Conexión Bootcamp Geo-IA V3", htmlBody: bodyLinks, name: "Bootcamp Geo-IA"});
+        sheet.getRange(i + 1, 8).setValue("Accesos Enviados"); 
+        enviados++;
+      } catch(e) {
+        console.log("Error enviando accesos a: " + email);
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------------
+// FUNCIÓN POST-CLASE: ENVIAR GRABACIONES
+// ---------------------------------------------------------------------------------
+function enviarGrabaciones() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var data = sheet.getDataRange().getValues();
+  var enviados = 0;
+  
+  for (var i = 1; i < data.length; i++) {
+    var email = data[i][2] ? data[i][2].toString().trim() : "";
+    var estado = data[i][7] ? data[i][7].toString().trim() : "";
+    
+    if (estado === "Accesos Enviados") {
+      var name = data[i][1];
+      
+      var bodyGrabacion = `
+        <div style="${ESTILO_BASE}">
+          <div style="${CONTENEDOR}">
+            <div style="${BADGE_VERDE}">DATA_EXTRACTED</div>
+            <h1 style="${TITULO_H1}">Volcado de memoria, Día 1.</h1>
+            <p style="${TEXTO_SECUNDARIO}">
+              Si no pudiste sincronizar en vivo, o quieres repasar el código: <b>el archivo de log visual (grabación) está online.</b>
+            </p>
+
+            <div style="${BLOQUE_INFO}">
+              <h3 style="color: #D4FF00; margin: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px;">> REPOSITORIO MAESTRO (DRIVE)</h3>
+              <p style="color: #888888; font-size: 13px; margin-bottom: 20px;">
+                Guarda este directorio en caché. Las sesiones de Sábado y Domingo se sincronizarán aquí automáticamente al compilar.
+              </p>
+              <a href="https://drive.google.com/drive/folders/1RzqsahkJU32TQd_0fhg_qmjteFrdK8bD?usp=sharing" style="${BOTON_SOLIDO}">ACCEDER AL REPOSITORIO</a>
+            </div>
+
+            <div style="border-top: 1px solid #222222; margin-top: 30px; padding-top: 20px;">
+              <p style="color: #888888; font-size: 12px; text-transform: uppercase;">SYS.ADMIN // Jorge Ulloa Roa</p>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      try {
+        MailApp.sendEmail({to: email, subject: "[REPOSITORIO] Grabación DÍA 1 disponible en bóveda", htmlBody: bodyGrabacion, name: "Bootcamp Geo-IA"});
+        sheet.getRange(i + 1, 8).setValue("Carpeta Grabaciones Enviada"); 
+        enviados++;
+      } catch(e) {}
+    }
+  }
 }
