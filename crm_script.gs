@@ -14,8 +14,9 @@ const BLOQUE_INFO_SECUNDARIO = "background-color: #000000; border: 1px solid #22
 const BOTON_SOLIDO = "display: block; background-color: #D4FF00; color: #000000; text-align: center; padding: 14px 20px; text-decoration: none; font-weight: bold; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin: 15px 0;";
 const BOTON_TERMINAL = "display: inline-block; background-color: transparent; color: #D4FF00; text-decoration: none; font-weight: bold; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-top: 20px;";
 
-// Enlace de la Carpeta Maestra de Grabaciones (Google Drive)
+// Enlaces de Recursos Oficiales
 const LINK_GRABACIONES_DRIVE = "https://drive.google.com/drive/folders/1vRA1fkfG01kLL3DfMeVres5re51YqlTg?usp=sharing";
+const LINK_PRESENTACIONES_CANVA = "https://canva.link/workshop-gis-ia";
 
 function doPost(e) {
   try {
@@ -346,7 +347,7 @@ function enviarLinksConexion() {
 
             <!-- BÓVEDA DE GRABACIONES -->
             <div style="${BLOQUE_INFO_SECUNDARIO}">
-              <h3 style="color: #888888; margin: 0 0 10px 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">> BÓVEDA DE GRABACIONES Y RECURSOS</h3>
+              <h3 style="color: #888888; margin-0 0 10px 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">> BÓVEDA DE GRABACIONES Y RECURSOS</h3>
               <p style="color: #888888; font-size: 13px; margin-bottom: 15px;">
                 Guarda este enlace en tus favoritos. Aquí iremos subiendo las grabaciones y recursos del curso tras cada clase:
               </p>
@@ -615,34 +616,43 @@ function enviarDiplomasYCierre() {
               <h1 style="${TITULO_H1}">¡Misión Cumplida, ${name}!</h1>
               
               <p style="${TEXTO_SECUNDARIO}">
-                Han sido tres jornadas intensivas de mapas, código y arquitectura de IA. Queremos agradecerte por tu dedicación, constancia y por haber confiado en este espacio formativo para potenciar tus capacidades de desarrollo espacial.
+                Han sido tres jornadas intensivas de mapas, código y arquitectura de IA. Quiero agradecerte enormemente por tu dedicación, entusiasmo y por haber confiado en este Bootcamp para llevar tus habilidades de desarrollo espacial al siguiente nivel.
               </p>
 
               <!-- BLOQUE 1: DIPLOMA -->
               <div style="${BLOQUE_INFO}">
-                <h3 style="color: #D4FF00; margin-top: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">> TU DIPLOMA OFICIAL (ADJUNTO)</h3>
+                <h3 style="color: #D4FF00; margin-top: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">> 01. TU DIPLOMA OFICIAL (PDF ADJUNTO)</h3>
                 <p style="color: #888888; font-size: 13px; margin-bottom: 0;">
-                  Hemos generado y adjuntado a este correo tu certificado oficial de aprobación en formato PDF de alta resolución.
+                  He generado y adjuntado a este correo tu certificado oficial de aprobación en formato PDF de alta resolución. ¡Compártelo con orgullo!
                 </p>
               </div>
 
-              <!-- BLOQUE 2: BÓVEDA DE RECURSOS -->
+              <!-- BLOQUE 2: PRESENTACIÓN INTERACTIVA EN CANVA -->
+              <div style="${BLOQUE_INFO}">
+                <h3 style="color: #D4FF00; margin-top: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">> 02. DIAPOSITIVAS Y PRESENTACIÓN WEB</h3>
+                <p style="color: #888888; font-size: 13px; margin-bottom: 15px;">
+                  Accede a la versión web interactiva de las diapositivas y arquitectura teórica utilizadas durante las 3 sesiones:
+                </p>
+                <a href="${LINK_PRESENTACIONES_CANVA}" style="${BOTON_SOLIDO}">▶ VER PRESENTACIÓN WEB (CANVA)</a>
+              </div>
+
+              <!-- BLOQUE 3: BÓVEDA DRIVE (GRABACIONES E INSUMOS) -->
               <div style="${BLOQUE_INFO_SECUNDARIO}">
-                <h3 style="color: #888888; margin-top: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">> REPOSITORIO Y BÓVEDA PERMANENTE</h3>
+                <h3 style="color: #888888; margin-top: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">> 03. BÓVEDA DE GRABACIONES E INSUMOS</h3>
                 <p style="color: #888888; font-size: 13px; margin-bottom: 15px;">
-                  Tendrás acceso permanente a todas las grabaciones, plantillas de código, transcripciones y diapositivas en Google Drive:
+                  Aquí tienes el acceso permanente a la carpeta maestra con todas las grabaciones de video, datasets GeoJSON, scripts y código fuente del curso:
                 </p>
-                <a href="${LINK_GRABACIONES_DRIVE}" style="${BOTON_TERMINAL}">[ ABRIR BÓVEDA DE RECURSOS ]</a>
+                <a href="${LINK_GRABACIONES_DRIVE}" style="${BOTON_TERMINAL}">[ ABRIR BÓVEDA EN GOOGLE DRIVE ]</a>
               </div>
 
-              <!-- BLOQUE 3: REDES / FEEDBACK -->
+              <!-- BLOQUE 4: LINKEDIN & FEEDBACK -->
               <div style="border: 1px dashed #222222; padding: 20px; margin-bottom: 30px;">
-                <h4 style="color: #FFFFFF; margin-top: 0; font-size: 12px; margin-bottom: 15px; text-transform: uppercase;">> COMPARTE TU LOGRO EN LINKEDIN</h4>
+                <h4 style="color: #FFFFFF; margin-top: 0; font-size: 12px; margin-bottom: 15px; text-transform: uppercase;">> COMPARTE TU LOGRO Y CONOCIMIENTO</h4>
                 <p style="color: #888888; font-size: 13px; margin-bottom: 15px;">
-                  Te invitamos a compartir tu visor web final o tu diploma en LinkedIn y etiquetarme. El feedback de la comunidad es el motor para seguir iterando estas herramientas.
+                  Tu validación e impacto profesional son lo más importante. Te invito a publicar tu visor territorial terminado o tu diploma en LinkedIn y etiquetarme. ¡Cualquier recomendación o aprendizaje que compartas ayuda enormemente a seguir expandiendo esta comunidad!
                 </p>
                 <p style="color: #888888; font-size: 13px; margin-bottom: 0;">
-                  🔗 <a href="https://www.linkedin.com/in/jorge-ulloa-roa/" style="color: #D4FF00; text-decoration: none; font-weight: bold;">Perfil de LinkedIn de Jorge Ulloa Roa</a>
+                  🔗 <a href="https://www.linkedin.com/in/jorge-ulloa-roa/" style="color: #D4FF00; text-decoration: none; font-weight: bold;">Mi perfil de LinkedIn — Jorge Ulloa Roa</a>
                 </p>
               </div>
 
@@ -656,7 +666,7 @@ function enviarDiplomasYCierre() {
         // 3. Enviar correo con adjunto
         MailApp.sendEmail({
           to: email,
-          subject: "[DIPLOMA OFICIAL] Certificado de Aprobación y Bóveda Final — Bootcamp Geo-IA V3",
+          subject: "[DIPLOMA OFICIAL] Certificado de Aprobación, Presentaciones y Bóveda — Bootcamp Geo-IA V3",
           htmlBody: bodyFinal,
           attachments: [diplomaPdf],
           name: "Bootcamp Geo-IA"

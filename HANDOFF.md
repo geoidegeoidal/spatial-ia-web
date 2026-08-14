@@ -2,11 +2,12 @@
 
 ## Handoff Log
 
-### Session: 2026-08-14 — Replicación de Cierre V3, Diplomas PDF y Horas Lectivas/Prácticas
-- **Objective:** Ajustar la intensidad horaria del diploma a 5 horas lectivas + 4 horas de práctica (9 hrs totales), e implementar filtro estricto en `enviarDiplomasYCierre()` para despachar diplomas únicamente a filas con estado `"Accesos Enviados"`.
+### Session: 2026-08-14 — Replicación de Cierre V3, Diplomas PDF, Canva y Horas Lectivas/Prácticas
+- **Objective:** Ajustar la intensidad horaria del diploma a 5 horas lectivas + 4 horas de práctica (9 hrs totales), e implementar filtro estricto en `enviarDiplomasYCierre()` para despachar diplomas y recursos (Drive + presentaciones en Canva `https://canva.link/workshop-gis-ia`) únicamente a filas con estado `"Accesos Enviados"`.
 - **Completed Work:**
-  - Actualización de `crm_script.gs` con la función `enviarDiplomasYCierre()` configurada estrictamente para filtrar `estado === "Accesos Enviados"`.
-  - Inclusión de la plantilla del diploma oficial y correo de agradecimiento/bóveda con 5 hrs lectivas + 4 hrs prácticas (9 hrs totales).
+  - Actualización de `crm_script.gs` con `LINK_PRESENTACIONES_CANVA` y `LINK_GRABACIONES_DRIVE`, incorporando los bloques de Diploma PDF, Presentaciones web, Bóveda Google Drive e invitación a compartir en LinkedIn.
+  - Configuración del filtro estricto: `if (estado === "Accesos Enviados" && email !== "")`.
+  - Actualización sincronizada de plantillas visuales en [preview_final_bootcamp.html](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/preview_final_bootcamp.html) y [preview_correos.html](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/preview_correos.html).
   - Verificación local previa mediante `test_generar_diplomas.py` confirmando renderizado correcto de PDFs.
 - **Decisions:** 
   - Condición estricta: `if (estado === "Accesos Enviados" && email !== "")`.
