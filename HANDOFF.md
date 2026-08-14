@@ -3,14 +3,14 @@
 ## Handoff Log
 
 ### Session: 2026-08-14 — Replicación de Cierre V3, Diplomas PDF y Horas Lectivas/Prácticas
-- **Objective:** Ajustar la intensidad horaria del diploma a 5 horas lectivas + 4 horas de práctica (9 hrs totales), e implementar y ejecutar una suite de prueba local para validar la compilación y renderizado de los diplomas en PDF.
+- **Objective:** Ajustar la intensidad horaria del diploma a 5 horas lectivas + 4 horas de práctica (9 hrs totales), e implementar filtro estricto en `enviarDiplomasYCierre()` para despachar diplomas únicamente a filas con estado `"Accesos Enviados"`.
 - **Completed Work:**
-  - Actualización de la intensidad horaria y descripción tanto en [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs) como en [preview_final_bootcamp.html](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/preview_final_bootcamp.html).
-  - Creación del script [test_generar_diplomas.py](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/test_generar_diplomas.py) para generación local automatizada de PDFs vía headless Chromium/Edge.
-  - Verificación visual exitosa del PDF generado (`Diploma_GeoIA_V3_Jorge_Ulloa_Roa.pdf`), comprobando alineación, márgenes, tipografías Space Grotesk/Inter, badges de neón y sellos vectoriales.
+  - Actualización de `crm_script.gs` con la función `enviarDiplomasYCierre()` configurada estrictamente para filtrar `estado === "Accesos Enviados"`.
+  - Inclusión de la plantilla del diploma oficial y correo de agradecimiento/bóveda con 5 hrs lectivas + 4 hrs prácticas (9 hrs totales).
+  - Verificación local previa mediante `test_generar_diplomas.py` confirmando renderizado correcto de PDFs.
 - **Decisions:** 
-  - La intensidad horaria se formalizó como `5 hrs lectivas + 4 hrs prácticas (9 hrs totales)`.
-  - Se agregó `test_diplomas/` a `.gitignore` para mantener limpio el repositorio.
+  - Condición estricta: `if (estado === "Accesos Enviados" && email !== "")`.
+  - Transición a `"Diploma Enviado"` en la columna 8 tras despacho.
 - **Commits & Deploy:** 
   - Pendiente de push a `origin/master` y `origin/gh-pages`.
 

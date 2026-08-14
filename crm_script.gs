@@ -597,16 +597,8 @@ function enviarDiplomasYCierre() {
     var estado = data[i][7] ? data[i][7].toString().trim() : "";
     var name = data[i][1] ? data[i][1].toString().trim() : "Estudiante";
     
-    // Alumnos confirmados que completaron el bootcamp
-    var estadosValidos = [
-      "Carpeta Grabaciones Enviada", 
-      "Accesos Enviados", 
-      "Tutorial Enviado V3", 
-      "Tutorial Enviado", 
-      "Pagado"
-    ];
-    
-    if (estadosValidos.indexOf(estado) !== -1 && email !== "" && estado !== "Diploma Enviado") {
+    // Condición estricta: Solo alumnos con estado "Accesos Enviados"
+    if (estado === "Accesos Enviados" && email !== "") {
       try {
         // 1. Generar HTML del diploma y convertir a Blob PDF
         var diplomaHtml = generarDiplomaHtml(name, fechaEmision);
