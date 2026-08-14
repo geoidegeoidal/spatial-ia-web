@@ -420,3 +420,265 @@ function enviarGrabaciones() {
     }
   }
 }
+
+// ---------------------------------------------------------------------------------
+// FUNCIÓN FINAL: CIERRE DE BOOTCAMP Y DIPLOMA OFICIAL AUTOMATIZADO (PDF)
+// ---------------------------------------------------------------------------------
+function generarDiplomaHtml(nombreAlumno, fechaEmision) {
+  fechaEmision = fechaEmision || "10 de Agosto de 2026";
+  return `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Inter:wght@400;600;700&display=swap');
+    @page { size: A4 landscape; margin: 0; }
+    body {
+      margin: 0; padding: 0;
+      background-color: #000000;
+      color: #FFFFFF;
+      font-family: 'Space Grotesk', 'Courier New', monospace;
+      -webkit-print-color-adjust: exact;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+    .diploma-container {
+      width: 1040px;
+      height: 700px;
+      border: 2px solid #222222;
+      background-color: #0A0A0A;
+      position: relative;
+      padding: 60px;
+      box-sizing: border-box;
+    }
+    .corner-tl { position: absolute; top: 0; left: 0; width: 30px; height: 30px; border-top: 4px solid #D4FF00; border-left: 4px solid #D4FF00; }
+    .corner-br { position: absolute; bottom: 0; right: 0; width: 30px; height: 30px; border-bottom: 4px solid #D4FF00; border-right: 4px solid #D4FF00; }
+    
+    .badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border: 1px solid #D4FF00;
+      color: #D4FF00;
+      font-size: 13px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: bold;
+      margin-bottom: 35px;
+    }
+    .title {
+      font-family: 'Inter', Arial, sans-serif;
+      font-size: 50px;
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin: 0 0 8px 0;
+      color: #FFFFFF;
+    }
+    .subtitle {
+      font-size: 16px;
+      color: #888888;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 45px;
+    }
+    .student-name {
+      font-family: 'Inter', Arial, sans-serif;
+      font-size: 42px;
+      font-weight: 700;
+      color: #D4FF00;
+      margin: 0 0 15px 0;
+      border-bottom: 1px solid #333333;
+      padding-bottom: 8px;
+      display: inline-block;
+      min-width: 600px;
+    }
+    .description {
+      font-size: 15px;
+      color: #AAAAAA;
+      line-height: 1.6;
+      max-width: 720px;
+      margin-bottom: 45px;
+    }
+    .footer-grid {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid #222222;
+      padding-top: 25px;
+    }
+    .footer-block {
+      text-align: left;
+    }
+    .footer-label {
+      font-size: 11px;
+      color: #666666;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    .footer-value {
+      font-size: 15px;
+      color: #FFFFFF;
+      font-weight: bold;
+    }
+    .signature {
+      font-family: 'Courier New', monospace;
+      color: #D4FF00;
+      font-size: 17px;
+      font-style: italic;
+    }
+    .stamp {
+      position: absolute;
+      bottom: 50px;
+      right: 50px;
+      width: 95px;
+      height: 95px;
+      border: 2px dashed #333333;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 10px;
+      color: #666666;
+      transform: rotate(-15deg);
+    }
+  </style>
+</head>
+<body>
+  <div class="diploma-container">
+    <div class="corner-tl"></div>
+    <div class="corner-br"></div>
+    
+    <div class="badge">SYS.CERTIFICATE_OF_COMPLETION</div>
+    
+    <h1 class="title">Certificado de Aprobación</h1>
+    <div class="subtitle">Desarrollo Web Territorial con IA (Bootcamp V3)</div>
+    
+    <p style="color: #666666; margin-bottom: 10px; font-size: 13px;">Este documento certifica que:</p>
+    <h2 class="student-name">${nombreAlumno}</h2>
+    
+    <p class="description">
+      Ha completado satisfactoriamente los módulos teórico-prácticos del Bootcamp Geo-IA V3, demostrando competencias en análisis espacial, programación web frontend, uso de MapLibre GL JS, geoprocesamiento client-side con Turf.js y arquitectura Zero-Server.
+    </p>
+    
+    <div class="footer-grid">
+      <div class="footer-block">
+        <div class="footer-label">Intensidad Horaria</div>
+        <div class="footer-value">05 Horas Académicas</div>
+      </div>
+      <div class="footer-block">
+        <div class="footer-label">Fecha de Emisión</div>
+        <div class="footer-value">${fechaEmision}</div>
+      </div>
+      <div class="footer-block">
+        <div class="footer-label">Instructor / Director</div>
+        <div class="signature">Jorge Ulloa Roa</div>
+      </div>
+    </div>
+
+    <div class="stamp">
+      GEO-IA<br>VERIFIED<br>V3.0
+    </div>
+  </div>
+</body>
+</html>`;
+}
+
+function enviarDiplomasYCierre() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var data = sheet.getDataRange().getValues();
+  var enviados = 0;
+  var fechaEmision = "10 de Agosto de 2026";
+  
+  for (var i = 1; i < data.length; i++) {
+    var email = data[i][2] ? data[i][2].toString().trim() : "";
+    var estado = data[i][7] ? data[i][7].toString().trim() : "";
+    var name = data[i][1] ? data[i][1].toString().trim() : "Estudiante";
+    
+    // Alumnos confirmados que completaron el bootcamp
+    var estadosValidos = [
+      "Carpeta Grabaciones Enviada", 
+      "Accesos Enviados", 
+      "Tutorial Enviado V3", 
+      "Tutorial Enviado", 
+      "Pagado"
+    ];
+    
+    if (estadosValidos.indexOf(estado) !== -1 && email !== "" && estado !== "Diploma Enviado") {
+      try {
+        // 1. Generar HTML del diploma y convertir a Blob PDF
+        var diplomaHtml = generarDiplomaHtml(name, fechaEmision);
+        var safeFileName = "Diploma_GeoIA_V3_" + name.replace(/[^a-zA-Z0-9]/g, "_") + ".pdf";
+        var diplomaPdf = Utilities.newBlob(diplomaHtml, "text/html", "diploma.html")
+                                  .getAs("application/pdf")
+                                  .setName(safeFileName);
+        
+        // 2. Armar cuerpo del correo en estética dark Spur.us
+        var bodyFinal = `
+          <div style="${ESTILO_BASE}">
+            <div style="${CONTENEDOR}">
+              <div style="${BADGE_VERDE}">[BOOTCAMP COMPLETED]</div>
+              <h1 style="${TITULO_H1}">¡Misión Cumplida, ${name}!</h1>
+              
+              <p style="${TEXTO_SECUNDARIO}">
+                Han sido tres jornadas intensivas de mapas, código y arquitectura de IA. Queremos agradecerte por tu dedicación, constancia y por haber confiado en este espacio formativo para potenciar tus capacidades de desarrollo espacial.
+              </p>
+
+              <!-- BLOQUE 1: DIPLOMA -->
+              <div style="${BLOQUE_INFO}">
+                <h3 style="color: #D4FF00; margin-top: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">> TU DIPLOMA OFICIAL (ADJUNTO)</h3>
+                <p style="color: #888888; font-size: 13px; margin-bottom: 0;">
+                  Hemos generado y adjuntado a este correo tu certificado oficial de aprobación en formato PDF de alta resolución.
+                </p>
+              </div>
+
+              <!-- BLOQUE 2: BÓVEDA DE RECURSOS -->
+              <div style="${BLOQUE_INFO_SECUNDARIO}">
+                <h3 style="color: #888888; margin-top: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">> REPOSITORIO Y BÓVEDA PERMANENTE</h3>
+                <p style="color: #888888; font-size: 13px; margin-bottom: 15px;">
+                  Tendrás acceso permanente a todas las grabaciones, plantillas de código, transcripciones y diapositivas en Google Drive:
+                </p>
+                <a href="${LINK_GRABACIONES_DRIVE}" style="${BOTON_TERMINAL}">[ ABRIR BÓVEDA DE RECURSOS ]</a>
+              </div>
+
+              <!-- BLOQUE 3: REDES / FEEDBACK -->
+              <div style="border: 1px dashed #222222; padding: 20px; margin-bottom: 30px;">
+                <h4 style="color: #FFFFFF; margin-top: 0; font-size: 12px; margin-bottom: 15px; text-transform: uppercase;">> COMPARTE TU LOGRO EN LINKEDIN</h4>
+                <p style="color: #888888; font-size: 13px; margin-bottom: 15px;">
+                  Te invitamos a compartir tu visor web final o tu diploma en LinkedIn y etiquetarme. El feedback de la comunidad es el motor para seguir iterando estas herramientas.
+                </p>
+                <p style="color: #888888; font-size: 13px; margin-bottom: 0;">
+                  🔗 <a href="https://www.linkedin.com/in/jorge-ulloa-roa/" style="color: #D4FF00; text-decoration: none; font-weight: bold;">Perfil de LinkedIn de Jorge Ulloa Roa</a>
+                </p>
+              </div>
+
+              <div style="border-top: 1px solid #222222; margin-top: 30px; padding-top: 20px;">
+                <p style="color: #888888; font-size: 12px; text-transform: uppercase;">¡Nos vemos en la Versión 4.0 o en futuros proyectos!<br><span style="color:#FFF;">Jorge Ulloa Roa</span></p>
+              </div>
+            </div>
+          </div>
+        `;
+
+        // 3. Enviar correo con adjunto
+        MailApp.sendEmail({
+          to: email,
+          subject: "[DIPLOMA OFICIAL] Certificado de Aprobación y Bóveda Final — Bootcamp Geo-IA V3",
+          htmlBody: bodyFinal,
+          attachments: [diplomaPdf],
+          name: "Bootcamp Geo-IA"
+        });
+
+        // 4. Actualizar estado en la hoja
+        sheet.getRange(i + 1, 8).setValue("Diploma Enviado");
+        enviados++;
+        console.log("Diploma despachado con éxito a: " + email);
+        
+      } catch (err) {
+        console.log("Error despachando diploma a " + email + ": " + err.toString());
+      }
+    }
+  }
+  console.log("Total de diplomas enviados: " + enviados);
+}
