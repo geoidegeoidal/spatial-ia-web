@@ -11,3 +11,4 @@
 - **Form Status Scoping**: When deactivating registration forms, ensure DOM elements and associated event listeners are properly guarded so script initialization (smooth scroll, scroll reveal, typewriter animations) never fails.
 - **CTA Alignment**: Navigation, Hero, and Pricing buttons must reflect the current state of registration (e.g. "Inscripciones Cerradas").
 - **Deployment Branch Target**: Production site on GitHub Pages is served from the `gh-pages` branch. Any updates pushed to `master` must also be merged and pushed to `gh-pages` (`git checkout gh-pages; git merge master; git push origin gh-pages; git checkout master`) to reflect on the live site.
+- **CRM Automation & Diploma Generation**: Official completion diplomas are rendered via Apps Script (`Utilities.newBlob(html, 'text/html').getAs('application/pdf')`) using high-contrast dark cyberpunk styling and dispatched via `MailApp.sendEmail` alongside access to the permanent Google Drive repository.
