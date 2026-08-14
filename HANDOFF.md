@@ -2,17 +2,17 @@
 
 ## Handoff Log
 
-### Session: 2026-08-14 — Replicación de Lógica de Cierre V2 para V3 (Diploma PDF y Email de Insumos)
-- **Objective:** Replicar y adaptar la automatización del cierre del Bootcamp implementada en la V2 para la actual V3, generando diplomas oficiales en PDF de alta fidelidad vía Google Apps Script y despachando correos con los recursos y acceso permanente a la bóveda.
+### Session: 2026-08-14 — Replicación de Cierre V3, Diplomas PDF y Horas Lectivas/Prácticas
+- **Objective:** Ajustar la intensidad horaria del diploma a 5 horas lectivas + 4 horas de práctica (9 hrs totales), e implementar y ejecutar una suite de prueba local para validar la compilación y renderizado de los diplomas en PDF.
 - **Completed Work:**
-  - Implementación de `generarDiplomaHtml(nombreAlumno, fechaEmision)` y `enviarDiplomasYCierre()` en [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs) utilizando `Utilities.newBlob().getAs('application/pdf')` con adjunto automático y transición de estado a `"Diploma Enviado"`.
-  - Actualización de [preview_final_bootcamp.html](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/preview_final_bootcamp.html) con estética dark high-tech para la V3, link oficial de Drive (`LINK_GRABACIONES_DRIVE`) y fecha de emisión (Agosto 2026).
-  - Integración de la sección "9. CORREO DE CIERRE Y DIPLOMA OFICIAL" en [preview_correos.html](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/preview_correos.html) junto con la corrección del link maestro de grabaciones.
+  - Actualización de la intensidad horaria y descripción tanto en [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs) como en [preview_final_bootcamp.html](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/preview_final_bootcamp.html).
+  - Creación del script [test_generar_diplomas.py](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/test_generar_diplomas.py) para generación local automatizada de PDFs vía headless Chromium/Edge.
+  - Verificación visual exitosa del PDF generado (`Diploma_GeoIA_V3_Jorge_Ulloa_Roa.pdf`), comprobando alineación, márgenes, tipografías Space Grotesk/Inter, badges de neón y sellos vectoriales.
 - **Decisions:** 
-  - La generación de certificados se realiza puramente en el runtime de Google Apps Script convirtiendo la plantilla HTML/CSS a Blob PDF sin requerir servicios externos ni APIs de terceros.
-  - El filtrado contempla estados `"Carpeta Grabaciones Enviada"`, `"Accesos Enviados"`, `"Tutorial Enviado V3"` y `"Pagado"` para asegurar cobertura total de alumnos que completaron el taller.
+  - La intensidad horaria se formalizó como `5 hrs lectivas + 4 hrs prácticas (9 hrs totales)`.
+  - Se agregó `test_diplomas/` a `.gitignore` para mantener limpio el repositorio.
 - **Commits & Deploy:** 
-  - Commit `c46047b` en `master`.
+  - Pendiente de push a `origin/master` y `origin/gh-pages`.
 
 ---
 

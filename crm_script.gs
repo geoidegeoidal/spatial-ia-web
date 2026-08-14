@@ -560,13 +560,13 @@ function generarDiplomaHtml(nombreAlumno, fechaEmision) {
     <h2 class="student-name">${nombreAlumno}</h2>
     
     <p class="description">
-      Ha completado satisfactoriamente los módulos teórico-prácticos del Bootcamp Geo-IA V3, demostrando competencias en análisis espacial, programación web frontend, uso de MapLibre GL JS, geoprocesamiento client-side con Turf.js y arquitectura Zero-Server.
+      Ha completado satisfactoriamente los módulos teórico-prácticos del Bootcamp Geo-IA V3 (5 horas lectivas y 4 horas de práctica), demostrando competencias en análisis espacial, programación web frontend, uso de MapLibre GL JS, geoprocesamiento client-side con Turf.js y arquitectura Zero-Server.
     </p>
     
     <div class="footer-grid">
       <div class="footer-block">
         <div class="footer-label">Intensidad Horaria</div>
-        <div class="footer-value">05 Horas Académicas</div>
+        <div class="footer-value">5 hrs lectivas + 4 hrs prácticas (9 hrs totales)</div>
       </div>
       <div class="footer-block">
         <div class="footer-label">Fecha de Emisión</div>
