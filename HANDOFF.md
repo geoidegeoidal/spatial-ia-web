@@ -13,7 +13,7 @@
   - Condición estricta: `if (estado === "Accesos Enviados" && email !== "")`.
   - Transición a `"Diploma Enviado"` en la columna 8 tras despacho.
 - **Commits & Deploy:** 
-  - Pendiente de push a `origin/master` y `origin/gh-pages`.
+  - Commits `bc56f51` y `38c8ee3` enviados a `origin/master` y fusionados en `origin/gh-pages`.
 
 ---
 
