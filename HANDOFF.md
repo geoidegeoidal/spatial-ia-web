@@ -20,9 +20,9 @@
   - Gobernanza OpenSpec:
     - Actualizada la especificación viva [landing-page/spec.md](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/openspec/specs/landing-page/spec.md), [crm-automation/spec.md](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/openspec/specs/crm-automation/spec.md) y [diploma-engine/spec.md](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/openspec/specs/diploma-engine/spec.md).
     - Archivado el cambio en [openspec/archive/2026-08-18-v4-superdesign-official/proposal.md](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/openspec/archive/2026-08-18-v4-superdesign-official/proposal.md).
-- **Decisions:** Webhook de la nueva hoja de Google Sheets conectado en producción. Formulario enriquecido con chips interactivos táctiles, telemetría de progreso y selector de país con banderas vectoriales circulares de alta definición (`circle-flags`) sin fallos de renderizado en Windows/Linux/Mac.
-- **Commits:** `c6a747a`, `bc702eb`, `87401a1`, `c261121`, `2fd0190`, `85b5c2f`, `5d6fb2f`, `270a944`, `2fc36af` (desplegado en `master` y `gh-pages`).
-- **Next Steps:** Monitorear la recepción de inscripciones y validar el webhook con el primer postulante real.
+- **Decisions:** Webhook de la nueva hoja de Google Sheets conectado en producción. Formulario enriquecido con chips interactivos táctiles, telemetría de progreso y selector de país con banderas vectoriales circulares de alta definición (`circle-flags`). Bifurcación automática de enlace MercadoPago para Estudiantes (`https://mpago.la/1EvJQi3` por $25.000 CLP) vs General ($30.000 CLP) en `crm_script.gs` y recordatorios.
+- **Commits:** `c6a747a`, `bc702eb`, `87401a1`, `c261121`, `2fd0190`, `85b5c2f`, `5d6fb2f`, `270a944`, `2fc36af`, `6f2442a` (desplegado en `master` y `gh-pages`).
+- **Next Steps:** Actualizar el código en el editor de Google Apps Script con la nueva versión de `crm_script.gs` y crear una nueva versión de implementación.
 
 ---
 
