@@ -225,12 +225,15 @@
           </a>
         </div>
 
-        <div class="flex items-center justify-center gap-4 text-[11px] md:text-xs text-white/40 uppercase tracking-widest mt-12 font-mono">
-          <span id="current-time">20:00 PM</span>
-          <span class="w-px h-3 bg-white/20"></span>
-          <span>Santiago, Chile (GMT-4)</span>
-          <span class="w-px h-3 bg-white/20"></span>
-          <span class="text-[#FF4500]">11, 12 y 13 de Septiembre</span>
+        <div class="flex items-center justify-center gap-3 sm:gap-4 text-[11px] md:text-xs text-white/50 uppercase tracking-widest mt-12 font-mono flex-wrap">
+          <span class="text-white font-semibold flex items-center gap-1.5">
+            <iconify-icon icon="lucide:clock" class="text-[#FF4500] text-sm"></iconify-icon>
+            20:00 A 21:30 HRS
+          </span>
+          <span class="w-px h-3 bg-white/20 hidden sm:inline"></span>
+          <span>SANTIAGO, CHILE (GMT-4)</span>
+          <span class="w-px h-3 bg-white/20 hidden sm:inline"></span>
+          <span class="text-[#FF4500] font-semibold">11, 12 Y 13 DE SEPTIEMBRE</span>
         </div>
 
       </div>
@@ -850,21 +853,6 @@
       }
     });
 
-    // 5. Live Clock Update
-    function updateTime() {
-      const clockEl = document.getElementById('current-time');
-      if (clockEl) {
-        const now = new Date();
-        let hours = now.getHours();
-        const minutes = now.getMinutes().toString().padStart(2, '0');
-        const ampm = hours >= 12 ? 'PM' : 'AM';
-        hours = hours % 12;
-        hours = hours ? hours : 12;
-        clockEl.textContent = `${hours}:${minutes} ${ampm} SANTIAGO`;
-      }
-    }
-    setInterval(updateTime, 60000);
-    updateTime();
 
     // 6. Plan Selection Helper
     function seleccionarPlan(planNombre) {
