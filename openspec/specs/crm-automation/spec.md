@@ -18,8 +18,9 @@ Especifica el motor de backend serverless implementado en Google Apps Script (`c
   - **Plan Pase Estudiantes ($25.000 CLP):** Enlace de cobro con descuento MercadoPago (`https://mpago.la/1EvJQi3`).
   - **Opción 2 (Transferencia Bancaria):** Transferencia directa a Banco Falabella, Cta. Corriente `019823326523`, RUT `18.223.053-7`, especificando el monto según plan ($25.000 o $30.000 CLP).
 - **Residentes Internacionales (`country !== "chile"`):**
-  - **Opción 1:** Enlace directo de cobro global vía PayPal (`https://www.paypal.com/ncp/payment/2PVCP7EQT3DWU`).
-  - **Opción 2:** Alternativa MercadoPago LATAM dinámico según plan.
+  - **Plan Acceso General (35 USD):** Enlace directo de cobro global vía PayPal (`https://www.paypal.com/ncp/payment/2PVCP7EQT3DWU`) por 35 USD.
+  - **Plan Pase Estudiantes (26 USD):** Enlace directo de cobro global vía PayPal (`https://www.paypal.com/ncp/payment/2PVCP7EQT3DWU`) por **26 USD** con comprobante de alumno regular.
+  - **Opción Alternativa:** Pago en moneda chilena vía MercadoPago adaptado por plan ($25.000 CLP Estudiante / $30.000 CLP General).
 
 ### `RULE-CRM-003`: Máquina de Estados Transaccional
 La columna 8 (`Estado Pago`) gobierna el ciclo de vida del alumno:
