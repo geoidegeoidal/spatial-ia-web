@@ -21,7 +21,8 @@
     - Actualizada la especificación viva [landing-page/spec.md](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/openspec/specs/landing-page/spec.md), [crm-automation/spec.md](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/openspec/specs/crm-automation/spec.md) y [diploma-engine/spec.md](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/openspec/specs/diploma-engine/spec.md).
     - Archivado el cambio en [openspec/archive/2026-08-18-v4-superdesign-official/proposal.md](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/openspec/archive/2026-08-18-v4-superdesign-official/proposal.md).
 - **Decisions:** Webhook de la nueva hoja de Google Sheets conectado en producción.
-- **Next Steps:** Realizar prueba de registro en local y ejecutar despliegue a `origin/master` y `origin/gh-pages`.
+- **Commits:** `c6a747a` (desplegado exitosamente en `origin/master` y `origin/gh-pages`).
+- **Next Steps:** Monitorear la recepción de inscripciones y validar el webhook con el primer postulante real.
 
 ---
 
