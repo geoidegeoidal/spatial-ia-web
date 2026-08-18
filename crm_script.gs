@@ -40,9 +40,9 @@ function doPost(e) {
 
     var esChile = country.toLowerCase().trim() === "chile";
     var planStr = (plan || "").toLowerCase();
-    var esEstudiante = planStr.indexOf("estudiante") !== -1 || planStr.indexOf("25.000") !== -1 || planStr.indexOf("26") !== -1;
+    var esEstudiante = planStr.indexOf("estudiante") !== -1 || planStr.indexOf("25.000") !== -1 || planStr.indexOf("29") !== -1;
     var montoClp = esEstudiante ? "$25.000 CLP" : "$30.000 CLP";
-    var montoUsd = esEstudiante ? "26 USD" : "35 USD";
+    var montoUsd = esEstudiante ? "29 USD" : "35 USD";
     var linkMercadoPago = esEstudiante 
       ? "https://mpago.la/1EvJQi3" 
       : "https://www.mercadopago.cl/payment-link/v1/go?link-id=f7b0764f-2801-4b26-a858-59c416eebe42";
@@ -80,7 +80,7 @@ function doPost(e) {
         <div style="${BLOQUE_INFO}">
           <h3 style="color: #FF4500; margin-top: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">[ OPT.01 ] PAGO MUNDIAL: PAYPAL (${montoUsd})</h3>
           <p style="color: #888888; font-size: 13px; margin-bottom: 15px;">
-            ${esEstudiante ? "Transfiere <b>26 USD</b> con descuento de estudiante vía PayPal con cualquier tarjeta internacional o saldo." : "Transacción segura internacionalmente con tarjeta o saldo PayPal (35 USD)."}
+            ${esEstudiante ? "Transfiere <b>29 USD</b> con descuento de estudiante vía PayPal con cualquier tarjeta internacional o saldo." : "Transacción segura internacionalmente con tarjeta o saldo PayPal (35 USD)."}
           </p>
           <a href="https://www.paypal.com/ncp/payment/2PVCP7EQT3DWU" style="${BOTON_SOLIDO}">PAGAR ${montoUsd} EN PAYPAL</a>
         </div>
@@ -138,16 +138,16 @@ function enviarRecordatoriosPago() {
     
     var esChile = country.toLowerCase().trim() === "chile";
     var planStr = plan.toLowerCase();
-    var esEstudiante = planStr.indexOf("estudiante") !== -1 || planStr.indexOf("25.000") !== -1 || planStr.indexOf("26") !== -1;
+    var esEstudiante = planStr.indexOf("estudiante") !== -1 || planStr.indexOf("25.000") !== -1 || planStr.indexOf("29") !== -1;
     var montoClp = esEstudiante ? "$25.000 CLP" : "$30.000 CLP";
-    var montoUsd = esEstudiante ? "26 USD" : "35 USD";
+    var montoUsd = esEstudiante ? "29 USD" : "35 USD";
     var linkMP = esEstudiante 
       ? "https://mpago.la/1EvJQi3" 
       : "https://www.mercadopago.cl/payment-link/v1/go?link-id=f7b0764f-2801-4b26-a858-59c416eebe42";
     var linkPago = esChile ? linkMP : "https://www.paypal.com/ncp/payment/2PVCP7EQT3DWU";
     var textoBoton = esChile 
       ? (esEstudiante ? "EJECUTAR_MERCADOPAGO ($25.000 CLP)" : "EJECUTAR_MERCADOPAGO ($30.000 CLP)") 
-      : (esEstudiante ? "PAGAR 26 USD EN PAYPAL" : "PAGAR 35 USD EN PAYPAL");
+      : (esEstudiante ? "PAGAR 29 USD EN PAYPAL" : "PAGAR 35 USD EN PAYPAL");
 
     if (diffHoras >= 72 && estado === "Recordatorio Enviado") {
       var body72h = `
