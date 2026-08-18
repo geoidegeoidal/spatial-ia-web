@@ -730,25 +730,65 @@
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2 font-mono" for="form-country">/ País de Residencia</label>
-              <div class="relative">
-                <select id="form-country" name="country" required class="super-input appearance-none pr-10">
-                  <option value="" disabled selected>Selecciona tu país</option>
-                  <option value="Chile">🇨🇱 Chile</option>
-                  <option value="Argentina">🇦🇷 Argentina</option>
-                  <option value="Colombia">🇨🇴 Colombia</option>
-                  <option value="México">🇲🇽 México</option>
-                  <option value="Perú">🇵🇪 Perú</option>
-                  <option value="Ecuador">🇪🇨 Ecuador</option>
-                  <option value="Bolivia">🇧🇴 Bolivia</option>
-                  <option value="España">🇪🇸 España</option>
-                  <option value="Otro">🌎 Otro País (Internacional)</option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-400">
-                  <iconify-icon icon="lucide:chevron-down" class="text-sm"></iconify-icon>
+            <!-- Custom Interactive Flag Country Dropdown -->
+            <div class="relative" id="country-dropdown-wrapper">
+              <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2 font-mono" for="form-country-btn">/ País de Residencia</label>
+              <button type="button" id="form-country-btn" class="super-input flex items-center justify-between text-left cursor-pointer pr-4 focus:border-[#FF4500]">
+                <div class="flex items-center gap-2.5" id="country-selected-display">
+                  <iconify-icon icon="circle-flags:cl" class="text-xl shrink-0"></iconify-icon>
+                  <span class="text-white text-sm font-medium">Chile</span>
+                </div>
+                <iconify-icon icon="lucide:chevron-down" id="country-chevron" class="text-gray-400 text-sm transition-transform duration-300"></iconify-icon>
+              </button>
+              
+              <!-- Custom Dropdown Menu with High-Res Circular Flags -->
+              <div id="country-options-menu" class="hidden absolute top-full left-0 right-0 mt-2 z-50 bg-[#161616] border border-white/15 rounded-2xl shadow-[0_10px_35px_rgba(0,0,0,0.85)] backdrop-blur-2xl max-h-60 overflow-y-auto p-1.5 space-y-1">
+                <div class="country-option active flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-white/10 cursor-pointer transition-colors" data-value="Chile" data-flag="circle-flags:cl">
+                  <iconify-icon icon="circle-flags:cl" class="text-xl shrink-0"></iconify-icon>
+                  <span class="text-xs text-white font-medium">Chile</span>
+                </div>
+                <div class="country-option flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-white/10 cursor-pointer transition-colors" data-value="Argentina" data-flag="circle-flags:ar">
+                  <iconify-icon icon="circle-flags:ar" class="text-xl shrink-0"></iconify-icon>
+                  <span class="text-xs text-white font-medium">Argentina</span>
+                </div>
+                <div class="country-option flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-white/10 cursor-pointer transition-colors" data-value="Colombia" data-flag="circle-flags:co">
+                  <iconify-icon icon="circle-flags:co" class="text-xl shrink-0"></iconify-icon>
+                  <span class="text-xs text-white font-medium">Colombia</span>
+                </div>
+                <div class="country-option flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-white/10 cursor-pointer transition-colors" data-value="México" data-flag="circle-flags:mx">
+                  <iconify-icon icon="circle-flags:mx" class="text-xl shrink-0"></iconify-icon>
+                  <span class="text-xs text-white font-medium">México</span>
+                </div>
+                <div class="country-option flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-white/10 cursor-pointer transition-colors" data-value="Perú" data-flag="circle-flags:pe">
+                  <iconify-icon icon="circle-flags:pe" class="text-xl shrink-0"></iconify-icon>
+                  <span class="text-xs text-white font-medium">Perú</span>
+                </div>
+                <div class="country-option flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-white/10 cursor-pointer transition-colors" data-value="Ecuador" data-flag="circle-flags:ec">
+                  <iconify-icon icon="circle-flags:ec" class="text-xl shrink-0"></iconify-icon>
+                  <span class="text-xs text-white font-medium">Ecuador</span>
+                </div>
+                <div class="country-option flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-white/10 cursor-pointer transition-colors" data-value="Bolivia" data-flag="circle-flags:bo">
+                  <iconify-icon icon="circle-flags:bo" class="text-xl shrink-0"></iconify-icon>
+                  <span class="text-xs text-white font-medium">Bolivia</span>
+                </div>
+                <div class="country-option flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-white/10 cursor-pointer transition-colors" data-value="España" data-flag="circle-flags:es">
+                  <iconify-icon icon="circle-flags:es" class="text-xl shrink-0"></iconify-icon>
+                  <span class="text-xs text-white font-medium">España</span>
+                </div>
+                <div class="country-option flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-white/10 cursor-pointer transition-colors" data-value="Uruguay" data-flag="circle-flags:uy">
+                  <iconify-icon icon="circle-flags:uy" class="text-xl shrink-0"></iconify-icon>
+                  <span class="text-xs text-white font-medium">Uruguay</span>
+                </div>
+                <div class="country-option flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-white/10 cursor-pointer transition-colors" data-value="Costa Rica" data-flag="circle-flags:cr">
+                  <iconify-icon icon="circle-flags:cr" class="text-xl shrink-0"></iconify-icon>
+                  <span class="text-xs text-white font-medium">Costa Rica</span>
+                </div>
+                <div class="country-option flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-white/10 cursor-pointer transition-colors" data-value="Otro" data-flag="lucide:globe">
+                  <iconify-icon icon="lucide:globe" class="text-xl text-[#FF4500] shrink-0"></iconify-icon>
+                  <span class="text-xs text-white font-medium">Otro País (Internacional)</span>
                 </div>
               </div>
+              <input type="hidden" name="country" id="form-country" value="Chile" required>
             </div>
             <div>
               <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2 font-mono" for="form-ocupacion">/ Profesión u Ocupación</label>
@@ -975,6 +1015,55 @@
       updateProgress();
     }
 
+    // Country Custom Dropdown Logic with Vector Flags
+    const countryBtn = document.getElementById('form-country-btn');
+    const countryMenu = document.getElementById('country-options-menu');
+    const countryDisplay = document.getElementById('country-selected-display');
+    const countryChevron = document.getElementById('country-chevron');
+    const countryHidden = document.getElementById('form-country');
+    const countryOptions = document.querySelectorAll('.country-option');
+
+    if (countryBtn && countryMenu) {
+      countryBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = !countryMenu.classList.contains('hidden');
+        if (isOpen) {
+          countryMenu.classList.add('hidden');
+          if (countryChevron) countryChevron.style.transform = 'rotate(0deg)';
+        } else {
+          countryMenu.classList.remove('hidden');
+          if (countryChevron) countryChevron.style.transform = 'rotate(180deg)';
+        }
+      });
+
+      countryOptions.forEach(opt => {
+        opt.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const val = opt.getAttribute('data-value');
+          const flag = opt.getAttribute('data-flag');
+          countryOptions.forEach(o => o.classList.remove('active', 'bg-white/10'));
+          opt.classList.add('active', 'bg-white/10');
+          if (countryDisplay) {
+            countryDisplay.innerHTML = `
+              <iconify-icon icon="${flag}" class="text-xl shrink-0 ${flag === 'lucide:globe' ? 'text-[#FF4500]' : ''}"></iconify-icon>
+              <span class="text-white text-sm font-medium">${val === 'Otro' ? 'Otro País (Internacional)' : val}</span>
+            `;
+          }
+          if (countryHidden) countryHidden.value = val;
+          countryMenu.classList.add('hidden');
+          if (countryChevron) countryChevron.style.transform = 'rotate(0deg)';
+          updateProgress();
+        });
+      });
+
+      document.addEventListener('click', (e) => {
+        if (countryBtn && !countryBtn.contains(e.target) && countryMenu && !countryMenu.contains(e.target)) {
+          countryMenu.classList.add('hidden');
+          if (countryChevron) countryChevron.style.transform = 'rotate(0deg)';
+        }
+      });
+    }
+
     // 6. Plan Selection Helper from Pricing Cards
     function seleccionarPlan(planNombre) {
       setPlanChip(planNombre);
@@ -985,7 +1074,7 @@
     }
 
     // Live Progress Tracker
-    const formFields = ['form-name', 'form-email', 'form-country', 'form-ocupacion'];
+    const formFields = ['form-name', 'form-email', 'form-ocupacion'];
     function updateProgress() {
       const progressText = document.getElementById('form-progress-text');
       if (!progressText) return;
@@ -994,9 +1083,10 @@
         const el = document.getElementById(id);
         if (el && el.value.trim() !== '') filled++;
       });
+      if (countryHidden && countryHidden.value) filled++;
       if (nivelInput && nivelInput.value) filled++;
       if (planInput && planInput.value) filled++;
-      const total = formFields.length + 2;
+      const total = formFields.length + 3;
       const pct = Math.round((filled / total) * 100);
       progressText.textContent = `${pct}% COMPLETADO`;
       if (pct === 100) {
