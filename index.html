@@ -95,25 +95,69 @@
       transform: translateY(var(--scroll-offset-down, 0px));
     }
 
-    /* Custom Input Styling */
+    /* Form Styling & Dark Scheme Fixes */
+    :root, html, select, input, option {
+      color-scheme: dark;
+    }
+
     .super-input {
-      background-color: rgba(255, 255, 255, 0.04);
+      background-color: #121212;
       border: 1px solid rgba(255, 255, 255, 0.12);
       color: #ffffff;
       padding: 0.9rem 1.2rem;
       border-radius: 1rem;
       width: 100%;
       outline: none;
-      transition: all 0.3s ease;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       font-size: 0.925rem;
     }
     .super-input:focus {
       border-color: #FF4500;
-      background-color: rgba(255, 255, 255, 0.08);
+      background-color: #181818;
       box-shadow: 0 0 25px rgba(255, 69, 0, 0.25);
     }
     .super-input::placeholder {
-      color: rgba(255, 255, 255, 0.3);
+      color: rgba(255, 255, 255, 0.35);
+    }
+    
+    /* Select & Option Dark Contrast Override */
+    select.super-input {
+      background-color: #121212 !important;
+      color: #ffffff !important;
+      cursor: pointer;
+    }
+    select.super-input option {
+      background-color: #181818 !important;
+      color: #ffffff !important;
+      padding: 12px 16px;
+    }
+
+    /* Webkit Autofill Override to prevent white/light blue backgrounds */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active,
+    select:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0 1000px #141414 inset !important;
+      -webkit-text-fill-color: #ffffff !important;
+      box-shadow: 0 0 0 1000px #141414 inset !important;
+      transition: background-color 5000s ease-in-out 0s;
+      caret-color: #FF4500;
+    }
+
+    /* Interactive Form Chips & Cards */
+    .tactile-chip {
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      position: relative;
+    }
+    .tactile-chip:hover {
+      transform: translateY(-2px);
+    }
+    .tactile-chip.active {
+      border-color: #FF4500 !important;
+      background-color: rgba(255, 69, 0, 0.12) !important;
+      box-shadow: 0 0 20px rgba(255, 69, 0, 0.2);
     }
   </style>
 </head>
@@ -665,6 +709,15 @@
         <!-- Formulario funcional conectado a Google Apps Script -->
         <form id="contact-form" action="https://script.google.com/macros/s/AKfycbwVkxrb1FNnYjpBJjUMUo2FhfUsMP64IQX2vV5YRNigue6YXScqCkfJ8FrY9A7WZzi1xQ/exec" method="POST" class="space-y-6">
           
+          <!-- Progress Telemetry -->
+          <div class="p-3.5 rounded-2xl bg-white/[0.02] border border-white/10 flex items-center justify-between text-xs font-mono">
+            <span class="text-gray-400 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#FF4500] animate-pulse"></span>
+              <span>PROTOCOLO DE RESERVA V4.0</span>
+            </span>
+            <span id="form-progress-text" class="text-[#FF4500] font-semibold">0% COMPLETADO</span>
+          </div>
+
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2 font-mono" for="form-name">/ Nombre Completo</label>
@@ -679,53 +732,97 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2 font-mono" for="form-country">/ País de Residencia</label>
-              <select id="form-country" name="country" required class="super-input appearance-none bg-[#111]">
-                <option value="" disabled selected>Selecciona tu país</option>
-                <option value="Chile">Chile</option>
-                <option value="Argentina">Argentina</option>
-                <option value="Colombia">Colombia</option>
-                <option value="México">México</option>
-                <option value="Perú">Perú</option>
-                <option value="Ecuador">Ecuador</option>
-                <option value="Bolivia">Bolivia</option>
-                <option value="España">España</option>
-                <option value="Otro">Otro (Internacional)</option>
-              </select>
+              <div class="relative">
+                <select id="form-country" name="country" required class="super-input appearance-none pr-10">
+                  <option value="" disabled selected>Selecciona tu país</option>
+                  <option value="Chile">🇨🇱 Chile</option>
+                  <option value="Argentina">🇦🇷 Argentina</option>
+                  <option value="Colombia">🇨🇴 Colombia</option>
+                  <option value="México">🇲🇽 México</option>
+                  <option value="Perú">🇵🇪 Perú</option>
+                  <option value="Ecuador">🇪🇨 Ecuador</option>
+                  <option value="Bolivia">🇧🇴 Bolivia</option>
+                  <option value="España">🇪🇸 España</option>
+                  <option value="Otro">🌎 Otro País (Internacional)</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-400">
+                  <iconify-icon icon="lucide:chevron-down" class="text-sm"></iconify-icon>
+                </div>
+              </div>
             </div>
-            <div>
-              <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2 font-mono" for="form-nivel">/ Conocimiento SIG</label>
-              <select id="form-nivel" name="nivel_sig" required class="super-input appearance-none bg-[#111]">
-                <option value="" disabled selected>Selecciona tu nivel</option>
-                <option value="Principiante">Principiante (Sin experiencia web)</option>
-                <option value="Intermedio">Intermedio (Usuario QGIS / ArcGIS)</option>
-                <option value="Avanzado">Avanzado (Desarrollo / Python / SQL)</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2 font-mono" for="form-ocupacion">/ Profesión u Ocupación</label>
               <input type="text" id="form-ocupacion" name="ocupacion" required placeholder="Ej: Geógrafa, Ingeniero..." class="super-input">
             </div>
-            <div>
-              <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2 font-mono" for="form-plan">/ Plan de Acceso</label>
-              <select id="form-plan" name="plan" required class="super-input appearance-none bg-[#111]">
-                <option value="" disabled selected>Selecciona tu plan</option>
-                <option value="Acceso General — $30.000 CLP">Acceso General — $30.000 CLP</option>
-                <option value="Pase Estudiantes — $25.000 CLP">Pase Estudiantes — $25.000 CLP</option>
-              </select>
-            </div>
           </div>
 
-          <div class="pt-4">
-            <button type="submit" id="contact-submit" class="w-full py-4 rounded-full bg-[#FF4500] text-white font-medium text-sm uppercase tracking-widest hover:scale-[1.02] transition-all duration-300 shadow-[0_0_30px_rgba(255,69,0,0.35)]">
-              Confirmar y Enviar Registro ➔
+          <!-- Interactive Tactile Chips for Nivel SIG -->
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2.5 font-mono">/ Experiencia previa en SIG</label>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5" id="nivel-chips-container">
+              <div data-value="Principiante" class="tactile-chip active p-3.5 rounded-2xl border border-[#FF4500] bg-[#FF4500]/10 text-left select-none">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="text-xs font-semibold text-white">Principiante</span>
+                  <iconify-icon icon="lucide:sparkles" class="text-[#FF4500] text-sm"></iconify-icon>
+                </div>
+                <p class="text-[11px] text-gray-400 leading-tight">Sin experiencia previa</p>
+              </div>
+              <div data-value="Intermedio" class="tactile-chip p-3.5 rounded-2xl border border-white/10 bg-white/[0.02] text-left select-none hover:border-white/20">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="text-xs font-semibold text-white">Intermedio</span>
+                  <iconify-icon icon="lucide:map" class="text-gray-500 text-sm"></iconify-icon>
+                </div>
+                <p class="text-[11px] text-gray-400 leading-tight">Usuario QGIS / ArcGIS</p>
+              </div>
+              <div data-value="Avanzado" class="tactile-chip p-3.5 rounded-2xl border border-white/10 bg-white/[0.02] text-left select-none hover:border-white/20">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="text-xs font-semibold text-white">Avanzado</span>
+                  <iconify-icon icon="lucide:terminal" class="text-gray-500 text-sm"></iconify-icon>
+                </div>
+                <p class="text-[11px] text-gray-400 leading-tight">Python / Desarrollo Web</p>
+              </div>
+            </div>
+            <input type="hidden" name="nivel_sig" id="form-nivel" value="Principiante" required>
+          </div>
+
+          <!-- Interactive Plan Toggle Cards -->
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2.5 font-mono">/ Plan de Acceso</label>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="plan-chips-container">
+              <div data-value="Acceso General — $30.000 CLP" class="tactile-chip active p-4 rounded-2xl border border-[#FF4500] bg-[#FF4500]/10 text-left select-none">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="text-xs font-bold text-white flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#FF4500]"></span>
+                    Acceso General
+                  </span>
+                  <span class="text-xs font-mono font-bold text-[#FF4500]">$30.000 CLP</span>
+                </div>
+                <p class="text-[11px] text-gray-400">Bootcamp completo + Bóveda grabaciones</p>
+              </div>
+              <div data-value="Pase Estudiantes — $25.000 CLP" class="tactile-chip p-4 rounded-2xl border border-white/10 bg-white/[0.02] text-left select-none hover:border-white/20">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="text-xs font-bold text-white flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-white/40"></span>
+                    Pase Estudiantes
+                  </span>
+                  <span class="text-xs font-mono font-bold text-gray-300">$25.000 CLP</span>
+                </div>
+                <p class="text-[11px] text-gray-400">Acreditación con certificado de alumno</p>
+              </div>
+            </div>
+            <input type="hidden" name="plan" id="form-plan" value="Acceso General — $30.000 CLP" required>
+          </div>
+
+          <div class="pt-2">
+            <button type="submit" id="contact-submit" class="w-full py-4 rounded-full bg-[#FF4500] text-white font-semibold text-sm uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-[0_0_30px_rgba(255,69,0,0.35)] flex items-center justify-center gap-2">
+              <span>Confirmar y Enviar Registro</span>
+              <iconify-icon icon="lucide:arrow-right" class="text-lg"></iconify-icon>
             </button>
           </div>
 
-          <div class="text-[11px] text-center text-gray-500 font-mono">
-            CONFIRMACIÓN AUTOMÁTICA VÍA GOOGLE APPS SCRIPT CRM
+          <div class="flex items-center justify-center gap-2 text-xs text-gray-400 font-light text-center pt-2">
+            <iconify-icon icon="lucide:mail-check" class="text-[#FF4500] text-base shrink-0"></iconify-icon>
+            <span>Recibirás un correo con los siguientes pasos para formalizar tu inscripción.</span>
           </div>
         </form>
 
@@ -832,17 +929,90 @@
     });
 
 
-    // 6. Plan Selection Helper
-    function seleccionarPlan(planNombre) {
-      const planSelect = document.getElementById('form-plan');
-      if (planSelect) {
-        planSelect.value = planNombre;
+    // 5. Interactive Form Chips & Progress Telemetry
+    const nivelChips = document.querySelectorAll('#nivel-chips-container .tactile-chip');
+    const nivelInput = document.getElementById('form-nivel');
+    nivelChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        nivelChips.forEach(c => {
+          c.classList.remove('active', 'border-[#FF4500]', 'bg-[#FF4500]/10');
+          c.classList.add('border-white/10', 'bg-white/[0.02]');
+          const icon = c.querySelector('iconify-icon');
+          if (icon) icon.className = 'text-gray-500 text-sm';
+        });
+        chip.classList.add('active', 'border-[#FF4500]', 'bg-[#FF4500]/10');
+        chip.classList.remove('border-white/10', 'bg-white/[0.02]');
+        const activeIcon = chip.querySelector('iconify-icon');
+        if (activeIcon) activeIcon.className = 'text-[#FF4500] text-sm';
+        if (nivelInput) nivelInput.value = chip.getAttribute('data-value');
+        updateProgress();
+      });
+    });
+
+    const planChips = document.querySelectorAll('#plan-chips-container .tactile-chip');
+    const planInput = document.getElementById('form-plan');
+    planChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        setPlanChip(chip.getAttribute('data-value'));
+      });
+    });
+
+    function setPlanChip(value) {
+      planChips.forEach(c => {
+        c.classList.remove('active', 'border-[#FF4500]', 'bg-[#FF4500]/10');
+        c.classList.add('border-white/10', 'bg-white/[0.02]');
+        const dot = c.querySelector('.rounded-full');
+        if (dot) dot.className = 'w-1.5 h-1.5 rounded-full bg-white/40';
+      });
+      const targetChip = Array.from(planChips).find(c => c.getAttribute('data-value') === value);
+      if (targetChip) {
+        targetChip.classList.add('active', 'border-[#FF4500]', 'bg-[#FF4500]/10');
+        targetChip.classList.remove('border-white/10', 'bg-white/[0.02]');
+        const activeDot = targetChip.querySelector('.rounded-full');
+        if (activeDot) activeDot.className = 'w-1.5 h-1.5 rounded-full bg-[#FF4500]';
       }
+      if (planInput) planInput.value = value;
+      updateProgress();
+    }
+
+    // 6. Plan Selection Helper from Pricing Cards
+    function seleccionarPlan(planNombre) {
+      setPlanChip(planNombre);
       const protoSection = document.getElementById('protocolo');
       if (protoSection) {
         protoSection.scrollIntoView({ behavior: 'smooth' });
       }
     }
+
+    // Live Progress Tracker
+    const formFields = ['form-name', 'form-email', 'form-country', 'form-ocupacion'];
+    function updateProgress() {
+      const progressText = document.getElementById('form-progress-text');
+      if (!progressText) return;
+      let filled = 0;
+      formFields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && el.value.trim() !== '') filled++;
+      });
+      if (nivelInput && nivelInput.value) filled++;
+      if (planInput && planInput.value) filled++;
+      const total = formFields.length + 2;
+      const pct = Math.round((filled / total) * 100);
+      progressText.textContent = `${pct}% COMPLETADO`;
+      if (pct === 100) {
+        progressText.className = 'text-emerald-400 font-semibold';
+      } else {
+        progressText.className = 'text-[#FF4500] font-semibold';
+      }
+    }
+
+    formFields.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('input', updateProgress);
+        el.addEventListener('change', updateProgress);
+      }
+    });
 
     // 7. Form Submission Handling (Google Apps Script)
     const form = document.getElementById('contact-form');
@@ -852,10 +1022,13 @@
     if (form && submitBtn) {
       form.addEventListener('submit', e => {
         e.preventDefault();
-        const originalText = submitBtn.innerText;
-        submitBtn.innerText = 'PROCESANDO REGISTRO...';
+        const originalContent = submitBtn.innerHTML;
+        submitBtn.innerHTML = `
+          <iconify-icon icon="lucide:loader-2" class="text-xl animate-spin"></iconify-icon>
+          <span>ENCRIPTANDO Y REGISTRANDO...</span>
+        `;
         submitBtn.disabled = true;
-        submitBtn.style.opacity = '0.7';
+        submitBtn.style.opacity = '0.75';
 
         const formData = new FormData(form);
         const action = form.getAttribute('action');
@@ -873,7 +1046,10 @@
         })
         .catch(error => {
           console.error('Error al enviar formulario:', error);
-          submitBtn.innerText = 'ERROR - REINTENTAR';
+          submitBtn.innerHTML = `
+            <iconify-icon icon="lucide:alert-triangle" class="text-lg"></iconify-icon>
+            <span>ERROR - REINTENTAR</span>
+          `;
           submitBtn.disabled = false;
           submitBtn.style.opacity = '1';
         });
