@@ -20,8 +20,8 @@
   - Gobernanza OpenSpec:
     - Actualizada la especificación viva [landing-page/spec.md](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/openspec/specs/landing-page/spec.md), [crm-automation/spec.md](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/openspec/specs/crm-automation/spec.md) y [diploma-engine/spec.md](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/openspec/specs/diploma-engine/spec.md).
     - Archivado el cambio en [openspec/archive/2026-08-18-v4-superdesign-official/proposal.md](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/openspec/archive/2026-08-18-v4-superdesign-official/proposal.md).
-- **Decisions:** Webhook de la nueva hoja de Google Sheets conectado en producción. Barra superior y badges de la Versión 4.0 destacados permanentemente en la cabecera.
-- **Commits:** `c6a747a`, `bc702eb`, `87401a1` (desplegado en `master` y `gh-pages`).
+- **Decisions:** Webhook de la nueva hoja de Google Sheets conectado en producción. Barra superior y badges de la Versión 4.0 destacados permanentemente en la cabecera. Horario del taller fijado en 20:00 a 21:30 hrs (GMT-4 Santiago).
+- **Commits:** `c6a747a`, `bc702eb`, `87401a1`, `c261121` (desplegado en `master` y `gh-pages`).
 - **Next Steps:** Monitorear la recepción de inscripciones y validar el webhook con el primer postulante real.
 
 ---
