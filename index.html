@@ -122,29 +122,51 @@
   <!-- Global Noise Overlay -->
   <div class="noise-overlay"></div>
 
-  <!-- Navigation -->
-  <nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-6">
-    <div class="container mx-auto px-6 flex items-center justify-between">
-      <a href="#" id="nav-logo-link" class="text-2xl font-bold tracking-tighter font-serif flex items-center gap-2">
-        <span>Spatial.IA</span>
-        <span class="w-2 h-2 rounded-full bg-[#FF4500]"></span>
-      </a>
-      
-      <div class="hidden md:flex items-center space-x-8">
-        <a href="#schedule" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Coordenadas</a>
-        <a href="#syllabus" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Syllabus</a>
-        <a href="#instructor" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Instructor</a>
-        <a href="#pricing" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Inversión</a>
+  <!-- Top Announcement Bar (Versión 4.0) -->
+  <header class="fixed top-0 left-0 right-0 z-50">
+    <div class="bg-[#0c0c0c]/95 border-b border-[#FF4500]/30 px-4 sm:px-6 py-2 backdrop-blur-md flex items-center justify-between text-xs font-mono">
+      <div class="flex items-center gap-2.5">
+        <span class="px-2 py-0.5 rounded-full bg-[#FF4500] text-white font-bold text-[10px] tracking-wider uppercase flex items-center gap-1.5 shadow-[0_0_10px_rgba(255,69,0,0.5)]">
+          <span class="w-1.5 h-1.5 rounded-full bg-white animate-ping"></span>
+          CONVOCATORIA V4.0
+        </span>
+        <span class="text-white font-semibold text-xs tracking-tight">BOOTCAMP GEO-IA // VERSIÓN 4.0</span>
+        <span class="text-gray-400 hidden lg:inline">| 📅 11, 12 y 13 de Septiembre (20:00 a 21:30 hrs Chile)</span>
       </div>
-
-      <a href="#protocolo" id="nav-cta-link" class="inline-flex items-center justify-center px-6 py-2.5 rounded-full text-sm font-medium bg-white text-black hover:scale-105 hover:bg-gray-100 transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.2)]">
-        Reservar Cupo
-      </a>
+      <div class="flex items-center gap-3">
+        <span class="text-[#FF4500] text-[11px] hidden sm:inline font-medium">9 Horas Acreditadas</span>
+        <a href="#protocolo" class="text-white hover:text-[#FF4500] font-bold text-xs underline uppercase tracking-wider transition-colors">
+          Inscribirme ➔
+        </a>
+      </div>
     </div>
-  </nav>
+
+    <!-- Navigation -->
+    <nav id="main-nav" class="bg-[#050505]/85 backdrop-blur-md border-b border-white/5 transition-all duration-300 py-4">
+      <div class="container mx-auto px-6 flex items-center justify-between">
+        <a href="#" id="nav-logo-link" class="text-2xl font-bold tracking-tighter font-serif flex items-center gap-3">
+          <span>Spatial.IA</span>
+          <span class="px-2.5 py-0.5 rounded-full bg-[#FF4500]/15 border border-[#FF4500] text-[#FF4500] text-[10px] font-mono tracking-widest font-bold shadow-[0_0_12px_rgba(255,69,0,0.25)]">
+            VERSIÓN 4.0
+          </span>
+        </a>
+        
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="#schedule" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Coordenadas</a>
+          <a href="#syllabus" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Syllabus</a>
+          <a href="#instructor" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Instructor</a>
+          <a href="#pricing" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Inversión</a>
+        </div>
+
+        <a href="#protocolo" id="nav-cta-link" class="inline-flex items-center justify-center px-6 py-2 rounded-full text-sm font-medium bg-white text-black hover:scale-105 hover:bg-[#FF4500] hover:text-white transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+          Reservar Cupo
+        </a>
+      </div>
+    </nav>
+  </header>
 
   <!-- Hero Section -->
-  <section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-36 pb-24 bg-[#050505]">
+  <section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-44 pb-24 bg-[#050505]">
     
     <!-- Background Atmosphere -->
     <div class="absolute inset-0 z-0 pointer-events-none select-none">
@@ -168,9 +190,11 @@
       <div id="hero-content-wrapper" class="max-w-4xl mx-auto">
         
         <div class="reveal">
-          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-md mb-8 text-xs text-[#ffe0e0]/90 uppercase tracking-widest">
+          <div class="inline-flex items-center gap-2.5 px-5 py-2 rounded-full border border-[#FF4500]/50 bg-[#FF4500]/10 backdrop-blur-md mb-8 text-xs font-mono uppercase tracking-widest shadow-[0_0_25px_rgba(255,69,0,0.3)]">
             <span class="w-2 h-2 rounded-full bg-[#FF4500] animate-pulse"></span>
-            <span>Bootcamp Geo-IA // Versión 4.0 Oficial</span>
+            <span class="text-[#FF4500] font-bold">BOOTCAMP GEO-IA // VERSIÓN 4.0</span>
+            <span class="text-white/30 hidden sm:inline">|</span>
+            <span class="text-gray-300 hidden sm:inline">11, 12 Y 13 DE SEPTIEMBRE</span>
           </div>
           
           <h1 class="text-5xl sm:text-6xl md:text-8xl font-medium leading-[1.05] tracking-tight mb-8 text-[#ffe0e0] mix-blend-overlay font-serif" 
