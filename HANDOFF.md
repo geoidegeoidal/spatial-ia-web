@@ -20,8 +20,8 @@
   - Gobernanza OpenSpec:
     - Actualizada la especificación viva [landing-page/spec.md](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/openspec/specs/landing-page/spec.md), [crm-automation/spec.md](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/openspec/specs/crm-automation/spec.md) y [diploma-engine/spec.md](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/openspec/specs/diploma-engine/spec.md).
     - Archivado el cambio en [openspec/archive/2026-08-18-v4-superdesign-official/proposal.md](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/openspec/archive/2026-08-18-v4-superdesign-official/proposal.md).
-- **Decisions:** Webhook de la nueva hoja de Google Sheets conectado en producción. Navbar original limpio restaurado con logo `J.U` y punto ámbar `#FF4500`. Horario del taller fijado en 20:00 a 21:30 hrs (GMT-4 Santiago).
-- **Commits:** `c6a747a`, `bc702eb`, `87401a1`, `c261121`, `2fd0190`, `85b5c2f` (desplegado en `master` y `gh-pages`).
+- **Decisions:** Webhook de la nueva hoja de Google Sheets conectado en producción. Formulario rediseñado con chips táctiles interactivos, selector de país con banderas y contraste oscuro forzado, telemetría de progreso en tiempo real y mensaje final de correo.
+- **Commits:** `c6a747a`, `bc702eb`, `87401a1`, `c261121`, `2fd0190`, `85b5c2f`, `5d6fb2f` (desplegado en `master` y `gh-pages`).
 - **Next Steps:** Monitorear la recepción de inscripciones y validar el webhook con el primer postulante real.
 
 ---
