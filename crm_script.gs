@@ -39,16 +39,30 @@ function doPost(e) {
     MailApp.sendEmail(adminEmail, "[SYS.NOTIFY] NUEVO INSCRITO: Bootcamp V4", "Nuevo inscrito para la Versión 4.0:\nNombre: " + name + "\nPaís: " + country + "\nEmail: " + userEmail + "\nPlan: " + plan);
 
     var esChile = country.toLowerCase().trim() === "chile";
+    var planStr = (plan || "").toLowerCase();
+    var esEstudiante = planStr.indexOf("estudiante") !== -1 || planStr.indexOf("25.000") !== -1;
+    var montoClp = esEstudiante ? "$25.000 CLP" : "$30.000 CLP";
+    var linkMercadoPago = esEstudiante 
+      ? "https://mpago.la/1EvJQi3" 
+      : "https://www.mercadopago.cl/payment-link/v1/go?link-id=f7b0764f-2801-4b26-a858-59c416eebe42";
+    
     var opcionesPago = "";
     
     if (esChile) {
       opcionesPago = `
+        <div style="background-color: #111111; border: 1px solid #222222; padding: 12px 15px; margin-bottom: 20px;">
+          <p style="margin: 0; color: #888888; font-size: 11px; font-family: monospace; text-transform: uppercase;">
+            > PLAN REGISTRADO: <span style="color: #FF4500; font-weight: bold;">${plan || (esEstudiante ? "Pase Estudiantes ($25.000 CLP)" : "Acceso General ($30.000 CLP)")}</span>
+          </p>
+        </div>
         <div style="${BLOQUE_INFO}">
-          <h3 style="color: #FF4500; margin-top: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">[ OPT.01 ] PAGO VÍA MERCADOPAGO</h3>
-          <a href="https://www.mercadopago.cl/payment-link/v1/go?link-id=f7b0764f-2801-4b26-a858-59c416eebe42" style="${BOTON_SOLIDO}">EJECUTAR_PAGO_MERCADOPAGO</a>
+          <h3 style="color: #FF4500; margin-top: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">[ OPT.01 ] PAGO VÍA MERCADOPAGO (${montoClp})</h3>
+          <p style="color: #888888; font-size: 13px; margin-bottom: 15px;">Tarjeta de crédito, débito o saldo MercadoPago.</p>
+          <a href="${linkMercadoPago}" style="${BOTON_SOLIDO}">EJECUTAR_PAGO_MERCADOPAGO (${montoClp})</a>
         </div>
         <div style="${BLOQUE_INFO_SECUNDARIO}">
-          <h3 style="color: #888888; margin-top: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">[ OPT.02 ] TRANSFERENCIA BANCARIA</h3>
+          <h3 style="color: #888888; margin-top: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">[ OPT.02 ] TRANSFERENCIA BANCARIA (${montoClp})</h3>
+          <p style="color: #888888; font-size: 13px; margin-bottom: 5px;">MONTO A TRANSFERIR: <span style="color:#FF4500; font-weight: bold;">${montoClp}</span></p>
           <p style="color: #888888; font-size: 13px; margin-bottom: 5px;">TITULAR: <span style="color:#FFF">JORGE FERNANDO ULLOA ROA</span></p>
           <p style="color: #888888; font-size: 13px; margin-bottom: 5px;">RUT: <span style="color:#FFF">18.223.053-7</span></p>
           <p style="color: #888888; font-size: 13px; margin-bottom: 5px;">BANCO FALABELLA / CTA. CORRIENTE: <span style="color:#FFF">019823326523</span></p>
@@ -67,7 +81,7 @@ function doPost(e) {
         </div>
         <div style="${BLOQUE_INFO_SECUNDARIO}">
           <h3 style="color: #888888; margin-top: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">[ OPT.02 ] ALTERNATIVA (MERCADOPAGO LATAM)</h3>
-          <a href="https://www.mercadopago.cl/payment-link/v1/go?link-id=f7b0764f-2801-4b26-a858-59c416eebe42" style="color: #888888; text-decoration: underline; font-size: 13px;">Si prefieres MercadoPago, usa este enlace</a>
+          <a href="${linkMercadoPago}" style="color: #888888; text-decoration: underline; font-size: 13px;">Si prefieres MercadoPago (${montoClp}), usa este enlace</a>
         </div>
       `;
     }
@@ -114,11 +128,17 @@ function enviarRecordatoriosPago() {
     var name = data[i][1];
     var email = data[i][2];
     var country = data[i][3] ? data[i][3].toString() : "";
+    var plan = data[i][6] ? data[i][6].toString() : "";
     var estado = data[i][7];
     
     var esChile = country.toLowerCase().trim() === "chile";
-    var linkPago = esChile ? "https://www.mercadopago.cl/payment-link/v1/go?link-id=f7b0764f-2801-4b26-a858-59c416eebe42" : "https://www.paypal.com/ncp/payment/2PVCP7EQT3DWU";
-    var textoBoton = esChile ? "EJECUTAR_MERCADOPAGO" : "EJECUTAR_PAYPAL";
+    var planStr = plan.toLowerCase();
+    var esEstudiante = planStr.indexOf("estudiante") !== -1 || planStr.indexOf("25.000") !== -1;
+    var linkMP = esEstudiante 
+      ? "https://mpago.la/1EvJQi3" 
+      : "https://www.mercadopago.cl/payment-link/v1/go?link-id=f7b0764f-2801-4b26-a858-59c416eebe42";
+    var linkPago = esChile ? linkMP : "https://www.paypal.com/ncp/payment/2PVCP7EQT3DWU";
+    var textoBoton = esChile ? (esEstudiante ? "EJECUTAR_MERCADOPAGO ($25.000 CLP)" : "EJECUTAR_MERCADOPAGO ($30.000 CLP)") : "EJECUTAR_PAYPAL";
 
     if (diffHoras >= 72 && estado === "Recordatorio Enviado") {
       var body72h = `

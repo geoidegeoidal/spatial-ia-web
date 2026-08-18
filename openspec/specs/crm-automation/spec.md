@@ -12,13 +12,14 @@ Especifica el motor de backend serverless implementado en Google Apps Script (`c
 - Si la hoja de cálculo destino está vacía, se inicializa automáticamente la cabecera: `["Fecha", "Nombre", "Email", "País", "Nivel SIG", "Profesión", "Plan", "Estado Pago"]`.
 - Toda nueva inscripción se registra inicialmente en estado `"Pendiente"`.
 
-### `RULE-CRM-002`: Bifurcación Geográfica de Pasarelas de Pago
+### `RULE-CRM-002`: Bifurcación Geográfica y por Plan de Pasarelas de Pago
 - **Residentes en Chile (`country === "chile"`):**
-  - **Opción 1:** Enlace de cobro dinámico MercadoPago (`https://www.mercadopago.cl/payment-link/v1/go?link-id=f7b0764f-2801-4b26-a858-59c416eebe42`).
-  - **Opción 2:** Datos de transferencia bancaria directa (Banco Falabella, Cta. Corriente `019823326523`, RUT `18.223.053-7`).
+  - **Plan Acceso General ($30.000 CLP):** Enlace de cobro MercadoPago (`https://www.mercadopago.cl/payment-link/v1/go?link-id=f7b0764f-2801-4b26-a858-59c416eebe42`).
+  - **Plan Pase Estudiantes ($25.000 CLP):** Enlace de cobro con descuento MercadoPago (`https://mpago.la/1EvJQi3`).
+  - **Opción 2 (Transferencia Bancaria):** Transferencia directa a Banco Falabella, Cta. Corriente `019823326523`, RUT `18.223.053-7`, especificando el monto según plan ($25.000 o $30.000 CLP).
 - **Residentes Internacionales (`country !== "chile"`):**
   - **Opción 1:** Enlace directo de cobro global vía PayPal (`https://www.paypal.com/ncp/payment/2PVCP7EQT3DWU`).
-  - **Opción 2:** Alternativa MercadoPago LATAM.
+  - **Opción 2:** Alternativa MercadoPago LATAM dinámico según plan.
 
 ### `RULE-CRM-003`: Máquina de Estados Transaccional
 La columna 8 (`Estado Pago`) gobierna el ciclo de vida del alumno:
