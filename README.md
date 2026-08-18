@@ -68,6 +68,15 @@ La estructura visual de la landing page de este repositorio ha sido rediseñada 
 - **Comportamientos:** Cero *glassmorphism* genérico. Se emplean bordes duros asimétricos, tipografía sobredimensionada y sombras *glow* que reaccionan estrictamente a la interacción del usuario (`hover`/`focus`).
 - **Arquitectura Zero-Build:** Construido en HTML Puro + TailwindCSS (vía CDN) + Vanilla JavaScript. Cero dependencias instaladas localmente (NPM-free).
 
+---
+
+## 📐 SPEC-DRIVEN DEVELOPMENT (OPENSPEC)
+
+El desarrollo, evolución técnica y reglas de negocio de este repositorio están gobernados bajo el estándar **OpenSpec**:
+- **Especificaciones Vivas:** Ubicadas en `openspec/specs/` (`landing-page`, `crm-automation`, `diploma-engine`, `deployment-ops`).
+- **Matriz de Trazabilidad:** Documentada en [`openspec/specs/traceability-matrix.md`](openspec/specs/traceability-matrix.md), vinculando cada regla de negocio (`RULE-*`) con su implementación en código y tests.
+- **Ciclo de Vida de Cambios:** Todo cambio significativo opera bajo el flujo canónico **Propose → Apply → Verify → Archive** alojado en `openspec/changes/` y `openspec/archive/`.
+
 <br>
 
 <div align="center">
@@ -75,3 +84,4 @@ La estructura visual de la landing page de este repositorio ha sido rediseñada 
   <br><br>
   <i>Diseñado y programado con asistencia de Inteligencia Artificial Avanzada</i>
 </div>
+

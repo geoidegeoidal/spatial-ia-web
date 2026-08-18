@@ -1,0 +1,27 @@
+# Matriz de Trazabilidad de Reglas de Negocio (Traceability Matrix)
+
+Esta matriz establece el vínculo bidireccional entre las reglas de negocio formalizadas en las especificaciones de OpenSpec, su implementación física en el código fuente del proyecto y sus métodos de verificación.
+
+---
+
+## Matriz Maestra de Trazabilidad
+
+| ID de Regla | Dominio | Requisito / Descripción | Archivo Fuente / Implementación | Método de Verificación | Estado |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `RULE-UI-001` | `landing-page` | Estética Cyber-Brutalist (paleta abisal `#0a0a12`, neón, tipografía Space Grotesk/Inter) | [index.html](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/index.html), [DESIGN.md](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/DESIGN.md) | Inspección visual en navegador / Responsive check | **ACTIVA** |
+| `RULE-UI-002` | `landing-page` | Arquitectura Zero-Build / CDN puro | [index.html](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/index.html#L1-L30) | Verificación de carga sin bundlers locales | **ACTIVA** |
+| `RULE-UI-003` | `landing-page` | Precios: $30.000 CLP General / $25.000 CLP Estudiante | [index.html](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/index.html#L380-L460) | Verificación de tarjetas de precios | **ACTIVA** |
+| `RULE-UI-004` | `landing-page` | Cierre de inscripciones seguro y protección de listeners (`if (form)`) | [index.html](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/index.html#L520-L580) | Consola de DevTools sin errores `TypeError` | **ACTIVA** |
+| `RULE-CRM-001` | `crm-automation` | Ingesta de inscripciones vía webhook `doPost` en Apps Script | [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs#L21-L105) | Simulación de payload HTTP POST en Apps Script | **ACTIVA** |
+| `RULE-CRM-002` | `crm-automation` | Enrutamiento de pasarelas (MercadoPago/Transferencia para Chile vs PayPal internacional) | [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs#L41-L74) | Prueba condicional por valor de parámetro `country` | **ACTIVA** |
+| `RULE-CRM-003` | `crm-automation` | Máquina de estados transaccional (`Pendiente` → `Confirmado` → `Accesos` → `Diploma`) | [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs#L107-L424) | Transición de columna 8 en Google Sheet | **ACTIVA** |
+| `RULE-CRM-004` | `crm-automation` | Envío de accesos Google Meet (Sesiones 1, 2, 3) y Bóveda Drive | [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs#L302-L375) | Comprobación de renderizado en [preview_correos.html](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/preview_correos.html) | **ACTIVA** |
+| `RULE-CRM-005` | `crm-automation` | Notificación inmediata al admin ante cada nuevo registro | [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs#L38-L40) | Verificación de envío `MailApp.sendEmail` admin | **ACTIVA** |
+| `RULE-DIP-001` | `diploma-engine` | Carga horaria certificada: 5h lectivas + 4h prácticas = 9h totales | [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs#L564-L571), [generate_pdf.py](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/generate_pdf.py#L40-L55) | Verificación de texto en PDF emitido | **ACTIVA** |
+| `RULE-DIP-002` | `diploma-engine` | Estética Cyberpunk en diploma A4 horizontal (1040x700, bordes `#D4FF00`) | [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs#L430-L587), [preview_final_bootcamp.html](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/preview_final_bootcamp.html) | Renderizado visual y validación geométrica | **ACTIVA** |
+| `RULE-DIP-003` | `diploma-engine` | Renderizado dual (Google Apps Script Blob PDF y script Python local) | [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs#L604-L610), [test_generar_diplomas.py](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/test_generar_diplomas.py) | Ejecución de `python test_generar_diplomas.py` | **ACTIVA** |
+| `RULE-DIP-004` | `diploma-engine` | Despacho de cierre con filtro estricto `"Accesos Enviados"`, Drive + Canva + PDF | [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs#L590-L685) | Ejecución controlada de `enviarDiplomasYCierre()` | **ACTIVA** |
+| `RULE-OPS-001` | `deployment-ops` | Despliegue en GitHub Pages sincronizando `master` hacia rama `gh-pages` | [README.md](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/README.md), [AGENTS.md](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/AGENTS.md#L13) | Estado de despliegue en GitHub Pages URL | **ACTIVA** |
+| `RULE-OPS-002` | `deployment-ops` | Arquitectura Zero-Server / Zero-Cost permanente | [README.md](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/README.md#L8) | Auditoría de infraestructura en la nube | **ACTIVA** |
+| `RULE-OPS-003` | `deployment-ops` | Compatibilidad de shell en Windows (sin `&&` en PowerShell) | [AGENTS.md](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/AGENTS.md) | Comprobación de sintaxis en comandos CLI | **ACTIVA** |
+| `RULE-OPS-004` | `deployment-ops` | Persistencia de cambios y ritual de Handoff continuo | [HANDOFF.md](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/HANDOFF.md), [openspec/project.md](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/openspec/project.md) | Registro de handoff y commit hashes al cierre | **ACTIVA** |

@@ -3,20 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bootcamp: Desarrollo de Aplicaciones Web Territoriales con IA // Versión 4.0</title>
+  <title>GIS & AI Bootcamp // Versión 4.0 [Superdesign Edition]</title>
   
-  <!-- SEO Meta Tags -->
-  <meta name="description" content="Bootcamp intensivo de desarrollo web territorial con IA (11, 12 y 13 de Septiembre). Aprende MapLibre GL JS, Turf.js y arquitectura Zero-Server con acreditación oficial de 9 horas.">
-  <meta name="author" content="Jorge Ulloa Roa">
-  <meta property="og:title" content="Bootcamp Desarrollo Web Territorial con IA // V4.0">
-  <meta property="og:description" content="Aprende a programar visores espaciales interactivos en la nube con MapLibre GL JS y Turf.js asistido con Inteligencia Artificial.">
-  <meta property="og:type" content="website">
-
   <!-- Tailwind CSS & Iconify -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
   
-  <!-- Fonts: Inter + Playfair Display + Space Mono -->
+  <!-- Fonts: Inter + Playfair Display -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400;1,600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -122,8 +115,22 @@
   <!-- Global Noise Overlay -->
   <div class="noise-overlay"></div>
 
+  <!-- A/B Testing Header Switcher -->
+  <aside aria-label="Selector de versión A/B" class="bg-[#050505]/90 border-b border-white/10 px-6 py-2.5 sticky top-0 z-[60] backdrop-blur-md flex justify-between items-center text-xs">
+    <div class="flex items-center gap-3">
+      <span class="px-2 py-0.5 rounded-full bg-[#FF4500] text-white font-semibold text-[10px] uppercase tracking-wider">A/B TEST</span>
+      <span class="text-white/80 hidden sm:inline">VARIANTE CANDIDATA // SUPERDESIGN SURREALIST</span>
+      <span class="text-[#FF4500] font-medium">● V4.0 (11-13 SEPTIEMBRE)</span>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="index.html" class="px-3 py-1 rounded-full border border-white/20 text-white/70 hover:text-white hover:border-white transition-all text-[11px] uppercase tracking-wider">
+        [ ⟵ VER VARIANTE ANTERIOR ]
+      </a>
+    </div>
+  </aside>
+
   <!-- Navigation -->
-  <nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-6">
+  <nav id="main-nav" class="fixed top-[41px] left-0 right-0 z-50 transition-all duration-500 py-6">
     <div class="container mx-auto px-6 flex items-center justify-between">
       <a href="#" id="nav-logo-link" class="text-2xl font-bold tracking-tighter font-serif flex items-center gap-2">
         <span>Spatial.IA</span>
@@ -761,6 +768,7 @@
         <div class="flex flex-col gap-4 md:text-right">
           <div class="flex flex-col gap-2 text-sm text-gray-400 font-light">
             <a href="https://www.linkedin.com/in/jorge-ulloa-roa/" target="_blank" class="hover:text-white transition-colors">LinkedIn de Jorge Ulloa Roa</a>
+            <a href="index.html" class="text-gray-500 hover:text-white transition-colors">Ver Variante A (Neon Tokyo)</a>
           </div>
           <p class="text-xs text-gray-600 font-mono">© 2026 Bootcamp Geo-IA // OpenSpec Governed</p>
         </div>
