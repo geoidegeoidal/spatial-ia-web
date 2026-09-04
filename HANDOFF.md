@@ -22,8 +22,8 @@
     - Actualizado [AGENTS.md](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/AGENTS.md).
 - **Decisions:** El código del cupón se asienta dentro del campo `Plan` en la hoja de Google Sheets para no alterar el offset de columnas ni desplazar `Estado Pago` (columna 8), evitando incompatibilidades con cron triggers en producción.
 - **Blocking / Pending:** Ninguno.
-- **Next Steps:** Actualizar el código de `crm_script.gs` en el editor de Google Apps Script y desplegar a GitHub Pages (`gh-pages`).
-- **Relevant Commits:** Pendiente de commit por el usuario.
+- **Next Steps:** Actualizar el código de `crm_script.gs` en el editor de Google Apps Script de producción.
+- **Relevant Commits:** `1662bcc` (desplegado en `origin/master` y `origin/gh-pages`).
 
 ---
 
