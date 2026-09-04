@@ -77,6 +77,14 @@ El desarrollo, evolución técnica y reglas de negocio de este repositorio está
 - **Matriz de Trazabilidad:** Documentada en [`openspec/specs/traceability-matrix.md`](openspec/specs/traceability-matrix.md), vinculando cada regla de negocio (`RULE-*`) con su implementación en código y tests.
 - **Ciclo de Vida de Cambios:** Todo cambio significativo opera bajo el flujo canónico **Propose → Apply → Verify → Archive** alojado en `openspec/changes/` y `openspec/archive/`.
 
+### Verificación local
+
+```bash
+node test_crm_cupon.js
+node test_crm_oferta.js
+python test_generar_diplomas.py
+```
+
 <br>
 
 <div align="center">

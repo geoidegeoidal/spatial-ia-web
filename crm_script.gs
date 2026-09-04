@@ -17,48 +17,90 @@ const BOTON_TERMINAL = "display: inline-block; background-color: transparent; co
 // Enlaces de Recursos Oficiales V4.0
 const LINK_GRABACIONES_DRIVE = "https://drive.google.com/drive/folders/1vRA1fkfG01kLL3DfMeVres5re51YqlTg?usp=sharing";
 const LINK_PRESENTACIONES_CANVA = "https://canva.link/workshop-gis-ia";
+const EMAIL_ADMIN = "jorge.ulloa.roa@gmail.com";
+const LINK_OFERTA_MERCADOPAGO = "https://mpago.la/1E75xtF";
+const LINK_OFERTA_PAYPAL = "https://www.paypal.com/ncp/payment/RGT8AG7R7U4DA";
 
+// Helper para obtener la hoja activa o la primera hoja de forma segura
+function obtenerHoja() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  return ss.getActiveSheet() || ss.getSheets()[0];
+}
+
+// ---------------------------------------------------------------------------------
+// 1. RECEPTOR DE INSCRIPCIONES (WEBHOOK WEB APP)
+// ---------------------------------------------------------------------------------
 function doPost(e) {
   try {
-    var name = e.parameter.name;
-    var userEmail = e.parameter.email;
-    var country = e.parameter.country || "";
-    var nivel_sig = e.parameter.nivel_sig;
-    var ocupacion = e.parameter.ocupacion;
-    var plan = e.parameter.plan;
+    var name = e.parameter.name ? e.parameter.name.toString().trim() : "";
+    var userEmail = e.parameter.email ? e.parameter.email.toString().trim() : "";
+    var country = e.parameter.country ? e.parameter.country.toString().trim() : "";
+    var nivel_sig = e.parameter.nivel_sig ? e.parameter.nivel_sig.toString().trim() : "";
+    var ocupacion = e.parameter.ocupacion ? e.parameter.ocupacion.toString().trim() : "";
+    var plan = e.parameter.plan ? e.parameter.plan.toString().trim() : "";
+    var cupon = e.parameter.cupon ? e.parameter.cupon.toString().trim().toUpperCase() : "";
     var timestamp = new Date();
 
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var tieneCuponConMapas = cupon === "CONMAPAS";
+    var planRegistrado = plan;
+    if (tieneCuponConMapas) {
+      planRegistrado = (plan ? plan : "Acceso General") + " [Cupón CONMAPAS: $20.000 CLP / 22 USD]";
+    }
+
+    var sheet = obtenerHoja();
     if (sheet.getLastRow() === 0) {
       sheet.appendRow(["Fecha", "Nombre", "Email", "País", "Nivel SIG", "Profesión", "Plan", "Estado Pago"]);
       sheet.getRange("A1:H1").setFontWeight("bold").setBackground("#FF4500").setFontColor("#FFFFFF");
     }
-    sheet.appendRow([timestamp, name, userEmail, country, nivel_sig, ocupacion, plan, "Pendiente"]);
+    sheet.appendRow([timestamp, name, userEmail, country, nivel_sig, ocupacion, planRegistrado, "Pendiente"]);
 
-    var adminEmail = "jorge.ulloa.roa@gmail.com";
-    MailApp.sendEmail(adminEmail, "[SYS.NOTIFY] NUEVO INSCRITO: Bootcamp V4", "Nuevo inscrito para la Versión 4.0:\nNombre: " + name + "\nPaís: " + country + "\nEmail: " + userEmail + "\nPlan: " + plan);
+    // Notificación al Administrador
+    try {
+      var detalleCupon = tieneCuponConMapas ? "\nCUPÓN APLICADO: CONMAPAS (Tarifa promocional $20.000 CLP / 22 USD)" : (cupon ? "\nCUPÓN INGRESADO: " + cupon + " (No válido)" : "");
+      GmailApp.sendEmail(EMAIL_ADMIN, "[SYS.NOTIFY] NUEVO INSCRITO: Bootcamp V4", "Nuevo inscrito para la Versión 4.0:\nNombre: " + name + "\nPaís: " + country + "\nEmail: " + userEmail + "\nPlan: " + planRegistrado + detalleCupon, {
+        name: "Bootcamp Geo-IA System",
+        replyTo: EMAIL_ADMIN
+      });
+    } catch(errAdmin) {
+      console.error("Error notificando al admin: " + errAdmin.toString());
+    }
 
     var esChile = country.toLowerCase().trim() === "chile";
     var planStr = (plan || "").toLowerCase();
     var esEstudiante = planStr.indexOf("estudiante") !== -1 || planStr.indexOf("25.000") !== -1 || planStr.indexOf("29") !== -1;
-    var montoClp = esEstudiante ? "$25.000 CLP" : "$30.000 CLP";
-    var montoUsd = esEstudiante ? "29 USD" : "35 USD";
-    var linkMercadoPago = esEstudiante 
-      ? "https://mpago.la/1EvJQi3" 
-      : "https://www.mercadopago.cl/payment-link/v1/go?link-id=f7b0764f-2801-4b26-a858-59c416eebe42";
+    
+    var montoClp, montoUsd, linkMercadoPago, linkPayPal;
+
+    if (tieneCuponConMapas) {
+      montoClp = "$20.000 CLP";
+      montoUsd = "22 USD";
+      linkMercadoPago = LINK_OFERTA_MERCADOPAGO;
+      linkPayPal = LINK_OFERTA_PAYPAL;
+    } else {
+      montoClp = esEstudiante ? "$25.000 CLP" : "$30.000 CLP";
+      montoUsd = esEstudiante ? "29 USD" : "35 USD";
+      linkMercadoPago = esEstudiante 
+        ? "https://mpago.la/1EvJQi3" 
+        : "https://www.mercadopago.cl/payment-link/v1/go?link-id=f7b0764f-2801-4b26-a858-59c416eebe42";
+      linkPayPal = "https://www.paypal.com/ncp/payment/2PVCP7EQT3DWU";
+    }
     
     var opcionesPago = "";
     
     if (esChile) {
+      var badgePlan = tieneCuponConMapas 
+        ? `<span style="color: #FF4500; font-weight: bold;">TARIFA PROMOCIONAL CUPÓN CONMAPAS ($20.000 CLP)</span>` 
+        : `<span style="color: #FF4500; font-weight: bold;">${plan || (esEstudiante ? "Pase Estudiantes ($25.000 CLP)" : "Acceso General ($30.000 CLP)")}</span>`;
+
       opcionesPago = `
         <div style="background-color: #111111; border: 1px solid #222222; padding: 12px 15px; margin-bottom: 20px;">
           <p style="margin: 0; color: #888888; font-size: 11px; font-family: monospace; text-transform: uppercase;">
-            > PLAN REGISTRADO: <span style="color: #FF4500; font-weight: bold;">${plan || (esEstudiante ? "Pase Estudiantes ($25.000 CLP)" : "Acceso General ($30.000 CLP)")}</span>
+            > PLAN REGISTRADO: ${badgePlan}
           </p>
         </div>
         <div style="${BLOQUE_INFO}">
           <h3 style="color: #FF4500; margin-top: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">[ OPT.01 ] PAGO VÍA MERCADOPAGO (${montoClp})</h3>
-          <p style="color: #888888; font-size: 13px; margin-bottom: 15px;">Tarjeta de crédito, débito o saldo MercadoPago.</p>
+          <p style="color: #888888; font-size: 13px; margin-bottom: 15px;">Tarjeta de crédito, débito o saldo MercadoPago.${tieneCuponConMapas ? " <b style='color:#FF4500;'>Descuento exclusivo CONMAPAS activado.</b>" : ""}</p>
           <a href="${linkMercadoPago}" style="${BOTON_SOLIDO}">EJECUTAR_PAGO_MERCADOPAGO (${montoClp})</a>
         </div>
         <div style="${BLOQUE_INFO_SECUNDARIO}">
@@ -67,22 +109,30 @@ function doPost(e) {
           <p style="color: #888888; font-size: 13px; margin-bottom: 5px;">TITULAR: <span style="color:#FFF">JORGE FERNANDO ULLOA ROA</span></p>
           <p style="color: #888888; font-size: 13px; margin-bottom: 5px;">RUT: <span style="color:#FFF">18.223.053-7</span></p>
           <p style="color: #888888; font-size: 13px; margin-bottom: 5px;">BANCO FALABELLA / CTA. CORRIENTE: <span style="color:#FFF">019823326523</span></p>
-          <p style="color: #888888; font-size: 13px; margin-bottom: 0;">CORREO: <span style="color:#FFF">jorge.ulloa.roa@gmail.com</span></p>
+          <p style="color: #888888; font-size: 13px; margin-bottom: 0;">CORREO: <span style="color:#FFF">${EMAIL_ADMIN}</span></p>
         </div>
       `;
     } else {
+      var badgePlanInt = tieneCuponConMapas 
+        ? `<span style="color: #FF4500; font-weight: bold;">TARIFA PROMOCIONAL CUPÓN CONMAPAS (22 USD)</span>` 
+        : `<span style="color: #FF4500; font-weight: bold;">${plan || (esEstudiante ? "Pase Estudiantes (" + montoUsd + ")" : "Acceso General (" + montoUsd + ")")}</span>`;
+
+      var descPayPal = tieneCuponConMapas 
+        ? "Transfiere <b>22 USD</b> con descuento exclusivo del cupón CONMAPAS vía PayPal con cualquier tarjeta o saldo." 
+        : (esEstudiante ? "Transfiere <b>29 USD</b> con descuento de estudiante vía PayPal con cualquier tarjeta internacional o saldo." : "Transacción segura internacionalmente con tarjeta o saldo PayPal (35 USD).");
+
       opcionesPago = `
         <div style="background-color: #111111; border: 1px solid #222222; padding: 12px 15px; margin-bottom: 20px;">
           <p style="margin: 0; color: #888888; font-size: 11px; font-family: monospace; text-transform: uppercase;">
-            > PLAN REGISTRADO INTERNACIONAL: <span style="color: #FF4500; font-weight: bold;">${plan || (esEstudiante ? "Pase Estudiantes (" + montoUsd + ")" : "Acceso General (" + montoUsd + ")")}</span>
+            > PLAN REGISTRADO INTERNACIONAL: ${badgePlanInt}
           </p>
         </div>
         <div style="${BLOQUE_INFO}">
           <h3 style="color: #FF4500; margin-top: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">[ OPT.01 ] PAGO MUNDIAL: PAYPAL (${montoUsd})</h3>
           <p style="color: #888888; font-size: 13px; margin-bottom: 15px;">
-            ${esEstudiante ? "Transfiere <b>29 USD</b> con descuento de estudiante vía PayPal con cualquier tarjeta internacional o saldo." : "Transacción segura internacionalmente con tarjeta o saldo PayPal (35 USD)."}
+            ${descPayPal}
           </p>
-          <a href="https://www.paypal.com/ncp/payment/2PVCP7EQT3DWU" style="${BOTON_SOLIDO}">PAGAR ${montoUsd} EN PAYPAL</a>
+          <a href="${linkPayPal}" style="${BOTON_SOLIDO}">PAGAR ${montoUsd} EN PAYPAL</a>
         </div>
         <div style="${BLOQUE_INFO_SECUNDARIO}">
           <h3 style="color: #888888; margin-top: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">[ OPT.02 ] ALTERNATIVA MERCADOPAGO (${montoClp})</h3>
@@ -115,39 +165,64 @@ function doPost(e) {
         </div>
       </div>
     `;
-    MailApp.sendEmail({ to: userEmail, subject: "[ACCIÓN REQUERIDA] Confirma tu cupo en el Bootcamp Geo-IA V4", htmlBody: userHtmlBody, name: "Bootcamp Geo-IA" });
+
+    if (userEmail) {
+      GmailApp.sendEmail(userEmail, "[ACCIÓN REQUERIDA] Confirma tu cupo en el Bootcamp Geo-IA V4", "", {
+        htmlBody: userHtmlBody,
+        name: "Bootcamp Geo-IA",
+        replyTo: EMAIL_ADMIN
+      });
+    }
 
     return ContentService.createTextOutput(JSON.stringify({"result": "success"})).setMimeType(ContentService.MimeType.JSON);
   } catch (error) {
+    console.error("Error en doPost: " + error.toString());
     return ContentService.createTextOutput(JSON.stringify({"result": "error", "error": error.toString()})).setMimeType(ContentService.MimeType.JSON);
   }
 }
 
+// ---------------------------------------------------------------------------------
+// 2. CRON: RECORDATORIOS DE PAGO (24H Y 72H)
+// ---------------------------------------------------------------------------------
 function enviarRecordatoriosPago() {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var sheet = obtenerHoja();
   var data = sheet.getDataRange().getValues();
   var ahora = new Date();
   
   for (var i = 1; i < data.length; i++) {
     var diffHoras = (ahora - new Date(data[i][0])) / (1000 * 60 * 60);
-    var name = data[i][1];
-    var email = data[i][2];
-    var country = data[i][3] ? data[i][3].toString() : "";
+    var name = data[i][1] ? data[i][1].toString().trim() : "Estudiante";
+    var email = data[i][2] ? data[i][2].toString().trim() : "";
+    var country = data[i][3] ? data[i][3].toString().toLowerCase().trim() : "";
     var plan = data[i][6] ? data[i][6].toString() : "";
-    var estado = data[i][7];
+    var estado = data[i][7] ? data[i][7].toString().trim() : "";
     
-    var esChile = country.toLowerCase().trim() === "chile";
+    if (!email) continue;
+
+    var esChile = country === "chile";
     var planStr = plan.toLowerCase();
+    var tieneCuponConMapas = planStr.indexOf("conmapas") !== -1 || planStr.indexOf("20.000") !== -1 || planStr.indexOf("22") !== -1;
     var esEstudiante = planStr.indexOf("estudiante") !== -1 || planStr.indexOf("25.000") !== -1 || planStr.indexOf("29") !== -1;
-    var montoClp = esEstudiante ? "$25.000 CLP" : "$30.000 CLP";
-    var montoUsd = esEstudiante ? "29 USD" : "35 USD";
-    var linkMP = esEstudiante 
-      ? "https://mpago.la/1EvJQi3" 
-      : "https://www.mercadopago.cl/payment-link/v1/go?link-id=f7b0764f-2801-4b26-a858-59c416eebe42";
-    var linkPago = esChile ? linkMP : "https://www.paypal.com/ncp/payment/2PVCP7EQT3DWU";
-    var textoBoton = esChile 
-      ? (esEstudiante ? "EJECUTAR_MERCADOPAGO ($25.000 CLP)" : "EJECUTAR_MERCADOPAGO ($30.000 CLP)") 
-      : (esEstudiante ? "PAGAR 29 USD EN PAYPAL" : "PAGAR 35 USD EN PAYPAL");
+    
+    var montoClp, montoUsd, linkMP, linkPago, textoBoton;
+
+    if (tieneCuponConMapas) {
+      montoClp = "$20.000 CLP";
+      montoUsd = "22 USD";
+      linkMP = LINK_OFERTA_MERCADOPAGO;
+      linkPago = esChile ? LINK_OFERTA_MERCADOPAGO : LINK_OFERTA_PAYPAL;
+      textoBoton = esChile ? "EJECUTAR_MERCADOPAGO ($20.000 CLP)" : "PAGAR 22 USD EN PAYPAL";
+    } else {
+      montoClp = esEstudiante ? "$25.000 CLP" : "$30.000 CLP";
+      montoUsd = esEstudiante ? "29 USD" : "35 USD";
+      linkMP = esEstudiante 
+        ? "https://mpago.la/1EvJQi3" 
+        : "https://www.mercadopago.cl/payment-link/v1/go?link-id=f7b0764f-2801-4b26-a858-59c416eebe42";
+      linkPago = esChile ? linkMP : "https://www.paypal.com/ncp/payment/2PVCP7EQT3DWU";
+      textoBoton = esChile 
+        ? (esEstudiante ? "EJECUTAR_MERCADOPAGO ($25.000 CLP)" : "EJECUTAR_MERCADOPAGO ($30.000 CLP)") 
+        : (esEstudiante ? "PAGAR 29 USD EN PAYPAL" : "PAGAR 35 USD EN PAYPAL");
+    }
 
     if (diffHoras >= 72 && estado === "Recordatorio Enviado") {
       var body72h = `
@@ -163,8 +238,17 @@ function enviarRecordatoriosPago() {
           </div>
         </div>
       `;
-      MailApp.sendEmail({to: email, subject: "[ALERTA] Aviso Final: Liberaremos tu cupo del Bootcamp V4", htmlBody: body72h, name: "Bootcamp Geo-IA"});
-      sheet.getRange(i + 1, 8).setValue("Recordatorio Final Enviado");
+      try {
+        GmailApp.sendEmail(email, "[ALERTA] Aviso Final: Liberaremos tu cupo del Bootcamp V4", "", {
+          htmlBody: body72h,
+          name: "Bootcamp Geo-IA",
+          replyTo: EMAIL_ADMIN
+        });
+        sheet.getRange(i + 1, 8).setValue("Recordatorio Final Enviado");
+        console.log("✓ Recordatorio final (72h) enviado a: " + email);
+      } catch(e) {
+        console.error("✗ Error enviando recordatorio 72h a " + email + ": " + e.toString());
+      }
     } 
     else if (diffHoras >= 24 && (estado === "Pendiente" || estado === "Pendiente*")) {
       var body24h = `
@@ -180,19 +264,98 @@ function enviarRecordatoriosPago() {
           </div>
         </div>
       `;
-      MailApp.sendEmail({to: email, subject: "[RECORDATORIO] Tu cupo en el Bootcamp Geo-IA V4 expira pronto", htmlBody: body24h, name: "Bootcamp Geo-IA"});
-      sheet.getRange(i + 1, 8).setValue("Recordatorio Enviado");
+      try {
+        GmailApp.sendEmail(email, "[RECORDATORIO] Tu cupo en el Bootcamp Geo-IA V4 expira pronto", "", {
+          htmlBody: body24h,
+          name: "Bootcamp Geo-IA",
+          replyTo: EMAIL_ADMIN
+        });
+        sheet.getRange(i + 1, 8).setValue("Recordatorio Enviado");
+        console.log("✓ Recordatorio 24h enviado a: " + email);
+      } catch(e) {
+        console.error("✗ Error enviando recordatorio 24h a " + email + ": " + e.toString());
+      }
     }
   }
 }
 
-function enviarTutorialAutomático() {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+// ---------------------------------------------------------------------------------
+// 2.1 OFERTA EXCLUSIVA DE RECUPERACIÓN (VÁLIDA SOLO POR EL DÍA)
+// ---------------------------------------------------------------------------------
+function enviarOfertaExclusivaHoy() {
+  var sheet = obtenerHoja();
   var data = sheet.getDataRange().getValues();
+  var fechaOferta = Utilities.formatDate(new Date(), "America/Santiago", "dd/MM/yyyy");
+  var enviados = 0;
+
+  for (var i = 1; i < data.length; i++) {
+    var name = data[i][1] ? data[i][1].toString().trim() : "Estudiante";
+    var email = data[i][2] ? data[i][2].toString().trim() : "";
+    var country = data[i][3] ? data[i][3].toString().toLowerCase().trim() : "";
+    var estado = data[i][7] ? data[i][7].toString().trim() : "";
+
+    if (estado !== "Recordatorio Final Enviado" || !email) continue;
+
+    var esChile = country === "chile";
+    var linkPago = esChile ? LINK_OFERTA_MERCADOPAGO : LINK_OFERTA_PAYPAL;
+    var monto = esChile ? "$20.000 CLP" : "22 USD";
+    var pasarela = esChile ? "MercadoPago" : "PayPal";
+
+    if (!linkPago) {
+      console.error("No se envió la oferta a " + email + ": falta el link exclusivo de " + pasarela + ".");
+      continue;
+    }
+
+    var bodyOferta = `
+      <div style="${ESTILO_BASE}">
+        <div style="${CONTENEDOR} border-left: 2px solid #FF4500;">
+          <div style="${BADGE_VERDE}">ACCESO: OFERTA_EXCLUSIVA</div>
+          <h1 style="${TITULO_H1}">Una última oportunidad, ${name}.</h1>
+          <p style="${TEXTO_SECUNDARIO}">
+            Vimos que tu inscripción al <b>Bootcamp Geo-IA V4</b> aún no fue confirmada. Por eso habilitamos para ti un valor exclusivo de <b style="color:#FF4500;">${monto}</b> por el curso completo.
+          </p>
+          <div style="${BLOQUE_INFO}">
+            <h3 style="color:#FF4500; margin-top:0; font-size:12px; letter-spacing:1px; text-transform:uppercase;">VÁLIDA SOLO HOY ${fechaOferta}</h3>
+            <p style="color:#FFFFFF; font-size:14px; margin-bottom:5px;">La oferta expira hoy a las <b>23:59 hrs de Chile</b>.</p>
+            <p style="color:#888888; font-size:13px; margin-top:0;">Después de esa hora volverá a regir el precio normal.</p>
+            <a href="${linkPago}" style="${BOTON_SOLIDO}">PAGAR ${monto} VÍA ${pasarela.toUpperCase()}</a>
+          </div>
+          <p style="color:#FFFFFF; font-size:14px;">Después de pagar, responde este correo con tu comprobante para activar el acceso.</p>
+          <p style="color:#666666; font-size:11px; margin-top:30px;">Si ya confirmaste tu pago, puedes ignorar este mensaje.</p>
+        </div>
+      </div>
+    `;
+
+    try {
+      GmailApp.sendEmail(email, "[OFERTA EXCLUSIVA] Solo hoy: Bootcamp Geo-IA V4", "", {
+        htmlBody: bodyOferta,
+        name: "Bootcamp Geo-IA",
+        replyTo: EMAIL_ADMIN
+      });
+      sheet.getRange(i + 1, 8).setValue("Oferta Exclusiva Enviada");
+      enviados++;
+      console.log("✓ Oferta exclusiva enviada a: " + email);
+    } catch(e) {
+      console.error("✗ Error enviando oferta exclusiva a " + email + ": " + e.toString());
+    }
+  }
+
+  console.log("Total ofertas exclusivas enviadas: " + enviados);
+}
+
+// ---------------------------------------------------------------------------------
+// 3. ENVÍO DE TUTORIAL TRAS CONFIRMACIÓN DE PAGO
+// ---------------------------------------------------------------------------------
+function enviarTutorialAutomático() {
+  var sheet = obtenerHoja();
+  var data = sheet.getDataRange().getValues();
+  var enviados = 0;
   
   for (var i = 1; i < data.length; i++) {
-    if (data[i][7] === "Pagado") {
-      var name = data[i][1];
+    var email = data[i][2] ? data[i][2].toString().trim() : "";
+    var estado = data[i][7] ? data[i][7].toString().trim() : "";
+    if (estado === "Pagado" && email !== "") {
+      var name = data[i][1] ? data[i][1].toString().trim() : "Estudiante";
       var bodyTutorial = `
         <div style="${ESTILO_BASE}">
           <div style="${CONTENEDOR}">
@@ -224,25 +387,37 @@ function enviarTutorialAutomático() {
         </div>
       `;
       try {
-        MailApp.sendEmail({ to: data[i][2], subject: "[PREPARACIÓN] Bootcamp V4: Binarios y Tutorial de Instalación", htmlBody: bodyTutorial, name: "Bootcamp Geo-IA" });
+        GmailApp.sendEmail(email, "[PREPARACIÓN] Bootcamp V4: Binarios y Tutorial de Instalación", "", {
+          htmlBody: bodyTutorial,
+          name: "Bootcamp Geo-IA",
+          replyTo: EMAIL_ADMIN
+        });
         sheet.getRange(i + 1, 8).setValue("Tutorial Enviado");
+        enviados++;
+        console.log("✓ Tutorial enviado a: " + email);
       } catch(e) {
-        console.log("Error enviando a: " + data[i][2]);
+        console.error("✗ Error enviando tutorial a " + email + ": " + e.toString());
       }
     }
   }
+  console.log("Total tutoriales enviados: " + enviados);
 }
 
+// ---------------------------------------------------------------------------------
+// 4. ORQUESTADOR PERIÓDICO (FUNCIÓN DEL ACTIVADOR / TRIGGER)
+// ---------------------------------------------------------------------------------
 function ejecutarCRM() {
+  console.log("--> Iniciando ciclo de CRM...");
   enviarRecordatoriosPago();
   enviarTutorialAutomático();
+  console.log("--> Ciclo de CRM finalizado.");
 }
 
 // ---------------------------------------------------------------------------------
-// FUNCIÓN MANUAL PARA AVISARLE A LOS EXTRANJEROS
+// 5. FUNCIÓN MANUAL PARA AVISARLE A LOS EXTRANJEROS
 // ---------------------------------------------------------------------------------
 function enviarAvisoPayPalAtrasados() {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var sheet = obtenerHoja();
   var data = sheet.getDataRange().getValues();
   var contadorEnviados = 0;
   
@@ -251,8 +426,8 @@ function enviarAvisoPayPalAtrasados() {
     var country = data[i][3] ? data[i][3].toString().toLowerCase().trim() : "";
     var estado = data[i][7] ? data[i][7].toString().toLowerCase().trim() : ""; 
     
-    if (estado === "pendiente" && country !== "chile") {
-      var name = data[i][1];
+    if (estado === "pendiente" && country !== "chile" && email !== "") {
+      var name = data[i][1] ? data[i][1].toString().trim() : "Estudiante";
       var bodyFix = `
         <div style="${ESTILO_BASE}">
           <div style="${CONTENEDOR}">
@@ -268,19 +443,27 @@ function enviarAvisoPayPalAtrasados() {
         </div>
       `;
       try {
-        MailApp.sendEmail({to: email, subject: "[UPDATE] Habilitamos PayPal para tu inscripción al Bootcamp V4", htmlBody: bodyFix, name: "Bootcamp Geo-IA"});
+        GmailApp.sendEmail(email, "[UPDATE] Habilitamos PayPal para tu inscripción al Bootcamp V4", "", {
+          htmlBody: bodyFix,
+          name: "Bootcamp Geo-IA",
+          replyTo: EMAIL_ADMIN
+        });
         sheet.getRange(i + 1, 8).setValue("Pendiente*"); 
         contadorEnviados++;
-      } catch(e) {}
+        console.log("✓ Aviso PayPal enviado a: " + email);
+      } catch(e) {
+        console.error("✗ Error enviando aviso PayPal a " + email + ": " + e.toString());
+      }
     }
   }
+  console.log("Total avisos PayPal enviados: " + contadorEnviados);
 }
 
 // ---------------------------------------------------------------------------------
-// FUNCIÓN FINAL: ENVIAR LINKS DE CONEXIÓN V4
+// 6. FUNCIÓN PRE-EVENTO: ENVIAR ENLACES DE GOOGLE MEET V4
 // ---------------------------------------------------------------------------------
 function enviarLinksConexion() {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var sheet = obtenerHoja();
   var data = sheet.getDataRange().getValues();
   var enviados = 0;
   
@@ -288,8 +471,8 @@ function enviarLinksConexion() {
     var email = data[i][2] ? data[i][2].toString().trim() : "";
     var estado = data[i][7] ? data[i][7].toString().trim() : "";
     
-    if (estado === "Tutorial Enviado" || estado === "Tutorial Enviado V4") {
-      var name = data[i][1];
+    if ((estado === "Tutorial Enviado" || estado === "Tutorial Enviado V4") && email !== "") {
+      var name = data[i][1] ? data[i][1].toString().trim() : "Estudiante";
       
       var bodyLinks = `
         <div style="${ESTILO_BASE}">
@@ -343,21 +526,27 @@ function enviarLinksConexion() {
       `;
       
       try {
-        MailApp.sendEmail({to: email, subject: "[ACCESOS OFICIALES] Sockets de Conexión Bootcamp Geo-IA V4", htmlBody: bodyLinks, name: "Bootcamp Geo-IA"});
+        GmailApp.sendEmail(email, "[ACCESOS OFICIALES] Sockets de Conexión Bootcamp Geo-IA V4", "", {
+          htmlBody: bodyLinks,
+          name: "Bootcamp Geo-IA",
+          replyTo: EMAIL_ADMIN
+        });
         sheet.getRange(i + 1, 8).setValue("Accesos Enviados"); 
         enviados++;
+        console.log("✓ Accesos enviados a: " + email);
       } catch(e) {
-        console.log("Error enviando accesos a: " + email);
+        console.error("✗ Error enviando accesos a " + email + ": " + e.toString());
       }
     }
   }
+  console.log("Total accesos enviados: " + enviados);
 }
 
 // ---------------------------------------------------------------------------------
-// FUNCIÓN POST-CLASE: ENVIAR GRABACIONES
+// 7. FUNCIÓN POST-CLASE: ENVIAR GRABACIONES
 // ---------------------------------------------------------------------------------
 function enviarGrabaciones() {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var sheet = obtenerHoja();
   var data = sheet.getDataRange().getValues();
   var enviados = 0;
   
@@ -365,8 +554,8 @@ function enviarGrabaciones() {
     var email = data[i][2] ? data[i][2].toString().trim() : "";
     var estado = data[i][7] ? data[i][7].toString().trim() : "";
     
-    if (estado === "Accesos Enviados") {
-      var name = data[i][1];
+    if (estado === "Accesos Enviados" && email !== "") {
+      var name = data[i][1] ? data[i][1].toString().trim() : "Estudiante";
       
       var bodyGrabacion = `
         <div style="${ESTILO_BASE}">
@@ -393,16 +582,24 @@ function enviarGrabaciones() {
       `;
       
       try {
-        MailApp.sendEmail({to: email, subject: "[REPOSITORIO] Grabación DÍA 1 disponible en bóveda — Bootcamp V4", htmlBody: bodyGrabacion, name: "Bootcamp Geo-IA"});
+        GmailApp.sendEmail(email, "[REPOSITORIO] Grabación DÍA 1 disponible en bóveda — Bootcamp V4", "", {
+          htmlBody: bodyGrabacion,
+          name: "Bootcamp Geo-IA",
+          replyTo: EMAIL_ADMIN
+        });
         sheet.getRange(i + 1, 8).setValue("Carpeta Grabaciones Enviada"); 
         enviados++;
-      } catch(e) {}
+        console.log("✓ Grabaciones enviadas a: " + email);
+      } catch(e) {
+        console.error("✗ Error enviando grabaciones a " + email + ": " + e.toString());
+      }
     }
   }
+  console.log("Total correos de grabaciones enviados: " + enviados);
 }
 
 // ---------------------------------------------------------------------------------
-// FUNCIÓN FINAL: CIERRE DE BOOTCAMP Y DIPLOMA OFICIAL AUTOMATIZADO (PDF) V4
+// 8. PLANTILLA Y MOTOR DE DIPLOMA OFICIAL (PDF) V4
 // ---------------------------------------------------------------------------------
 function generarDiplomaHtml(nombreAlumno, fechaEmision) {
   fechaEmision = fechaEmision || "14 de Septiembre de 2026";
@@ -566,8 +763,11 @@ function generarDiplomaHtml(nombreAlumno, fechaEmision) {
 </html>`;
 }
 
+// ---------------------------------------------------------------------------------
+// 9. FUNCIÓN FINAL: CIERRE DE BOOTCAMP Y DIPLOMA PDF
+// ---------------------------------------------------------------------------------
 function enviarDiplomasYCierre() {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var sheet = obtenerHoja();
   var data = sheet.getDataRange().getValues();
   var enviados = 0;
   var fechaEmision = "14 de Septiembre de 2026";
@@ -639,20 +839,19 @@ function enviarDiplomasYCierre() {
           </div>
         `;
 
-        MailApp.sendEmail({
-          to: email,
-          subject: "[DIPLOMA OFICIAL] Certificado de Aprobación, Presentaciones y Bóveda — Bootcamp Geo-IA V4",
+        GmailApp.sendEmail(email, "[DIPLOMA OFICIAL] Certificado de Aprobación, Presentaciones y Bóveda — Bootcamp Geo-IA V4", "", {
           htmlBody: bodyFinal,
           attachments: [diplomaPdf],
-          name: "Bootcamp Geo-IA"
+          name: "Bootcamp Geo-IA",
+          replyTo: EMAIL_ADMIN
         });
 
         sheet.getRange(i + 1, 8).setValue("Diploma Enviado");
         enviados++;
-        console.log("Diploma despachado con éxito a: " + email);
+        console.log("✓ Diploma despachado con éxito a: " + email);
         
       } catch (err) {
-        console.log("Error despachando diploma a " + email + ": " + err.toString());
+        console.error("✗ Error despachando diploma a " + email + ": " + err.toString());
       }
     }
   }

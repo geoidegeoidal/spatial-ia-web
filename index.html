@@ -853,6 +853,25 @@
             <input type="hidden" name="plan" id="form-plan" value="Acceso General — $30.000 CLP" required>
           </div>
 
+          <!-- Promotional Discount Code Section -->
+          <div>
+            <div class="flex items-center justify-between mb-2 font-mono">
+              <label class="block text-xs uppercase tracking-wider text-gray-400" for="form-cupon">/ Código Promocional (Opcional)</label>
+              <span class="text-[11px] text-gray-500">¿Tienes un cupón?</span>
+            </div>
+            <div class="relative">
+              <input type="text" id="form-cupon" name="cupon" placeholder="EJ: CONMAPAS" autocomplete="off" class="super-input font-mono uppercase tracking-wider pr-10">
+              <div id="cupon-icon-status" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-500 flex items-center pointer-events-none transition-colors">
+                <iconify-icon icon="lucide:tag" class="text-base"></iconify-icon>
+              </div>
+            </div>
+            
+            <!-- Dynamic Coupon Feedback Badge -->
+            <div id="cupon-feedback" class="hidden mt-3 transition-all duration-300">
+              <!-- Renderizado dinámico vía JavaScript -->
+            </div>
+          </div>
+
           <div class="pt-2">
             <button type="submit" id="contact-submit" class="w-full py-4 rounded-full bg-[#FF4500] text-white font-semibold text-sm uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-[0_0_30px_rgba(255,69,0,0.35)] flex items-center justify-center gap-2">
               <span>Confirmar y Enviar Registro</span>
@@ -1050,6 +1069,7 @@
             `;
           }
           if (countryHidden) countryHidden.value = val;
+          evaluarCupon();
           countryMenu.classList.add('hidden');
           if (countryChevron) countryChevron.style.transform = 'rotate(0deg)';
           updateProgress();
@@ -1071,6 +1091,53 @@
       if (protoSection) {
         protoSection.scrollIntoView({ behavior: 'smooth' });
       }
+    }
+
+    // 6.1 Promotional Discount Code Evaluation & Dynamic Feedback
+    const cuponInput = document.getElementById('form-cupon');
+    const cuponFeedback = document.getElementById('cupon-feedback');
+    const cuponIcon = document.getElementById('cupon-icon-status');
+
+    function evaluarCupon() {
+      if (!cuponInput || !cuponFeedback) return;
+      const rawVal = cuponInput.value.trim().toUpperCase();
+      const isChile = (countryHidden ? countryHidden.value.toLowerCase().trim() : 'chile') === 'chile';
+
+      if (rawVal === 'CONMAPAS') {
+        cuponFeedback.className = 'mt-3 p-3.5 rounded-2xl border border-[#FF4500] bg-[#FF4500]/10 flex items-start gap-3 transition-all duration-300';
+        const precioTexto = isChile ? '$20.000 CLP' : '22 USD';
+        const pasarelaTexto = isChile ? 'MercadoPago o Transferencia' : 'PayPal o MercadoPago';
+        cuponFeedback.innerHTML = `
+          <iconify-icon icon="lucide:badge-percent" class="text-[#FF4500] text-xl shrink-0 mt-0.5"></iconify-icon>
+          <div class="text-xs">
+            <p class="text-white font-semibold flex items-center gap-2">
+              <span>¡CÓDIGO CONMAPAS ACTIVADO!</span>
+              <span class="px-2 py-0.5 rounded-full bg-[#FF4500] text-white text-[10px] font-mono font-bold tracking-wider">TARIFA ESPECIAL</span>
+            </p>
+            <p class="text-gray-300 mt-1 font-light leading-relaxed">
+              Tu inscripción queda en <strong class="text-[#FF4500] font-bold font-mono">${precioTexto}</strong> vía ${pasarelaTexto}.
+            </p>
+          </div>
+        `;
+        cuponFeedback.classList.remove('hidden');
+        if (cuponIcon) cuponIcon.innerHTML = `<iconify-icon icon="lucide:check-circle-2" class="text-emerald-400 text-base"></iconify-icon>`;
+      } else if (rawVal.length > 0) {
+        cuponFeedback.className = 'mt-3 p-3 rounded-2xl border border-white/10 bg-white/[0.02] flex items-center gap-2.5 transition-all duration-300 text-xs text-gray-400';
+        cuponFeedback.innerHTML = `
+          <iconify-icon icon="lucide:info" class="text-gray-500 text-base shrink-0"></iconify-icon>
+          <span>Código no reconocido. Se aplicará la tarifa regular de tu plan.</span>
+        `;
+        cuponFeedback.classList.remove('hidden');
+        if (cuponIcon) cuponIcon.innerHTML = `<iconify-icon icon="lucide:tag" class="text-gray-500 text-base"></iconify-icon>`;
+      } else {
+        cuponFeedback.classList.add('hidden');
+        cuponFeedback.innerHTML = '';
+        if (cuponIcon) cuponIcon.innerHTML = `<iconify-icon icon="lucide:tag" class="text-gray-500 text-base"></iconify-icon>`;
+      }
+    }
+
+    if (cuponInput) {
+      cuponInput.addEventListener('input', evaluarCupon);
     }
 
     // Live Progress Tracker

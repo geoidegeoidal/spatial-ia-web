@@ -30,9 +30,11 @@ stateDiagram-v2
     [*] --> Pendiente: doPost()
     Pendiente --> RecordatorioEnviado: enviarRecordatoriosPago() [24h]
     RecordatorioEnviado --> RecordatorioFinalEnviado: enviarRecordatoriosPago() [72h]
+    RecordatorioFinalEnviado --> OfertaExclusivaEnviada: enviarOfertaExclusivaHoy()
     Pendiente --> Pendiente_Asterisco: enviarAvisoPayPalAtrasados()
     
     Pendiente --> Pagado: Validación de Comprobante
+    OfertaExclusivaEnviada --> Pagado: Validación de Comprobante
     Pagado --> TutorialEnviado: enviarTutorialAutomático()
     TutorialEnviado --> TutorialEnviadoV3: enviarFeDeErratasTutorial()
     
@@ -55,13 +57,34 @@ stateDiagram-v2
 ### `RULE-CRM-005`: Notificación Inmediata al Administrador
 - En cada ejecución exitosa de `doPost`, se despacha un correo de alerta a `jorge.ulloa.roa@gmail.com` con los datos del postulante para verificación inmediata.
 
+### `RULE-CRM-006`: Oferta Exclusiva Posterior al Recordatorio Final
+- `enviarOfertaExclusivaHoy()` se ejecuta manualmente y procesa únicamente filas con estado exacto `"Recordatorio Final Enviado"` y correo válido.
+- **Chile:** oferta de **$20.000 CLP** mediante MercadoPago (`https://mpago.la/1E75xtF`).
+- **Internacional:** oferta de **22 USD** mediante PayPal (`https://www.paypal.com/ncp/payment/RGT8AG7R7U4DA`).
+- La vigencia termina a las 23:59 del día de envío, según horario de Chile (`America/Santiago`).
+- Un envío exitoso cambia el estado a `"Oferta Exclusiva Enviada"`, impidiendo duplicados.
+- Si falta el enlace correspondiente al país, el correo no se envía y el estado permanece intacto.
+
+### `RULE-CRM-007`: Cupón Promocional CONMAPAS en Formulario Web y CRM
+- El formulario de registro en [index.html](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/index.html) expone el campo opcional `cupon`.
+- Validación interactiva en tiempo real en frontend: si el valor ingresado es `CONMAPAS` (case-insensitive), se despliega de inmediato un badge visual indicando la tarifa con descuento ($20.000 CLP en Chile o 22 USD internacionalmente).
+- Ingesta en `doPost(e)`:
+  - Detecta si `cupon.toUpperCase().trim() === "CONMAPAS"`.
+  - Asigna tarifa de **$20.000 CLP** con enlace MercadoPago `https://mpago.la/1E75xtF` y datos de transferencia bancaria por $20.000 CLP para Chile.
+  - Asigna tarifa de **22 USD** con enlace PayPal `https://www.paypal.com/ncp/payment/RGT8AG7R7U4DA` y alternativa MercadoPago para postulantes extranjeros.
+  - En la hoja de cálculo, el cupón se concatena en la columna `Plan` como `[Plan] [Cupón CONMAPAS: $20.000 CLP / 22 USD]` para preservar la posición de la columna 8 (`Estado Pago`) sin romper ningún trigger.
+  - Se notifica al administrador en `[SYS.NOTIFY]` la aplicación del cupón.
+- En `enviarRecordatoriosPago()`:
+  - Se valida si el registro contiene el cupón para despachar recordatorios periódicos (24h y 72h) respetando la tarifa reducida ($20.000 CLP / 22 USD).
+
 ---
 
 ## 3. Implementación y Mapeo en Código
 
 | Función | Archivo | Líneas Aprox. | Propósito |
 | :--- | :--- | :--- | :--- |
-| `doPost(e)` | [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs#L21-L105) | 21–105 | Endpoint receptor de inscripciones y envío de bienvenida con datos de pago |
-| `enviarRecordatoriosPago()` | [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs#L107-L158) | 107–158 | Cron de 24h y 72h para conversión de inscritos pendientes |
-| `enviarTutorialAutomático()` | [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs#L160-L205) | 160–205 | Entrega de binarios e instructivo de instalación a alumnos con pago confirmado |
-| `enviarLinksConexion()` | [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs#L302-L375) | 302–375 | Envío masivo de accesos a Google Meet y Drive |
+| `doPost(e)` | [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs#L33-L150) | 33–150 | Receptor de inscripciones, parsing de cupón `CONMAPAS` y despacho de bienvenida |
+| `enviarRecordatoriosPago()` | [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs#L155-L235) | 155–235 | Cron de 24h y 72h respetando precios regulares o promocionales con cupón |
+| `enviarOfertaExclusivaHoy()` | [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs#L240-L300) | 240–300 | Oferta manual de un día para postulantes con recordatorio final agotado |
+| `enviarTutorialAutomático()` | [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs#L305-L355) | 305–355 | Entrega de binarios e instructivo de instalación a alumnos con pago confirmado |
+| `enviarLinksConexion()` | [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs#L415-L490) | 415–490 | Envío masivo de accesos a Google Meet y Drive |
