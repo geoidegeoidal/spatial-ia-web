@@ -11,7 +11,7 @@
 - **Decisions:** Mantener una sola constante compartida para evitar enlaces divergentes entre correos.
 - **Blocking / Pending:** Copiar la versión actualizada de `crm_script.gs` al editor de Google Apps Script antes del envío. Verificar destinatarios y permisos de lectura de la carpeta antes de ejecutar funciones masivas.
 - **Next Steps:** Subir las grabaciones a la carpeta y ejecutar `enviarGrabaciones()` de forma controlada.
-- **Relevant Commits:** Sin commit en esta sesión.
+- **Relevant Commits:** `6a31969`.
 
 ---
 
@@ -25,7 +25,7 @@
 - **Decisions:** Ninguna estructural. Solo sustitución de URLs; se mantiene el filtro estricto y la transición a `Accesos Enviados`.
 - **Blocking / Pending:** El usuario debe pegar `crm_script.gs` en el editor de Apps Script, publicar nueva versión del Webhook y ejecutar `enviarLinksConexion()` manualmente (revisando destinatarios antes, según CRM Email Safety).
 - **Next Steps:** Ejecutar el envío y confirmar la transición de estados en la planilla.
-- **Relevant Commits:** Sin commit en esta sesión (cambios sin confirmar en working tree).
+- **Relevant Commits:** `6a31969`.
 
 ---
 
