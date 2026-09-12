@@ -10,9 +10,9 @@
   - Actualizados `RULE-UI-004`, la matriz de trazabilidad y `AGENTS.md`.
   - Completado y archivado el cambio OpenSpec en `openspec/archive/2026-09-12-close-v4-registration/`.
 - **Decisions:** Se conserva el formulario inactivo en el HTML para facilitar una futura reapertura, pero no expone el webhook ni admite interacciones o envíos.
-- **Blocking / Pending:** Los cambios aún no tienen commit ni despliegue en `gh-pages`.
-- **Next Steps:** Revisar visualmente la landing y desplegar cuando sea aprobado.
-- **Relevant Commits:** Sin commit en esta sesión.
+- **Blocking / Pending:** Revisión visual final de la landing publicada.
+- **Next Steps:** Confirmar el aviso de cierre en producción.
+- **Relevant Commits:** `39784ae`.
 
 ---
 
