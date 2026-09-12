@@ -23,11 +23,11 @@ Define los estándares visuales, componentes de interfaz de usuario, arquitectur
 - **Internacional:** Adaptado dinámicamente según selección del usuario a pasarela PayPal / MercadoPago Latam.
 
 ### `RULE-UI-004`: Estado de Inscripción y Guardrails del Formulario
-- **Inscripciones Activas (Versión 4.0):**
-  - Fechas oficiales: **11, 12 y 13 de Septiembre de 2026** (20:00 a 21:30 hrs Chile).
-  - Todos los CTAs principales (Navbar, Hero, Planes de Precios) enlazan al formulario de captura `#protocolo`.
-  - El elemento `<form id="contact-form">` captura y despacha datos de forma asíncrona hacia el webhook de Google Apps Script (`crm_script.gs`).
-  - **Guardrail de Script:** La inicialización de scripts (`smooth scroll`, `IntersectionObserver`, efecto typewriter, selección de planes) comprueba la existencia de los elementos DOM (`if (form) { ... }`) para prevenir excepciones.
+- **Inscripciones Cerradas (Versión 4.0):**
+  - La sección `#protocolo` informa que la cohorte V4 finalizó y que próximamente se anunciará la Versión 5.
+  - Los CTA principales enlazan al aviso de cierre en `#protocolo` y no prometen una reserva activa.
+  - El formulario permanece oculto e inerte, sin endpoint configurado y marcado con `data-registration-closed="true"`.
+  - **Guardrail de Script:** El manejador de envío rechaza formularios marcados como cerrados y la inicialización comprueba la existencia de los elementos DOM antes de usarlos.
 
 ---
 
@@ -40,11 +40,11 @@ Define los estándares visuales, componentes de interfaz de usuario, arquitectur
 | **Syllabus (3 Módulos en 3 Col)** | [index.html](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/index.html) | Desglose modular: M01 (IA & SDD), M02 (Web Mapping MapLibre), M03 (Turf.js & GitHub Pages Deploy) |
 | **Instructor & Trayectoria** | [index.html](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/index.html) | Perfil de Jorge Ulloa Roa con enlace directo a LinkedIn y credenciales profesionales |
 | **Matriz de Inversión** | [index.html](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/index.html) | Comparativa de Pase General ($30.000 CLP) vs Pase Estudiante ($25.000 CLP) |
-| **Protocolo de Registro (#protocolo)** | [index.html](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/index.html) | Formulario asíncrono con campos `super-input` conectado al CRM de Google Apps Script |
+| **Estado de Registro (#protocolo)** | [index.html](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/index.html) | Aviso de inscripciones V4 cerradas y próxima convocatoria V5 |
 
 ---
 
 ## 4. Criterios de Aceptación y Verificación
 - [x] Validación visual en dispositivos móviles y de escritorio sin overflow horizontal.
 - [x] Consola de desarrollador limpia de excepciones `TypeError` en todas las interacciones.
-- [x] Envío reactivo del formulario con feedback inmediato al usuario ("¡Cupo Reservado con Éxito!").
+- [x] El sitio no expone un formulario operativo ni despacha inscripciones mientras la convocatoria está cerrada.

@@ -15,7 +15,7 @@ All architectural features, business rules, and changes in this repository are m
 
 ## Key Design & Safety Rules
 - **Design Tokens (`RULE-UI-001`)**: Background `#050505`, cards `#111111`, primary accent `#FF4500`, typography `Playfair Display` + `Inter` + `Space Mono`.
-- **Form Status & Webhook (`RULE-UI-004`)**: Form in `#protocolo` dispatches asynchronously via `fetch(action, { method: 'POST', body: formData, mode: 'no-cors' })` to Google Apps Script.
+- **Form Status (`RULE-UI-004`)**: V4 registrations are closed. `#protocolo` displays the upcoming V5 notice; the retained form is hidden, inert, has no endpoint, and rejects submission while marked `data-registration-closed="true"`.
 - **Payment & Pricing Matrix (`RULE-CRM-002`)**:
   - **Chile General:** $30.000 CLP via MercadoPago (`link-id=f7b0764f-2801-4b26-a858-59c416eebe42`) or Bank Transfer.
   - **Chile Estudiante:** $25.000 CLP via MercadoPago (`https://mpago.la/1EvJQi3`) or Bank Transfer.

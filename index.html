@@ -6,7 +6,7 @@
   <title>Bootcamp: Desarrollo de Aplicaciones Web Territoriales con IA // Versión 4.0</title>
   
   <!-- SEO Meta Tags -->
-  <meta name="description" content="Bootcamp intensivo de desarrollo web territorial con IA (11, 12 y 13 de Septiembre). Aprende MapLibre GL JS, Turf.js y arquitectura Zero-Server con acreditación oficial de 9 horas.">
+  <meta name="description" content="Bootcamp intensivo de desarrollo web territorial con IA. Inscripciones V4 cerradas; próximamente anunciaremos la Versión 5.">
   <meta name="author" content="Jorge Ulloa Roa">
   <meta property="og:title" content="Bootcamp Desarrollo Web Territorial con IA // V4.0">
   <meta property="og:description" content="Aprende a programar visores espaciales interactivos en la nube con MapLibre GL JS y Turf.js asistido con Inteligencia Artificial.">
@@ -182,7 +182,7 @@
       </div>
 
       <a href="#protocolo" id="nav-cta-link" class="inline-flex items-center justify-center px-6 py-2.5 rounded-full text-sm font-medium bg-white text-black hover:scale-105 hover:bg-gray-100 transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.2)]">
-        Reservar Cupo
+        Inscripciones Cerradas
       </a>
     </div>
   </nav>
@@ -237,7 +237,7 @@
           <a href="#protocolo" class="relative group cursor-pointer text-decoration-none">
             <div class="absolute inset-0 bg-[#FF4500]/40 blur-xl rounded-full opacity-60 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div class="relative bg-[#FF4500] text-white px-8 py-4 rounded-full flex items-center gap-3 text-sm uppercase tracking-widest font-semibold hover:scale-105 transition-all duration-300 shadow-[0_0_30px_rgba(255,69,0,0.4)]">
-              <span>Iniciar Reserva V4.0</span>
+              <span>Próximamente V5.0</span>
               <iconify-icon icon="lucide:arrow-right" class="text-lg"></iconify-icon>
             </div>
           </a>
@@ -637,7 +637,7 @@
           </div>
 
           <button onclick="seleccionarPlan('Acceso General — $30.000 CLP')" class="w-full py-4 rounded-full bg-white text-black font-medium text-sm uppercase tracking-wider hover:bg-[#FF4500] hover:text-white transition-all duration-300">
-            Reservar Acceso General
+            Inscripciones Cerradas
           </button>
         </div>
 
@@ -676,7 +676,7 @@
           </div>
 
           <button onclick="seleccionarPlan('Pase Estudiantes — $25.000 CLP')" class="w-full py-4 rounded-full border border-white/20 text-white font-medium text-sm uppercase tracking-wider hover:border-[#FF4500] hover:bg-[#FF4500]/10 transition-all duration-300">
-            Reservar Pase Estudiante
+            Inscripciones Cerradas
           </button>
         </div>
 
@@ -685,7 +685,7 @@
     </div>
   </section>
 
-  <!-- Registration Form Section (Protocolo V4) -->
+  <!-- Registration Status Section -->
   <section id="protocolo" class="py-32 relative border-t border-white/5">
     <div class="container mx-auto px-6 max-w-3xl">
       
@@ -693,21 +693,33 @@
         
         <div class="text-center mb-10">
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#FF4500]/30 bg-[#FF4500]/10 text-[#FF4500] text-xs font-mono uppercase tracking-widest mb-4">
-            <span class="w-1.5 h-1.5 rounded-full bg-[#FF4500] animate-ping"></span>
-            <span>Registro de Cohorte V4.0</span>
+            <iconify-icon icon="lucide:lock-keyhole" class="text-sm"></iconify-icon>
+            <span>Inscripciones cerradas // V4.0</span>
           </div>
           
           <h2 class="text-3xl sm:text-5xl font-serif text-white mb-4">
-            Inicia tu <span class="italic font-light text-[#ffe0e0]">Protocolo.</span>
+            Esta edición ha <span class="italic font-light text-[#ffe0e0]">finalizado.</span>
           </h2>
           
           <p class="text-gray-400 font-light text-sm sm:text-base leading-relaxed">
-            Completa tus datos para reservar tu cupo para el <strong class="text-white font-medium">11, 12 y 13 de Septiembre de 2026</strong>. Las instrucciones de pago (MercadoPago / Transferencia para Chile, PayPal para el extranjero) llegarán a tu correo al instante.
+            Las inscripciones para la Versión 4.0 están cerradas. Gracias a todas las personas que formaron parte de esta cohorte.
           </p>
         </div>
 
-        <!-- Formulario funcional conectado a Google Apps Script -->
-        <form id="contact-form" action="https://script.google.com/macros/s/AKfycbwVkxrb1FNnYjpBJjUMUo2FhfUsMP64IQX2vV5YRNigue6YXScqCkfJ8FrY9A7WZzi1xQ/exec" method="POST" class="space-y-6">
+        <div class="relative border border-[#FF4500]/30 bg-[#FF4500]/[0.06] rounded-3xl p-8 sm:p-10 text-center overflow-hidden">
+          <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#FF4500] to-transparent"></div>
+          <div class="w-14 h-14 rounded-full border border-[#FF4500]/40 bg-[#FF4500]/10 flex items-center justify-center mx-auto mb-6 text-[#FF4500] text-2xl">
+            <iconify-icon icon="lucide:radio"></iconify-icon>
+          </div>
+          <p class="font-mono text-xs uppercase tracking-[0.25em] text-[#FF4500] mb-3">Próxima transmisión</p>
+          <h3 class="font-serif text-3xl sm:text-4xl text-white mb-4">Versión 5.0</h3>
+          <p class="text-gray-400 font-light leading-relaxed max-w-xl mx-auto">
+            Pronto anunciaremos las nuevas fechas y la apertura de cupos. Mantente atento a nuestros canales oficiales.
+          </p>
+        </div>
+
+        <!-- Formulario V4 conservado sin endpoint para referencia, oculto y bloqueado -->
+        <form id="contact-form" action="" method="POST" class="space-y-6" hidden inert aria-hidden="true" data-registration-closed="true">
           
           <!-- Progress Telemetry -->
           <div class="p-3.5 rounded-2xl bg-white/[0.02] border border-white/10 flex items-center justify-between text-xs font-mono">
@@ -1179,6 +1191,7 @@
     if (form && submitBtn) {
       form.addEventListener('submit', e => {
         e.preventDefault();
+        if (form.dataset.registrationClosed === 'true') return;
         const originalContent = submitBtn.innerHTML;
         submitBtn.innerHTML = `
           <iconify-icon icon="lucide:loader-2" class="text-xl animate-spin"></iconify-icon>

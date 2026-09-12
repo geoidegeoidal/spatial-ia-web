@@ -2,6 +2,20 @@
 
 ## Handoff Log
 
+### Session: 2026-09-12 — Cierre de inscripciones V4 y anuncio V5
+- **Objective:** Cerrar las inscripciones web de la cohorte V4, bloquear el formulario y anunciar próximamente la Versión 5.
+- **Completed Work:**
+  - Actualizados los CTA y la sección `#protocolo` con el estado de inscripciones cerradas y el aviso V5.
+  - El formulario quedó oculto, inerte, sin endpoint y protegido con `data-registration-closed="true"` para impedir envíos.
+  - Actualizados `RULE-UI-004`, la matriz de trazabilidad y `AGENTS.md`.
+  - Completado y archivado el cambio OpenSpec en `openspec/archive/2026-09-12-close-v4-registration/`.
+- **Decisions:** Se conserva el formulario inactivo en el HTML para facilitar una futura reapertura, pero no expone el webhook ni admite interacciones o envíos.
+- **Blocking / Pending:** Los cambios aún no tienen commit ni despliegue en `gh-pages`.
+- **Next Steps:** Revisar visualmente la landing y desplegar cuando sea aprobado.
+- **Relevant Commits:** Sin commit en esta sesión.
+
+---
+
 ### Session: 2026-09-12 — Actualización de carpeta de grabaciones V4.0
 - **Objective:** Configurar la nueva carpeta de Google Drive que se compartirá con los alumnos en los correos de grabaciones y recursos.
 - **Completed Work:**
