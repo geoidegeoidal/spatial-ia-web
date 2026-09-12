@@ -15,7 +15,7 @@ const BOTON_SOLIDO = "display: block; background-color: #FF4500; color: #FFFFFF;
 const BOTON_TERMINAL = "display: inline-block; background-color: transparent; color: #FF4500; text-decoration: none; font-weight: bold; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-top: 20px;";
 
 // Enlaces de Recursos Oficiales V4.0
-const LINK_GRABACIONES_DRIVE = "https://drive.google.com/drive/folders/1vRA1fkfG01kLL3DfMeVres5re51YqlTg?usp=sharing";
+const LINK_GRABACIONES_DRIVE = "https://drive.google.com/drive/folders/1omSvhwQ2WQng5rlLm4ADz6vJOmHTsRGN?usp=sharing";
 const LINK_PRESENTACIONES_CANVA = "https://canva.link/workshop-gis-ia";
 const EMAIL_ADMIN = "jorge.ulloa.roa@gmail.com";
 const LINK_OFERTA_MERCADOPAGO = "https://mpago.la/1E75xtF";
@@ -490,21 +490,21 @@ function enviarLinksConexion() {
                 <span style="font-size: 10px; color: #FF4500; font-weight: bold;">[ EXEC_TODAY ]</span>
               </div>
               <p style="color: #888888; font-size: 13px; margin: 0 0 10px 0;">📅 Viernes, 11 de Septiembre | ⏰ 20:00 – 21:30 hrs (Chile)</p>
-              <a href="https://meet.google.com/dkp-rpqg-ktc" style="${BOTON_SOLIDO}">▶ ENTRAR A SALA DÍA 1 (MEET)</a>
+              <a href="https://meet.google.com/jqw-hvoi-acs" style="${BOTON_SOLIDO}">▶ ENTRAR A SALA DÍA 1 (MEET)</a>
             </div>
 
             <!-- SESIÓN 2 (SÁBADO 12) -->
             <div style="${BLOQUE_INFO}">
               <h3 style="color: #FF4500; margin: 0 0 10px 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">> MODULE.02: WORKSHOP (SESIÓN 2)</h3>
               <p style="color: #888888; font-size: 13px; margin: 0 0 10px 0;">📅 Sábado, 12 de Septiembre | ⏰ 20:00 – 21:30 hrs (Chile)</p>
-              <a href="https://meet.google.com/pgc-rmvk-dgj" style="${BOTON_SOLIDO} background-color:#12121a; color:#FF4500; border:1px solid #FF4500;">▶ ENTRAR A SALA DÍA 2 (MEET)</a>
+              <a href="https://meet.google.com/dma-gyfi-mkh" style="${BOTON_SOLIDO} background-color:#12121a; color:#FF4500; border:1px solid #FF4500;">▶ ENTRAR A SALA DÍA 2 (MEET)</a>
             </div>
 
             <!-- SESIÓN 3 (DOMINGO 13) -->
             <div style="${BLOQUE_INFO}">
               <h3 style="color: #FF4500; margin: 0 0 10px 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">> MODULE.03: WORKSHOP (SESIÓN 3)</h3>
               <p style="color: #888888; font-size: 13px; margin: 0 0 10px 0;">📅 Domingo, 13 de Septiembre | ⏰ 20:00 – 21:30 hrs (Chile)</p>
-              <a href="https://meet.google.com/dos-fcdq-kee" style="${BOTON_SOLIDO} background-color:#12121a; color:#FF4500; border:1px solid #FF4500;">▶ ENTRAR A SALA DÍA 3 (MEET)</a>
+              <a href="https://meet.google.com/jwr-rpgx-ncd" style="${BOTON_SOLIDO} background-color:#12121a; color:#FF4500; border:1px solid #FF4500;">▶ ENTRAR A SALA DÍA 3 (MEET)</a>
             </div>
 
             <!-- BÓVEDA DE GRABACIONES -->

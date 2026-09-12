@@ -2,6 +2,33 @@
 
 ## Handoff Log
 
+### Session: 2026-09-12 — Actualización de carpeta de grabaciones V4.0
+- **Objective:** Configurar la nueva carpeta de Google Drive que se compartirá con los alumnos en los correos de grabaciones y recursos.
+- **Completed Work:**
+  - Actualizado `LINK_GRABACIONES_DRIVE` en `crm_script.gs` con la carpeta `https://drive.google.com/drive/folders/1omSvhwQ2WQng5rlLm4ADz6vJOmHTsRGN?usp=sharing`.
+  - Sincronizada `RULE-CRM-004` en `openspec/specs/crm-automation/spec.md`.
+  - El enlace centralizado se aplica a `enviarLinksConexion()`, `enviarGrabaciones()` y `enviarDiplomasYCierre()`.
+- **Decisions:** Mantener una sola constante compartida para evitar enlaces divergentes entre correos.
+- **Blocking / Pending:** Copiar la versión actualizada de `crm_script.gs` al editor de Google Apps Script antes del envío. Verificar destinatarios y permisos de lectura de la carpeta antes de ejecutar funciones masivas.
+- **Next Steps:** Subir las grabaciones a la carpeta y ejecutar `enviarGrabaciones()` de forma controlada.
+- **Relevant Commits:** Sin commit en esta sesión.
+
+---
+
+### Session: 2026-09-11 — Actualización de enlaces Google Meet V4.0
+- **Objective:** Reemplazar los enlaces de Google Meet de las 3 sesiones del Bootcamp V4.0 en el correo de accesos (`enviarLinksConexion()`), destinado a alumnos con estado `Tutorial Enviado` / `Tutorial Enviado V4`.
+- **Completed Work:**
+  - Actualizados los 3 enlaces en [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs#L493-L507):
+    - Sesión 1 (Vie 11-SEP): `https://meet.google.com/jqw-hvoi-acs` (antes `dkp-rpqg-ktc`).
+    - Sesión 2 (Sáb 12-SEP): `https://meet.google.com/dma-gyfi-mkh` (antes `pgc-rmvk-dgj`).
+    - Sesión 3 (Dom 13-SEP): `https://meet.google.com/jwr-rpgx-ncd` (antes `dos-fcdq-kee`).
+- **Decisions:** Ninguna estructural. Solo sustitución de URLs; se mantiene el filtro estricto y la transición a `Accesos Enviados`.
+- **Blocking / Pending:** El usuario debe pegar `crm_script.gs` en el editor de Apps Script, publicar nueva versión del Webhook y ejecutar `enviarLinksConexion()` manualmente (revisando destinatarios antes, según CRM Email Safety).
+- **Next Steps:** Ejecutar el envío y confirmar la transición de estados en la planilla.
+- **Relevant Commits:** Sin commit en esta sesión (cambios sin confirmar en working tree).
+
+---
+
 ### Session: 2026-09-03 — Cupón de descuento 'CONMAPAS' en Formulario Web y CRM
 - **Objective:** Añadir un campo de código promocional en el formulario de inscripción donde al ingresar `CONMAPAS` se active la tarifa preferencial ($20.000 CLP para Chile vía MercadoPago/Transferencia y 22 USD para extranjeros vía PayPal), despachando las opciones correspondientes tanto en la interfaz en vivo como en los correos y recordatorios del CRM.
 - **Completed Work:**

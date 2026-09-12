@@ -48,10 +48,10 @@ stateDiagram-v2
 ### `RULE-CRM-004`: Despacho de Sockets y Enlaces de Sesión (`enviarLinksConexion`)
 - **Filtro estricto:** Solo filas cuyo estado sea `"Tutorial Enviado"` o `"Tutorial Enviado V4"`.
 - **Contenido del correo:**
-  - Sesión 1 (Viernes 11-SEP): `https://meet.google.com/dkp-rpqg-ktc`
-  - Sesión 2 (Sábado 12-SEP): `https://meet.google.com/pgc-rmvk-dgj`
-  - Sesión 3 (Domingo 13-SEP): `https://meet.google.com/dos-fcdq-kee`
-  - Bóveda permanente en Drive: `https://drive.google.com/drive/folders/1vRA1fkfG01kLL3DfMeVres5re51YqlTg?usp=sharing`
+  - Sesión 1 (Viernes 11-SEP): `https://meet.google.com/jqw-hvoi-acs`
+  - Sesión 2 (Sábado 12-SEP): `https://meet.google.com/dma-gyfi-mkh`
+  - Sesión 3 (Domingo 13-SEP): `https://meet.google.com/jwr-rpgx-ncd`
+  - Bóveda permanente en Drive: `https://drive.google.com/drive/folders/1omSvhwQ2WQng5rlLm4ADz6vJOmHTsRGN?usp=sharing`
 - **Transición de estado:** Actualiza a `"Accesos Enviados"`.
 
 ### `RULE-CRM-005`: Notificación Inmediata al Administrador
