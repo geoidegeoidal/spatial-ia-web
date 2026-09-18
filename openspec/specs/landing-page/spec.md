@@ -7,16 +7,17 @@ Define los estándares visuales, componentes de interfaz de usuario, arquitectur
 
 ## 2. Reglas de Negocio y Requisitos Técnicos
 
-### `RULE-UI-001`: Estética Visual Superdesign (Dark Surrealist & Ethereal Motion)
-- **Fondo base:** Obsidian Black (`#050505`) y contenedor de tarjetas en `#111111`.
-- **Acentos:** Ember Orange (`#FF4500`), Soft Peach Glow (`#ffe0e0`), bordes sutiles `border-white/10`.
-- **Tipografía V5:** `Chakra Petch` recta para títulos luminosos, `Inter` para lectura y `Space Mono` para datos; sin cursivas decorativas.
-- **Efectos y Micro-animaciones:** Manos surrealistas flotantes, esfera cartográfica orbital, ruido analógico, entrada escalonada y revelación progresiva. Control de pausa, foco visible y respeto a `prefers-reduced-motion`. Tarjetas de programa alineadas, sin escalonamiento vertical permanente.
-- **Rendimiento:** Esfera y órbita estáticas; transiciones transform/opacity sin blur ni mezcla de capas o parallax de fondo. Textura estática embebida e imágenes decorativas con decodificación asíncrona. Conservar las manos flotantes.
+### `RULE-UI-001`: Hydra — cartografía reactiva y tipografía pixelada
+- **Fondo base:** Negro `#080909`, superficies `#111111`, bordes técnicos `#2b2d2b`.
+- **Acento:** Naranja `#ff541c`; texto cálido `#f4f3ed`.
+- **Tipografía V5:** Geist Pixel (familia local `Pixel`), Manrope y Space Mono; recta, sin cursivas decorativas.
+- **Movimiento central:** Relieve de 2.232 partículas reactivo al cursor que se transforma en esfera con scroll, banda móvil, titulares y diagramas progresivos. Sustituye la atmósfera y manos Superdesign por elección del usuario.
+- **Accesibilidad y rendimiento:** Scroll nativo, pausa, reduced-motion, suspensión fuera de pantalla/pestaña oculta y SVG/HTML de respaldo. Foco de teclado revela el contenido inmediatamente. Hero usa `overflow:clip` para impedir desplazamiento horizontal interno al cambiar de viewport. Tarjetas alineadas. Sin blur ni blends.
+- **Integridad:** Conservar todas las secciones, desplegables, metadatos, enlaces e integraciones al cambiar el diseño. La foto del instructor es contenido; conservarla y ampliar su perfil solo con información respaldada. Verificación de siete bloques mediante huellas de texto en `test_site_hydra.cjs`.
 
 ### `RULE-UI-002`: Arquitectura Zero-Server y Zero-Build
 - La aplicación web se ejecuta 100% en el cliente sin requerir pipeline de compilación Node/Webpack local.
-- Las librerías de estilos (TailwindCSS CDN), Iconify y fuentes se importan vía CDN oficial y Google Fonts.
+- HTML/CSS/Canvas/JavaScript nativos; estilos en `assets/site.css`, movimiento compartido en `assets/motion.js` y `assets/motion.css`. Fuentes abiertas desde Google Fonts. Sin librería de animación o pipeline de compilación.
 
 ### `RULE-UI-003`: Oferta y Programa V5
 - **Pase General:** `$35.000 CLP`; **Estudiantes:** `$30.000 CLP`.
@@ -38,16 +39,25 @@ Define los estándares visuales, componentes de interfaz de usuario, arquitectur
 
 ---
 
+### `RULE-UI-007`: Muestras alternativas de rediseño
+- `proposals/01-hydra.html`: negro/naranja, tipografía pixelada, relieve de partículas reactivo y transformación a esfera con scroll, banda desplazable y transiciones, inspirada en HydraDB.
+- `proposals/02-illoca.html`: papel cuadriculado/azul cobalto, recorrido de cámara por maqueta 3D, construcción progresiva y transición a interfaz, inspirada en Illoca.
+- Hydra fue seleccionado y aplicado a `index.html`, regido ahora por `RULE-UI-001`. Illoca conserva sus tokens alternativos solo en la muestra. Publicación pendiente de solicitud explícita.
+- Ambas mantienen oferta y programa V5, sin formularios, pagos, analítica ni publicación del material de clase. Enlaces cruzados, foco visible, desplegables nativos y adaptación 320–1440 px.
+- El movimiento es central, no opcional en la interpretación de referencias. Implementación compartida en `assets/motion.js` y `assets/motion.css`, con scroll nativo, pausa visible, reduced-motion, suspensión fuera de pantalla/pestaña oculta y contenido/SVG de respaldo sin JavaScript.
+- Verificación: `node test_redesign.js`, `node test_redesign_motion.cjs` (Playwright/Edge), comparación de estados y rendimiento documentada en `2026-09-18-redesign-motion`. Videos `proposals/*-motion.webm` y capturas escritorio/móvil/etapas.
+
 ## 3. Componentes Clave
 
 | Componente | Archivo Fuente | Descripción |
 | :--- | :--- | :--- |
-| **Hero & Surrealist Atmosphere** | `index.html` | Cabecera Chakra Petch, manos flotantes, esfera cartográfica y fechas V5 |
+| **Hero Hydra & partículas** | `index.html`, `assets/site.css`, `assets/motion.js`, `assets/motion.css` | Geist Pixel, relieve reactivo → esfera, fechas y CTA V5 |
 | **Franja de Capacidades** | `index.html` | IA, mapas interactivos, proyecto propio y publicación web |
 | **Syllabus (3 Módulos en 3 Col)** | [index.html](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/index.html) | Desglose modular: M01 (IA & SDD), M02 (Web Mapping MapLibre), M03 (Turf.js & GitHub Pages Deploy) |
-| **Instructor & Trayectoria** | [index.html](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/index.html) | Perfil de Jorge Ulloa Roa con enlace directo a LinkedIn y credenciales profesionales |
+| **Instructor & Trayectoria** | `index.html`, `assets/instructor.jpg` | Foto en color, perfil ampliado, dos roles actuales, portafolio y LinkedIn |
 | **Matriz de Inversión** | `index.html` | General $35.000 CLP / estudiantes $30.000 CLP y conversión USD referencial |
 | **Estado de Registro (#protocolo)** | [index.html](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/index.html) | Aviso de inscripciones V4 cerradas y próxima convocatoria V5 |
+| **Detalles & FAQ** | `index.html` | Tres desplegables del programa y cuatro preguntas frecuentes, incluida certificación V4 |
 
 ---
 
@@ -55,3 +65,4 @@ Define los estándares visuales, componentes de interfaz de usuario, arquitectur
 - [x] Validación visual en dispositivos móviles y de escritorio sin overflow horizontal.
 - [x] Consola de desarrollador limpia de excepciones `TypeError` en todas las interacciones.
 - [x] El sitio no expone un formulario operativo ni despacha inscripciones mientras la convocatoria está cerrada.
+- [x] Siete bloques anteriores conservados por comparación de huellas; perfil ampliado sin perder párrafos previos. Foto, menú móvil, eventos y rutas de assets verificados.

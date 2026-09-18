@@ -2,6 +2,50 @@
 
 ## Handoff Log
 
+### 2026-09-18 — Publicación autorizada del rediseño Hydra
+- **Objetivo:** Publicar la portada Hydra, foto y perfil ampliado tras la petición explícita «publicalo».
+- **Hecho:** Revisados cambios y ramas; `master`, `gh-pages` y sus remotos sincronizados antes del despliegue. GitHub Pages confirmado desde `gh-pages`, raíz `/`.
+- **Decidido:** Publicar implementación, assets, muestras y verificaciones del rediseño; conservar `.opencode/` local fuera del commit. Mantener inscripción cerrada y todo el contenido verificado.
+- **Bloqueantes / pendientes:** En curso: commit, push de ambas ramas, ejecución de Pages y comprobación de la URL pública.
+- **Próxima sesión:** Continuar preparación de CRM/pagos V5 tras verificar la publicación.
+- **Commits relevantes:** [TODO: registrar hash y push confirmado al finalizar].
+
+---
+
+### 2026-09-18 — Hydra aplicado a portada íntegra, foto y perfil ampliado
+- **Objetivo:** Usuario elige Hydra para el sitio oficial y exige no omitir secciones; agrega integrar su foto y ampliar el perfil.
+- **Hecho:** `index.html` rediseñado con Hydra, `assets/site.css`, runtime compartido promovido a `assets/motion.js` / `assets/motion.css` y referencias de ambas muestras actualizadas. Hero de partículas, banda, transiciones, navegación fija/menú móvil. Contenido original completo preservado. Foto local cuadrada en color, fichas 8+ años/UAH y tres párrafos nuevos sobre geografía/datos/herramientas y enfoque docente; cinco párrafos previos, dos roles ministeriales y enlaces conservados.
+- **Decidido:** Hydra sustituye Superdesign en la portada local. Sin commit/push/despliegue porque no hubo solicitud explícita. Inscripciones, pagos y certificación V4 conservan sus estados. Fuente de verdad de estilos/arquitectura actualizada; OpenSpec archivado en `2026-09-18-promote-hydra-official`.
+- **Verificación:** `test_preview_v5.js`, `test_redesign.js`, sintaxis runtime y ambos tests Playwright aprobados. `test_site_hydra.cjs` valida siete huellas del texto anterior (excluye solo adiciones autorizadas del perfil), tres módulos/12 temas/tres resultados, tres desplegables del programa, diez tecnologías, cuatro FAQs, oferta CLP/USD íntegra, foto cargada sin distorsión, menú móvil, pausa/reduced-motion, fallback sin JS, redirect y assets. Edge 1440/1024/768/390/320 y 320×568, sin errores JS. GoatCounter real: visita + cuatro eventos con todas las solicitudes interceptadas, sin conteos de prueba en producción.
+- **Rendimiento / revisión:** Portada en Edge software a 1440×900, 5,5 s de scroll, 331 intervalos: mediana/p95 16,7 ms, máximo 16,8 ms, cero >50 ms y cero long tasks. Capturas de portada, programa, foto/perfil y precios revisadas en `%TEMP%/opencode/official-hydra-*.png`. Corregido scroll horizontal interno del hero al redimensionar después de focus (`overflow:clip`) y revelación inmediata de elementos enfocados.
+- **Bloqueantes / pendientes:** Implementación local completa; publicación pendiente de solicitud explícita. Pendientes CRM/pagos V5 y cierre V4 continúan. No se modificó `.opencode/` preexistente.
+- **Próxima sesión:** Recoger revisión de la portada y desplegar cuando se solicite. Tests de navegador requieren Playwright existente vía `NODE_PATH=%TEMP%/opencode/node_modules`; `SPATIAL_CAPTURE_DIR` opcional apunta a una carpeta existente.
+- **Commits relevantes:** Ninguno; sin commit ni push.
+
+---
+
+### 2026-09-18 — Corrección: animaciones centrales en las dos propuestas
+- **Objetivo:** Responder a la crítica del usuario: las muestras solo tomaron la identidad visual y omitieron las animaciones/transiciones que hacen potentes a HydraDB e Illoca.
+- **Hecho:** Referencias observadas en carga, cursor y scroll. Incorporados `proposals/motion.js` / `motion.css`: Hydra con 2.232 partículas, ondas, interacción y transformación relieve→esfera; Illoca con geometría 3D original, cámara ligada al scroll, construcción escalonada y panel de aplicación. Añadidos entradas de titulares, revelaciones, banda móvil, navegación fija y microinteracciones. Videos `proposals/*-motion.webm`, capturas de etapas/escritorio/móvil y prueba `test_redesign_motion.cjs`.
+- **Decidido:** El movimiento es parte esencial de estas referencias. Se revierte la decisión anterior de prototipos sin JS. Canvas/CSS nativos, sin librerías nuevas, scroll nativo y SVG/HTML de respaldo. Pausa, reduced-motion y detención de bucles fuera de pantalla/pestaña oculta. Portada pública intacta.
+- **Verificación:** Test estático y sintaxis aprobados. Playwright/Edge a 1440/1024/768/390/320 px y 320×568: comparaciones de píxeles, tres etapas, cursor, teclado, pausa real, reduced-motion, bucle detenido fuera de pantalla y contenido con JS deshabilitado. Sin errores JS. Benchmark Edge software, scroll activo 5,5 s sin grabación: ambas mediana/p95 16,7 ms, 331 intervalos, cero >50 ms. Durante grabación p95 33,4 ms. Revisadas secuencias visuales; corregidos solapamientos, color heredado y controles de pantallas cortas.
+- **Bloqueantes / pendientes:** Evaluación del usuario sobre la experiencia animada. Muestras locales, sin publicación. Continúan pendientes operativos de V5/V4.
+- **Próxima sesión:** Recoger feedback sobre movimiento y dirección seleccionada. Tests de navegador usan Playwright ya instalado en `%TEMP%/opencode/node_modules` mediante `NODE_PATH`; no agregar dependencia de producción. Archivo OpenSpec `2026-09-18-redesign-motion`.
+- **Commits relevantes:** Ninguno; sin commit ni push.
+
+---
+
+### 2026-09-18 — Dos propuestas visuales: HydraDB e Illoca
+- **Objetivo:** Entregar dos muestras navegables de rediseño basadas en las referencias solicitadas.
+- **Hecho:** Referencias inspeccionadas en Edge. Creadas `proposals/01-hydra.html` (Territorio en código) y `proposals/02-illoca.html` (Cuaderno territorial), con SVG originales, programa desplegable, instructor, oferta V5 y enlaces cruzados. Cuatro capturas de escritorio/móvil en `proposals/`. Documentación y OpenSpec sincronizados; cambio archivado en `2026-09-18-two-visual-redesigns`.
+- **Decidido:** Dos interpretaciones visuales completas y estáticas, sin JavaScript, formularios, analítica ni enlaces de pago. Tokens alternativos solo en las muestras. Pendiente elección del usuario.
+- **Verificación:** `node test_redesign.js` aprobado. `check-redesign.cjs` temporal: Edge 1440/1024/768/390/320 px, sin overflow ni errores JS; cards alineadas, CTA, teclado, enlaces cruzados y reduced-motion comprobados. Capturas completas revisadas; corregido CTA oculto en móvil Hydra.
+- **Bloqueantes / pendientes:** Ninguno para evaluar las muestras. No publicadas. Continúan CRM/pagos V5 y certificados V4 pendientes.
+- **Próxima sesión:** Recoger elección y ajustes del usuario antes de promover un rediseño.
+- **Commits relevantes:** Ninguno; sin commit ni push en esta sesión.
+
+---
+
 ### 2026-09-18 — Optimización y programa publicados en producción
 - **Objetivo:** Desplegar los cambios autorizados por el usuario («manda a producción»).
 - **Hecho:** `e4483f6` publicado exitosamente en `origin/master` y `origin/gh-pages`; GitHub Pages run `35310028163` finalizado correctamente. URL pública muestra el programa OpenSpec actualizado y sin nombres de datasets de práctica.

@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🌃 NEON TOKYO // GEO-APP BOOTCAMP
+# SPATIAL // GIS + IA BOOTCAMP
 
 **De Analista SIG a Desarrollador Web de Aplicaciones Geográficas en la Nube.**
 
@@ -79,9 +79,13 @@ El desarrollo, evolución técnica y reglas de negocio de este repositorio está
 
 ### Verificación local
 
-### Propuesta V5 (Territorios Imposibles)
+### Sitio V5 — Hydra (Territorios Imposibles)
 
-La página principal `index.html` presenta V5: Chakra Petch sin cursivas, manos flotantes y transiciones accesibles. `preview_v5.html` redirige a ella. Incluye fechas del 16 al 18 de octubre de 2026, 20:00–21:30 (Santiago), precios de $35.000 CLP general / $30.000 CLP estudiantes y conversión USD referencial fechada. Programa ampliado según las diapositivas del instructor: agentes/SDD, visor de humedales con MapLibre, Turf.js, Chart.js, exportación y GitHub Pages. Inscripciones cerradas, sin formulario público; cobro internacional y CRM pendientes.
+La página principal `index.html` adopta el diseño Hydra elegido: Geist Pixel / Manrope / Space Mono, negro y naranja, relieve de partículas reactivo que se transforma en esfera con scroll y transiciones accesibles. `preview_v5.html` redirige a ella. Se preservan todas las secciones: capacidades, tres módulos completos, metodología y detalles, tecnologías, instructor, precios/convocatoria, cuatro preguntas frecuentes y footer.
+
+Foto en color y perfil de Jorge Ulloa Roa ampliado, manteniendo biografía previa, roles actuales, portafolio y LinkedIn. Fechas: 16–18 octubre de 2026, 20:00–21:30 (Santiago); $35.000 CLP general / $30.000 CLP estudiantes, USD referencial fechado. Programa: agentes/SDD/OpenSpec, MapLibre/GeoJSON, Turf.js, Chart.js, exportación y GitHub Pages. Inscripciones cerradas, sin formulario público; cobro internacional y CRM pendientes.
+
+Archivos: `index.html`, `assets/site.css`, `assets/motion.js`, `assets/motion.css`, `assets/instructor.jpg`. HTML/CSS/Canvas nativos, sin compilación ni nuevas dependencias de producción. **Hydra aplicado localmente; aún no desplegado.** Inventario y verificación: [`2026-09-18-promote-hydra-official`](openspec/archive/2026-09-18-promote-hydra-official/proposal.md).
 
 Alcance y preparación operativa: [`openspec/changes/prepare-v5-and-close-v4/proposal.md`](openspec/changes/prepare-v5-and-close-v4/proposal.md) y [`launch-checklist.md`](openspec/changes/prepare-v5-and-close-v4/launch-checklist.md).
 
@@ -91,9 +95,30 @@ Panel: https://julloar.goatcounter.com/. El script alojado de GoatCounter está 
 
 V5 publicada en GitHub Pages desde `gh-pages` (commit `5b1c4b1`). Verificación del 18/09/2026: visita desde la URL pública aceptada por GoatCounter con HTTP 200 y ruta `/spatial-ia-web/`. Se generó una visita real de comprobación; la visualización del panel privado queda disponible para el titular. Bloqueadores de contenido pueden impedir el seguimiento; visitas locales se excluyen por defecto del proveedor.
 
-### Pruebas locales
+### Muestras de rediseño (HydraDB / Illoca)
+
+Abrir directamente en el navegador; no requieren servidor ni compilación:
+- [`proposals/01-hydra.html`](proposals/01-hydra.html): **Territorio en código**, relieve de partículas que responde al cursor y se transforma en esfera al desplazarse; banda móvil, entradas y diagramas progresivos. [Video](proposals/01-hydra-motion.webm).
+- [`proposals/02-illoca.html`](proposals/02-illoca.html): **Cuaderno territorial**, cámara que recorre una maqueta 3D, edificios que se construyen por etapas y transición a una interfaz territorial. [Video](proposals/02-illoca-motion.webm).
+
+Mueve el cursor sobre la escena y desplázate para recorrer las transformaciones. Illoca también permite saltar entre etapas mediante tres botones. Ambas tienen pausa visible, respeto a movimiento reducido y navegación por teclado. `assets/motion.js` y `assets/motion.css` son compartidos con la portada y usan Canvas/CSS nativos; detienen los bucles fuera de pantalla. Contenido y SVG de respaldo disponibles sin JavaScript. Fuentes abiertas de Google Fonts. Capturas `proposals/*-desktop.png`, `*-mobile.png` y `*-motion-start/middle/end.png`. Las muestras no tienen formulario ni analítica; Hydra ya fue seleccionado para portada.
+
+Cambio inicial: [`2026-09-18-two-visual-redesigns`](openspec/archive/2026-09-18-two-visual-redesigns/proposal.md). Corrección de movimiento y evidencia: [`2026-09-18-redesign-motion`](openspec/archive/2026-09-18-redesign-motion/proposal.md).
+
+Prueba de navegador (requiere Playwright y Microsoft Edge; en este entorno Playwright ya existe en la carpeta temporal):
+
+```powershell
+$env:NODE_PATH = Join-Path $env:TEMP 'opencode\node_modules'
+node test_redesign_motion.cjs
+node test_site_hydra.cjs
+```
+
+El primer test verifica las muestras y actualiza sus capturas. El segundo comprueba siete huellas del contenido oficial anterior, ampliación del perfil/foto, siete desplegables, menú móvil, módulos alineados, pausa/reduced-motion, fallback sin JS, redirect, rutas de assets y visita/cuatro eventos GoatCounter interceptados. Tamaños 320–1440 px, incluido 320×568. Para guardar capturas oficiales, definir `SPATIAL_CAPTURE_DIR` con una carpeta existente antes de ejecutarlo. No envía visitas de prueba a producción.
+
+### Comandos de verificación
 
 ```bash
+node test_redesign.js
 node test_preview_v5.js
 node test_crm_cupon.js
 node test_crm_oferta.js
