@@ -12,6 +12,7 @@ Define los estándares visuales, componentes de interfaz de usuario, arquitectur
 - **Acentos:** Ember Orange (`#FF4500`), Soft Peach Glow (`#ffe0e0`), bordes sutiles `border-white/10`.
 - **Tipografía V5:** `Chakra Petch` recta para títulos luminosos, `Inter` para lectura y `Space Mono` para datos; sin cursivas decorativas.
 - **Efectos y Micro-animaciones:** Manos surrealistas flotantes, esfera cartográfica orbital, ruido analógico, entrada escalonada y revelación progresiva. Control de pausa, foco visible y respeto a `prefers-reduced-motion`. Tarjetas de programa alineadas, sin escalonamiento vertical permanente.
+- **Rendimiento:** Esfera y órbita estáticas; transiciones transform/opacity sin blur ni mezcla de capas o parallax de fondo. Textura estática embebida e imágenes decorativas con decodificación asíncrona. Conservar las manos flotantes.
 
 ### `RULE-UI-002`: Arquitectura Zero-Server y Zero-Build
 - La aplicación web se ejecuta 100% en el cliente sin requerir pipeline de compilación Node/Webpack local.
@@ -21,7 +22,7 @@ Define los estándares visuales, componentes de interfaz de usuario, arquitectur
 - **Pase General:** `$35.000 CLP`; **Estudiantes:** `$30.000 CLP`.
 - **USD referencial:** 36,65 / 31,42, a 954,85 CLP/USD (dólar observado 17/09/2026, mindicador.cl); no son importes internacionales de cobro confirmados ni incluyen comisiones.
 - **Fechas:** 16–18 octubre 2026, 20:00–21:30 America/Santiago (UTC−3), 4,5 horas en vivo. Cupos y pagos pendientes.
-- **Programa:** Basado en PDF Workshop Geo IA del instructor: S01 agentes, SDD, contrato.md, KISS, HTML/Tailwind/Vanilla JS; S02 humedales urbanos, GeoJSON/EDA, MapLibre, fuentes/capas, filtros/popups y auditoría UI; S03 Turf buffers/disolución/intersecciones, exportación, simbología, Chart.js y filtrado cruzado, responsive, GitHub CLI/Pages, Stitch y hosting. Contenido avanzado como ejemplos guiados, sin promesa de implementación exhaustiva en 4,5 horas.
+- **Programa:** Versión vigente de 50 páginas: S01 agentes, SDD/OpenSpec (Explore, Propose, Apply, criterios de aceptación y artefactos), KISS, HTML/Tailwind/Vanilla JS; S02 GeoJSON/EDA, MapLibre, fuentes/capas, filtros/popups y auditoría UI; S03 Turf buffers/disolución, exportación filtrada, fuente común de simbología/leyenda, Chart.js con estado de filtros compartido, responsive y GitHub CLI/Pages. No nombrar datasets o capas de práctica ni publicar/enlazar el PDF. Contenido avanzado como ejemplos guiados, sin promesa de implementación exhaustiva en 4,5 horas.
 
 ### `RULE-UI-004`: Estado de Inscripción y Guardrails del Formulario
 - **Inscripciones Cerradas (Versión 4.0):**

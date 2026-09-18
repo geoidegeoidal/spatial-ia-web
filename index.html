@@ -36,17 +36,17 @@
     .hero .eyebrow{display:inline-block;border:1px solid #ff450066;background:#160d0bcc;border-radius:40px;padding:10px 20px;box-shadow:0 0 30px #ff450016;color:#ffab8c;font-size:10px}
     h1{font-size:clamp(54px,7.4vw,106px);line-height:1.04;letter-spacing:-.045em;margin:30px 0;color:#ffe8e1;text-shadow:0 0 45px #ffc8b33b;font-weight:600}
     h1 em{color:#ffe0e0;text-shadow:0 0 22px #ffc3ac66;font-weight:500}.hero .intro{max-width:550px;margin:28px auto;color:#d0bdb7;font-size:16px}.hero .actions{justify-content:center;margin-top:34px}.hero .mono.muted{font-size:9px;letter-spacing:2px;color:#ac9690;margin-top:32px}
-    .button{border-radius:100px;color:white;padding:18px 28px;box-shadow:0 0 35px #ff45004d;transition:transform .3s,box-shadow .3s,background .3s}.button:hover{transform:translateY(-4px);box-shadow:0 0 60px #ff450080;color:white}.text-link{padding:15px 20px;border:1px solid #ffffff30;border-radius:100px;background:#ffffff05;backdrop-filter:blur(8px)}
+    .button{border-radius:100px;color:white;padding:18px 28px;box-shadow:0 0 35px #ff45004d;transition:transform .3s,box-shadow .3s,background .3s}.button:hover{transform:translateY(-4px);box-shadow:0 0 60px #ff450080;color:white}.text-link{padding:15px 20px;border:1px solid #ffffff30;border-radius:100px;background:#17100de6}
     .atmosphere{position:absolute;inset:-100px calc((min(1280px,90vw) - 100vw)/2) -40px;z-index:-2;pointer-events:none;background:radial-gradient(ellipse at 50% 45%,#61251d55,transparent 60%)}
-    .atmosphere img{width:100%;height:100%;object-fit:cover;opacity:.48;mix-blend-mode:screen;mask-image:linear-gradient(transparent,#000 20%,#000 55%,transparent 95%)}
-    .hand{position:absolute;pointer-events:none;z-index:2;filter:drop-shadow(0 0 35px #ff58251a);width:46vw;max-width:650px;opacity:.85}
+    .atmosphere img{width:100%;height:100%;object-fit:cover;opacity:.48;mask-image:linear-gradient(transparent,#000 20%,#000 55%,transparent 95%)}
+    .hand{position:absolute;pointer-events:none;z-index:2;width:46vw;max-width:650px;height:auto;opacity:.85}
     .hand-left{left:-17vw;top:-40px;animation:float-hand-left 12s ease-in-out infinite}.hand-right{right:-15vw;bottom:0;animation:float-hand-right 14s ease-in-out infinite}
-    .hero .atlas{position:absolute;z-index:-1;padding:0;width:min(670px,85vw);max-width:none;inset:60px 0 auto;margin:auto;opacity:.52;pointer-events:none;animation:levitate 16s ease-in-out infinite}.atlas:before{display:none}
+    .hero .atlas{position:absolute;z-index:-1;padding:0;width:min(670px,85vw);max-width:none;inset:60px 0 auto;margin:auto;opacity:.52;pointer-events:none}.atlas:before{display:none}
     .map{aspect-ratio:1;border-radius:50%;border:1px solid #ff885333;background:radial-gradient(circle at 35% 30%,#4b2a2080,#120c09 65%,#050505);box-shadow:inset -70px -40px 100px #050505,0 0 110px #ff45001c;transform:rotate(-18deg)}
-    .map svg{opacity:.5;mix-blend-mode:screen}.map-grid{opacity:.3}.map-label,.map-key,.pin,.pin-label,.map-panel,.caption{display:none}
-    .orbit{position:absolute;width:120%;height:37%;border:1px solid #ff9c6c55;border-radius:50%;left:-10%;top:32%;transform:rotate(-32deg);box-shadow:0 0 20px #ff45000c;animation:orbit-breathe 12s ease-in-out infinite}.orbit:after{content:'';position:absolute;width:6px;height:6px;background:#ffc2a0;box-shadow:0 0 20px #ff4500;border-radius:50%;left:16%;top:10%}
+    .map svg{opacity:.5}.map-grid{opacity:.3}.map-label,.map-key,.pin,.pin-label,.map-panel,.caption{display:none}
+    .orbit{position:absolute;width:120%;height:37%;border:1px solid #ff9c6c55;border-radius:50%;left:-10%;top:32%;transform:rotate(-32deg);box-shadow:0 0 20px #ff45000c}.orbit:after{content:'';position:absolute;width:6px;height:6px;background:#ffc2a0;box-shadow:0 0 20px #ff4500;border-radius:50%;left:16%;top:10%}
     .hero-coordinate{position:absolute;left:0;bottom:75px;color:#8e7269;font:9px 'Space Mono',monospace;letter-spacing:2px;text-align:left}.hero-coordinate span{display:block;margin-top:7px;color:#df9a80}.scroll-cue{position:absolute;bottom:45px;left:50%;transform:translateX(-50%);font:9px 'Space Mono',monospace;letter-spacing:3px;color:#c2a8a0}.scroll-cue:after{content:'';display:block;height:42px;width:1px;background:linear-gradient(#ff885c,transparent);margin:16px auto 0;animation:scroll-light 3s ease-in-out infinite}
-    .grain{position:fixed;inset:0;pointer-events:none;z-index:10;opacity:.045;background-image:url('https://grainy-gradients.vercel.app/noise.svg')}
+    .grain{position:fixed;inset:0;pointer-events:none;z-index:10;opacity:.045;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cpath fill='white' d='M3 7h1v1H3zM21 3h1v1h-1zM49 19h1v1h-1zM13 39h1v1h-1zM37 53h1v1h-1zM57 43h1v1h-1zM29 27h1v1h-1z'/%3E%3C/svg%3E")}
     .strip{position:relative;gap:20px;border-color:#ffffff16}.strip div{border:0;text-align:center;padding:28px 10px!important}.strip strong{font-size:20px;font-weight:500;color:#efd7ce}.strip span{font-size:10px}
     section{padding:120px 0;border-color:#ffffff12}.section-heading{justify-content:center;text-align:center;flex-direction:column;align-items:center;margin-bottom:65px}.section-heading>p{max-width:470px}h2{font-size:clamp(40px,5vw,68px);line-height:1.12}h2 em{color:#ffe0e0;text-shadow:0 0 30px #ffc3ac25}
     .modules{gap:24px;align-items:stretch}.module{position:relative;display:flex;flex-direction:column;border-radius:28px;padding:36px;margin:0;background:radial-gradient(ellipse at top left,#ff450009,transparent 70%),#111111;border-color:#ffffff19;transition:translate .5s,border-color .5s,box-shadow .5s}.module:hover{translate:0 -12px;border-color:#ff450080;box-shadow:0 25px 80px #ff450010}.number{font-size:58px;color:#ffd8c9;text-shadow:0 0 35px #ff450033}.module h3{font-size:28px}.module .output{margin-top:auto;min-height:calc(23px + 3.6em);color:#e8bba8;border-color:#ffffff18;font:9px/1.8 'Space Mono',monospace;letter-spacing:1px}
@@ -55,17 +55,16 @@
     .motion-label{position:fixed;right:18px;bottom:18px;z-index:20;background:#100d0dea;border:1px solid #66504a;border-radius:30px;padding:9px 14px 9px 34px;margin:0;font:10px 'Space Mono',monospace;color:#e0ccc4;cursor:pointer}.motion-toggle{position:fixed;right:146px;bottom:27px;z-index:21;width:13px;height:13px;accent-color:#ff4500;margin:0}.motion-toggle:checked~.wrap *,.motion-toggle:checked~.wrap *::before,.motion-toggle:checked~.wrap *::after{animation-play-state:paused!important;transition:none!important}.motion-toggle:checked~.wrap .reveal{opacity:1;transform:none;filter:none}.motion-toggle:checked~.wrap .hero-copy *{animation:none!important}
     @keyframes float-hand-left{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-20px) rotate(2deg)}}
     @keyframes float-hand-right{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(20px) rotate(-2deg)}}
-    @keyframes levitate{50%{transform:translateY(-22px) rotate(3deg)}}@keyframes orbit-breathe{50%{transform:rotate(-24deg);opacity:.4}}
     @keyframes emerge{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}@keyframes scroll-light{50%{opacity:.3;transform:scaleY(.7)}}
     .hero-copy>.eyebrow,.hero-copy>.intro,.hero-copy>.actions,.hero-copy>.mono,.title-line>span{animation:cinema-in 1.2s cubic-bezier(.16,1,.3,1) both}
     .title-line{display:block;overflow:hidden;padding-bottom:.12em;margin-bottom:-.12em}.title-line>span{display:block;animation-delay:.15s}.title-line:last-child>span{animation-delay:.3s;color:#ffd5c4;text-shadow:0 0 25px #ff986b44}.hero-copy>.intro{animation-delay:.45s}.hero-copy>.actions{animation-delay:.6s}.hero-copy>.mono{animation-delay:.7s}
-    @keyframes cinema-in{from{opacity:0;transform:translateY(28px);filter:blur(7px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
-    .reveal{transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1),filter 1s ease;transition-delay:var(--reveal-delay,0ms)}.reveal-pending{opacity:0;transform:translateY(38px);filter:blur(5px)}
+    @keyframes cinema-in{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+    .reveal{transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1);transition-delay:var(--reveal-delay,0ms)}.reveal-pending{opacity:0;transform:translateY(38px)}
     section{position:relative}section::after{content:'';position:absolute;bottom:0;left:15%;width:70%;height:1px;background:linear-gradient(90deg,transparent,#ff8457,transparent);opacity:.35}
     .module::before,.price-card::before{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(120deg,transparent 20%,#ffae7310 50%,transparent 80%);opacity:0;transition:opacity .6s}.module:hover::before,.price-card:hover::before{opacity:1}
     .button span{transition:transform .35s}.button:hover span,.button:focus-visible span{transform:translate(3px,-3px)}.text-link{transition:border-color .35s,background .35s,box-shadow .35s}.text-link:hover,.text-link:focus-visible{border-color:#ff845790;background:#ff450010;box-shadow:0 0 30px #ff450014}
     .pricing{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:30px 0 15px}.price-card{position:relative;padding:24px 20px;border:1px solid #ffffff24;border-radius:20px;background:#111111;transition:border-color .4s}.price-card:first-child{border-color:#ff450066;background:linear-gradient(150deg,#28140d,#111111 70%)}.price-card:hover{border-color:#ff986b}.price-card h3{font:500 15px 'Chakra Petch',sans-serif;color:#d9b3a3;margin-bottom:16px}.price-card strong{font:600 clamp(26px,3vw,38px) 'Chakra Petch',sans-serif;white-space:nowrap}.price-card small{font:10px 'Space Mono',monospace;color:#baa299}.price-card p{font-size:12px;margin:10px 0 0;color:#c9b9b2}.fx-note{font-size:10px;line-height:1.7;color:#aaa69f}.fx-note a{text-decoration:underline}.session-date{display:block;font:10px 'Space Mono',monospace;color:#e8bba8;letter-spacing:1px;margin:12px 0 25px}
-    @supports(animation-timeline:scroll()){.progress{position:fixed;top:0;left:0;width:100%;height:2px;z-index:30;background:linear-gradient(90deg,#ff4500,#ffd5bd);transform-origin:left;animation:reading-progress linear;animation-timeline:scroll()}.atmosphere img{animation:atmosphere-depth linear both;animation-timeline:view();animation-range:exit 0% exit 100%}@keyframes reading-progress{from{transform:scaleX(0)}to{transform:scaleX(1)}}@keyframes atmosphere-depth{to{transform:translateY(100px);opacity:.15}}}
+    @supports(animation-timeline:scroll()){.progress{position:fixed;top:0;left:0;width:100%;height:2px;z-index:30;background:linear-gradient(90deg,#ff4500,#ffd5bd);transform-origin:left;animation:reading-progress linear;animation-timeline:scroll()}@keyframes reading-progress{from{transform:scaleX(0)}to{transform:scaleX(1)}}}
     @media(max-width:800px){.hero{min-height:850px;padding:140px 0 150px}h1{font-size:clamp(58px,11vw,88px);letter-spacing:-3px;margin:30px 0}.hero .intro{font-size:14px;max-width:430px}.hand-left{width:65vw;left:-25vw;top:-5px}.hand-right{width:62vw;right:-25vw;bottom:35px}.hero .atlas{top:150px;width:85vw}.hero-coordinate{display:none}.hero .eyebrow{font-size:8px;letter-spacing:1px;padding:9px 12px}.modules{gap:20px}.module:nth-child(2){margin:0}.section-heading{display:flex}.strip div{padding:20px 0!important}.strip strong{font-size:18px}.instructor{padding-top:70px}.instructor-portrait{max-width:240px}section{padding:70px 0}.registration{gap:40px}.motion-label{bottom:12px}.motion-toggle{bottom:21px}footer{align-items:start;padding-bottom:75px}}
     @media(max-width:800px){h1{font-size:clamp(32px,7.6vw,60px);letter-spacing:-.035em;max-width:none}.hero{min-height:780px;padding-top:125px}.hero-copy>.mono{line-height:2}.pricing{gap:10px}.price-card{padding:20px 14px}.price-card strong{font-size:30px}h2{font-size:clamp(32px,7vw,52px)}}
     @media(max-width:360px){.pricing{grid-template-columns:1fr}.facts div{flex-direction:column;gap:4px}.facts dd{text-align:left}}
@@ -87,9 +86,9 @@
     </nav>
     <main id="inicio">
       <header class="hero">
-        <div class="atmosphere" aria-hidden="true"><img src="https://framerusercontent.com/images/9zvwRJAavKKacVyhFCwHyXW1U.png?width=1536&height=1024" alt=""></div>
-        <img class="hand hand-left" src="https://framerusercontent.com/images/KNhiA5A2ykNYqNkj04Hk6BVg5A.png?width=1540&height=1320" alt="" aria-hidden="true">
-        <img class="hand hand-right" src="https://framerusercontent.com/images/X89VFCABCEjjZ4oLGa3PjbOmsA.png?width=1542&height=1002" alt="" aria-hidden="true">
+        <div class="atmosphere" aria-hidden="true"><img src="https://framerusercontent.com/images/9zvwRJAavKKacVyhFCwHyXW1U.png?width=1536&height=1024" alt="" decoding="async" width="1536" height="1024"></div>
+        <img class="hand hand-left" src="https://framerusercontent.com/images/KNhiA5A2ykNYqNkj04Hk6BVg5A.png?width=1540&height=1320" alt="" aria-hidden="true" decoding="async" width="1540" height="1320">
+        <img class="hand hand-right" src="https://framerusercontent.com/images/X89VFCABCEjjZ4oLGa3PjbOmsA.png?width=1542&height=1002" alt="" aria-hidden="true" decoding="async" width="1542" height="1002">
         <div class="hero-copy">
           <div class="eyebrow"><span class="dot"></span>Geo-IA Bootcamp / Edición 05</div>
           <h1><span class="title-line"><span>Imagina territorios.</span></span><span class="title-line"><span>Crea lo imposible.</span></span></h1>
@@ -123,7 +122,7 @@
       <div class="strip"><div><strong>IA como copiloto</strong><span>De la intención al código</span></div><div><strong>Mapas que responden</strong><span>Interacción y análisis espacial</span></div><div><strong>Un proyecto propio</strong><span>Aprendizaje aplicado</span></div><div><strong>De tu equipo a la web</strong><span>Arquitectura Zero-Server</span></div></div>
       <section id="programa">
         <span id="syllabus" aria-hidden="true"></span>
-        <div class="section-heading"><div><span class="eyebrow">01 / Tres sesiones, un proyecto</span><h2>Menos tutoriales sueltos.<br><em>Más construir de verdad.</em></h2></div><p>Construye un visor de humedales urbanos y evoluciona hacia un dashboard territorial. Desde tu primera especificación hasta una aplicación publicada en GitHub Pages.</p></div>
+        <div class="section-heading"><div><span class="eyebrow">01 / Tres sesiones, un proyecto</span><h2>Menos tutoriales sueltos.<br><em>Más construir de verdad.</em></h2></div><p>Construye un visor interactivo y evoluciona hacia un dashboard territorial. Desde tu primera especificación con OpenSpec hasta una aplicación publicada en GitHub Pages.</p></div>
         <div class="modules">
           <article class="module">
             <span class="number">01 /</span><time class="session-date" datetime="2026-10-16T20:00:00-03:00">VIE 16 OCT / 20:00–21:30</time>
@@ -131,7 +130,7 @@
             <p>Aprende a dirigir al agente: tú defines el problema territorial y las reglas; la IA te ayuda a escribir y revisar el código.</p>
             <ul class="module-topics">
               <li>Fundamentos de IA y programación en pareja con OpenCode y Antigravity IDE: agentes frente a chatbots.</li>
-              <li>Spec-Driven Development: redactar <code>contrato.md</code> con datos, interfaz y restricciones.</li>
+              <li>Spec-Driven Development con OpenSpec: explorar, proponer y aplicar cambios con criterios de aceptación.</li>
               <li>Arquitectura Zero-Server y principio KISS: HTML5, Tailwind CSS y JavaScript sin frameworks.</li>
               <li>Del diseño conceptual a la interfaz; auditoría del resultado y corrección de errores con IA.</li>
             </ul>
@@ -140,34 +139,34 @@
           <article class="module">
             <span class="number">02 /</span><time class="session-date" datetime="2026-10-17T20:00:00-03:00">SÁB 17 OCT / 20:00–21:30</time>
             <h3>Mapas que responden.</h3>
-            <p>Integra datos de humedales urbanos declarados y diseña controles basados en los atributos reales de tu información.</p>
+            <p>Integra información geográfica y diseña controles basados en los atributos reales de tus datos.</p>
             <ul class="module-topics">
               <li>De Shapefile a GeoJSON; revisión exploratoria de atributos antes de construir filtros.</li>
               <li>MapLibre GL JS y WebGL: inicialización del mapa, fuentes de datos y capas visuales.</li>
               <li>Filtros por atributos, controles de selección y ventanas emergentes con información territorial.</li>
               <li>Variantes de interfaz y rediseño con IA sin romper la lógica; revisión cartográfica y de rendimiento.</li>
             </ul>
-            <div class="output">RESULTADO ↗ Visor de humedales con filtros y fichas</div>
+            <div class="output">RESULTADO ↗ Visor interactivo con filtros y fichas</div>
           </article>
           <article class="module">
             <span class="number">03 /</span><time class="session-date" datetime="2026-10-18T20:00:00-03:00">DOM 18 OCT / 20:00–21:30</time>
             <h3>Analiza y publica.</h3>
             <p>Evoluciona el visor hacia un dashboard: conecta mapa y gráficos, explora geoprocesos y comparte tu aplicación.</p>
             <ul class="module-topics">
-              <li>Nuevas capas, filtros acumulativos, simbología por atributos y leyendas dinámicas.</li>
-              <li>Turf.js: áreas de influencia, disolución e intersecciones; exportación GeoJSON y Shapefile.</li>
-              <li>Chart.js y filtrado cruzado entre mapa y gráficos; diseño adaptable a distintos dispositivos.</li>
-              <li>Git y GitHub CLI, publicación en GitHub Pages, prototipado con Stitch y alternativas de alojamiento.</li>
+              <li>Filtros acumulativos, simbología por atributos y leyendas dinámicas con una fuente común.</li>
+              <li>Turf.js: áreas de influencia y disolución; exportación de datos filtrados a GeoJSON y Shapefile.</li>
+              <li>Chart.js: mapa y gráficos conectados por un estado compartido de filtros; diseño responsive.</li>
+              <li>Control de versiones con Git y GitHub CLI; publicación de la aplicación en GitHub Pages.</li>
             </ul>
             <div class="output">RESULTADO ↗ Dashboard y ruta de publicación web</div>
           </article>
         </div>
         <div class="course-details">
-          <div class="course-method"><h3>Tú defines el qué. La IA ayuda con el cómo.</h3><p>El método del curso combina especificaciones, construcción guiada y revisión. Aprenderás a pedir cambios concretos, comprobar los datos y corregir errores sin perder el control de tu aplicación.</p></div>
-          <details><summary>¿Qué proyecto construiremos?</summary><p>Partiremos de un monitor de humedales urbanos declarados: una interfaz con mapa, capas, filtros y fichas de información. Después abordaremos la incorporación de nuevas capas, gráficos sincronizados y herramientas de análisis. El objetivo es contar con una base que puedas adaptar a tus propios datos y publicar en la web.</p></details>
-          <details><summary>Análisis espacial y visualización: el siguiente nivel</summary><ul><li>Áreas de influencia parametrizadas en metros, disolución e intersecciones, considerando sistemas de coordenadas y geometrías válidas.</li><li>Procesamiento del conjunto completo o de las entidades filtradas; descarga de resultados como GeoJSON y Shapefile empaquetado en ZIP.</li><li>Colores por categorías o rangos, leyendas coherentes y gráficos que responden a la selección del mapa.</li><li>Estados de carga, resultados vacíos, rendimiento y opciones de procesamiento en segundo plano para operaciones exigentes.</li></ul><p>Estos contenidos se abordan mediante ejemplos guiados. La profundidad de implementación dependerá del ritmo del grupo y de la complejidad de los datos; el curso concentra 4,5 horas en vivo.</p></details>
-          <details><summary>Publicar, mejorar y seguir aprendiendo</summary><p>Revisaremos el control de versiones y el despliegue con GitHub CLI y GitHub Pages, la adaptación a móviles y el prototipado de interfaces con Stitch. También conocerás alternativas de alojamiento como Cloudflare Pages, Netlify y Vercel, sus diferencias con servicios de pago y cómo usar la IA para aprender nuevos flujos de publicación.</p></details>
-          <ul class="stack" aria-label="Tecnologías del curso"><li>OpenCode</li><li>Antigravity IDE</li><li>HTML5 + Tailwind CSS</li><li>Vanilla JavaScript</li><li>MapLibre GL JS</li><li>GeoJSON</li><li>Turf.js</li><li>Chart.js</li><li>GitHub CLI + Pages</li><li>Stitch</li></ul>
+          <div class="course-method"><h3>Tú defines el qué. La IA ayuda con el cómo.</h3><p>Trabajaremos con OpenSpec: explorar el problema, proponer un cambio y aplicarlo con criterios de aceptación. Conocerás cómo se organizan <code>proposal.md</code>, <code>specs/</code>, <code>design.md</code> y <code>tasks.md</code> para construir y verificar sin perder el control de tu aplicación.</p></div>
+          <details><summary>¿Qué proyecto construiremos?</summary><p>Partiremos de un visor territorial: una interfaz con mapa, filtros y fichas de información. Después abordaremos gráficos sincronizados, exportación de datos y herramientas de análisis. El objetivo es contar con una base que puedas adaptar a tus propios datos y publicar en la web.</p></details>
+          <details><summary>Análisis espacial y visualización: el siguiente nivel</summary><ul><li>Áreas de influencia parametrizadas en metros y disolución, considerando sistemas de coordenadas y geometrías válidas.</li><li>Procesamiento del conjunto completo o de las entidades filtradas; descarga de resultados como GeoJSON y Shapefile empaquetado en ZIP.</li><li>Simbología y leyendas generadas desde una fuente común; mapa y gráficos sincronizados con el mismo estado de filtros.</li><li>Revisión de estados de carga, resultados vacíos y rendimiento sin romper las funcionalidades existentes.</li></ul><p>Estos contenidos se abordan mediante ejemplos guiados. La profundidad de implementación dependerá del ritmo del grupo y de la complejidad de los datos; el curso concentra 4,5 horas en vivo.</p></details>
+          <details><summary>Publicar, mejorar y seguir aprendiendo</summary><p>Revisaremos el control de versiones y el despliegue con GitHub CLI y GitHub Pages, la adaptación a móviles y la comparación de variantes de interfaz. Usaremos especificaciones y verificaciones para mejorar la experiencia de uso conservando las funcionalidades del proyecto.</p></details>
+          <ul class="stack" aria-label="Tecnologías del curso"><li>OpenCode</li><li>Antigravity IDE</li><li>OpenSpec</li><li>HTML5 + Tailwind CSS</li><li>Vanilla JavaScript</li><li>MapLibre GL JS</li><li>GeoJSON</li><li>Turf.js</li><li>Chart.js</li><li>GitHub CLI + Pages</li></ul>
         </div>
       </section>
       <section id="instructor" class="instructor">

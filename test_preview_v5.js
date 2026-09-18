@@ -20,7 +20,10 @@ assert.ok(!html.includes('<form'));
 assert.ok(html.includes('Inscripciones aún no habilitadas'));
 assert.equal((html.match(/data-goatcounter="/g) || []).length, 1);
 assert.ok(html.includes('https://julloar.goatcounter.com/count'));
-for (const topic of ['contrato.md', 'humedales urbanos', 'Chart.js', 'Shapefile', 'GitHub CLI', 'Stitch']) assert.ok(html.includes(topic));
+for (const topic of ['OpenSpec', 'proposal.md', 'specs/', 'design.md', 'tasks.md', 'Chart.js', 'Shapefile', 'GitHub CLI']) assert.ok(html.includes(topic));
+assert.ok(!/humedales|contrato\.md|Stitch|intersecciones/i.test(html));
+assert.ok(!/<(?:iframe|embed|object)\b|href=["'][^"']*\.pdf\b/i.test(html));
+assert.ok(!/grainy-gradients|filter:\s*(?:blur|drop-shadow)|mix-blend-mode/.test(html));
 assert.ok(!html.includes('script.google.com'));
 
 function checkMotion({ reduced = false, supported = true } = {}) {

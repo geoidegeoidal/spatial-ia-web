@@ -2,6 +2,17 @@
 
 ## Handoff Log
 
+### 2026-09-18 — Rendimiento y syllabus OpenSpec actualizados localmente
+- **Objetivo:** Investigar la lentitud al abrir la web y actualizar el programa sin nombrar capas/datasets de práctica.
+- **Hecho:** Atlas/órbita estáticos, retirados blends/blur/parallax costosos; conservadas manos flotantes y reveals accesibles. Grano externo 404 reemplazado por textura embebida. Programa actualizado al delta de la presentación de 50 páginas: OpenSpec y artefactos, exportación filtrada, simbología/leyenda y filtros compartidos. Retiradas referencias a humedales, contrato.md, Stitch e intersecciones.
+- **Decidido:** Mantener precios, horarios y 4,5 horas; PDF solo como fuente del syllabus. Cambio archivado en `openspec/archive/2026-09-18-refine-v5-performance-syllabus/`.
+- **Verificación:** `node test_preview_v5.js` aprobado. `check-spatial-v5.cjs` (temporal): Edge 1440/1024/768/390/320 px, sin overflow/errores JS, cards alineadas y pausa/reduced-motion. `perf-spatial.cjs` (temporal) con GPU deshabilitada: mediana anterior 50 ms (~20 FPS), final 16,7 ms (~60 FPS), p95 16,7 ms, máximo estable 16,8 ms. Apertura final: frame máximo 100 ms, long task 80 ms. La congelación exacta no se reprodujo con GPU activa.
+- **Bloqueantes / pendientes:** Cambios locales; falta autorización de commit/despliegue. Persisten CRM/pagos V5 y certificados V4. `.opencode/` preexistente no modificado.
+- **Próxima sesión:** Publicar cuando se solicite y comprobar fluidez en el navegador del usuario.
+- **Commits relevantes:** Ninguno en esta sesión.
+
+---
+
 ### 2026-09-18 — Despliegue V5 y conexión pública verificados
 - **Objetivo:** Completar la publicación autorizada y verificar el seguimiento desde GitHub Pages.
 - **Hecho:** Commit `5b1c4b1` subido exitosamente a `origin/master` y `origin/gh-pages`. GitHub Pages build/deployment `35306184158` completado correctamente. Sitio https://geoidegeoidal.github.io/spatial-ia-web/ muestra V5 y programa actualizado; preview redirige a index.

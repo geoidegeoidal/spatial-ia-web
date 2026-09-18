@@ -8,9 +8,9 @@ Esta matriz establece el vínculo bidireccional entre las reglas de negocio form
 
 | ID de Regla | Dominio | Requisito / Descripción | Archivo Fuente / Implementación | Método de Verificación | Estado |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| `RULE-UI-001` | `landing-page` | V5 Superdesign surrealista; Chakra Petch recta, animación accesible y tarjetas alineadas | `index.html` | `node test_preview_v5.js`; revisión navegador a 320–1440 px | **ACTIVA** |
+| `RULE-UI-001` | `landing-page` | V5 Superdesign; manos flotantes, atlas estático, animación accesible y tarjetas alineadas | `index.html` | `node test_preview_v5.js`; navegador a 320–1440 px y benchmark Edge software documentado en HANDOFF | **ACTIVA** |
 | `RULE-UI-002` | `landing-page` | Arquitectura Zero-Build / CDN puro | [index.html](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/index.html#L1-L30) | Verificación de carga sin bundlers locales | **ACTIVA** |
-| `RULE-UI-003` | `landing-page` | V5: CLP 35.000/30.000, USD referencial, 16–18 octubre y programa basado en slides | `index.html` | `node test_preview_v5.js`; revisión contra PDF de 53 láminas | **ACTIVA** |
+| `RULE-UI-003` | `landing-page` | V5: CLP 35.000/30.000, USD referencial, 16–18 octubre, OpenSpec y programa sin datasets específicos | `index.html` | `node test_preview_v5.js`; versión vigente de 50 páginas | **ACTIVA** |
 | `RULE-UI-004` | `landing-page` | Próxima apertura V5; sin formulario ni endpoint; preview redirige | `index.html`, `preview_v5.html` | `node test_preview_v5.js`; navegación en browser | **ACTIVA** |
 | `RULE-UI-006` | `landing-page` | GoatCounter alojado y eventos de interés/programa/portafolio/LinkedIn | `index.html` | Script real y peticiones interceptadas; recepción pública tras despliegue | **IMPLEMENTADA; VER HANDOFF** |
 | `RULE-CRM-001` | `crm-automation` | Ingesta de inscripciones vía webhook `doPost` en Apps Script | [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs#L21-L105) | Simulación de payload HTTP POST en Apps Script | **ACTIVA** |
