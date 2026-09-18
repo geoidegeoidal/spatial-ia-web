@@ -10,7 +10,7 @@ V5 aprobada por el usuario para promoción a `index.html` y publicación en GitH
 - Registro: sustituir formulario de demostración por aviso público de próxima apertura, sin formulario ni endpoint. No publicar enlaces de pago de V4 como si fueran V5.
 - GoatCounter queda solo en `index.html`; la antigua preview redirige sin generar conteo propio. Publicación autorizada por el usuario mediante elección «V5 como página principal».
 - Verificado localmente: `node test_preview_v5.js`, Edge/Chromium a 1440/1024/768/390/320 px, tarjetas/entregables alineados, sin overflow, sin cursivas, pausa/reduced-motion; script real GoatCounter y evento de programa interceptados.
-- Pendiente registrar evidencia de despliegue y recepción real del contador.
+- Publicación verificada: `5b1c4b1` en master/gh-pages, build `35306184158` exitoso. Visita desde URL pública aceptada por GoatCounter HTTP 200 (ruta `/spatial-ia-web/`); no se inspeccionó el panel privado. PDF solo como fuente del syllabus: no publicar ni enlazar slides/PDF. Subalcance de publicación archivado; CRM y cierre V4 siguen pendientes.
 
 ## Objetivo
 Renovar la convocatoria V5 y entregar certificados, agradecimiento y solicitud opcional de recomendación a quienes completaron V4.

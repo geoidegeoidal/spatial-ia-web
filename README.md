@@ -89,7 +89,7 @@ Alcance y preparación operativa: [`openspec/changes/prepare-v5-and-close-v4/pro
 
 Panel: https://julloar.goatcounter.com/. El script alojado de GoatCounter está integrado una vez en `index.html` para registrar visitas. V5 también mide clics en el CTA de interés, programa, portafolio y LinkedIn mediante atributos `data-goatcounter-click`; no recopila campos del formulario ni interpreta un clic como inscripción completada. La redirección `preview_v5.html` no genera un conteo adicional.
 
-La integración fue verificada en navegador interceptando peticiones, sin añadir visitas de prueba al panel. Para activar el seguimiento público falta desplegar en `gh-pages` y confirmar la recepción de una visita real en GoatCounter. Bloqueadores de contenido pueden impedir el seguimiento; visitas locales se excluyen por defecto del proveedor.
+V5 publicada en GitHub Pages desde `gh-pages` (commit `5b1c4b1`). Verificación del 18/09/2026: visita desde la URL pública aceptada por GoatCounter con HTTP 200 y ruta `/spatial-ia-web/`. Se generó una visita real de comprobación; la visualización del panel privado queda disponible para el titular. Bloqueadores de contenido pueden impedir el seguimiento; visitas locales se excluyen por defecto del proveedor.
 
 ### Pruebas locales
 

@@ -2,6 +2,17 @@
 
 ## Handoff Log
 
+### 2026-09-18 — Despliegue V5 y conexión pública verificados
+- **Objetivo:** Completar la publicación autorizada y verificar el seguimiento desde GitHub Pages.
+- **Hecho:** Commit `5b1c4b1` subido exitosamente a `origin/master` y `origin/gh-pages`. GitHub Pages build/deployment `35306184158` completado correctamente. Sitio https://geoidegeoidal.github.io/spatial-ia-web/ muestra V5 y programa actualizado; preview redirige a index.
+- **Decidido:** El PDF se utiliza únicamente como fuente para redactar el syllabus, según aclaración expresa del usuario. No se subieron ni incrustaron presentación, imágenes de slides o PDF, ni se añadió enlace a ellos.
+- **Verificación:** Navegador contra la URL pública: título V5, tres módulos, sin formulario, sin iframe/embed/object/enlace PDF. Petición real de visita a GoatCounter aceptada HTTP 200 con ruta `/spatial-ia-web/`. Se generó una visita de comprobación real; no se comprobó la visualización dentro del panel privado. Redirección preview confirmada.
+- **Bloqueantes / pendientes:** Apertura de inscripciones pendiente de nueva planilla, Apps Script y enlaces de pago V5; certificados V4 pendientes de lista de finalización y envío revisado.
+- **Próxima sesión:** Configurar CRM y pagos V5; usuario puede consultar actividad en https://julloar.goatcounter.com/.
+- **Commits relevantes:** `5b1c4b1` publicado en ambas ramas; esta entrada registra evidencia posterior al despliegue.
+
+---
+
 ### 2026-09-18 — Programa basado en slides y promoción de V5
 - **Objetivo:** Ajustar los contenidos al PDF de 53 láminas y conectar el sitio público con GoatCounter.
 - **Hecho:** Programa ampliado por sesión con resultados y detalles de SDD, MapLibre/GeoJSON/EDA, filtros/popups, Turf.js, exportación, Chart.js, GitHub CLI/Pages y Stitch. Usuario autorizó publicar «V5 como página principal». V5 promovida a `index.html`; preview redirige. Reemplazado formulario de demostración por aviso de próxima apertura.
