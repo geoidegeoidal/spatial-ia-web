@@ -79,7 +79,22 @@ El desarrollo, evolución técnica y reglas de negocio de este repositorio está
 
 ### Verificación local
 
+### Propuesta V5 (Territorios Imposibles)
+
+La página principal `index.html` presenta V5: Chakra Petch sin cursivas, manos flotantes y transiciones accesibles. `preview_v5.html` redirige a ella. Incluye fechas del 16 al 18 de octubre de 2026, 20:00–21:30 (Santiago), precios de $35.000 CLP general / $30.000 CLP estudiantes y conversión USD referencial fechada. Programa ampliado según las diapositivas del instructor: agentes/SDD, visor de humedales con MapLibre, Turf.js, Chart.js, exportación y GitHub Pages. Inscripciones cerradas, sin formulario público; cobro internacional y CRM pendientes.
+
+Alcance y preparación operativa: [`openspec/changes/prepare-v5-and-close-v4/proposal.md`](openspec/changes/prepare-v5-and-close-v4/proposal.md) y [`launch-checklist.md`](openspec/changes/prepare-v5-and-close-v4/launch-checklist.md).
+
+### Analítica web — GoatCounter
+
+Panel: https://julloar.goatcounter.com/. El script alojado de GoatCounter está integrado una vez en `index.html` para registrar visitas. V5 también mide clics en el CTA de interés, programa, portafolio y LinkedIn mediante atributos `data-goatcounter-click`; no recopila campos del formulario ni interpreta un clic como inscripción completada. La redirección `preview_v5.html` no genera un conteo adicional.
+
+La integración fue verificada en navegador interceptando peticiones, sin añadir visitas de prueba al panel. Para activar el seguimiento público falta desplegar en `gh-pages` y confirmar la recepción de una visita real en GoatCounter. Bloqueadores de contenido pueden impedir el seguimiento; visitas locales se excluyen por defecto del proveedor.
+
+### Pruebas locales
+
 ```bash
+node test_preview_v5.js
 node test_crm_cupon.js
 node test_crm_oferta.js
 python test_generar_diplomas.py

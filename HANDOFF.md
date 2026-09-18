@@ -2,6 +2,100 @@
 
 ## Handoff Log
 
+### 2026-09-18 — Programa basado en slides y promoción de V5
+- **Objetivo:** Ajustar los contenidos al PDF de 53 láminas y conectar el sitio público con GoatCounter.
+- **Hecho:** Programa ampliado por sesión con resultados y detalles de SDD, MapLibre/GeoJSON/EDA, filtros/popups, Turf.js, exportación, Chart.js, GitHub CLI/Pages y Stitch. Usuario autorizó publicar «V5 como página principal». V5 promovida a `index.html`; preview redirige. Reemplazado formulario de demostración por aviso de próxima apertura.
+- **Decidido:** Conservar 20:00–21:30 y 4,5 horas en vivo; las láminas de espera no cambian el horario. Programa avanzado presentado como ejemplos guiados. No abrir CRM ni reutilizar pagos V4.
+- **Verificación:** Test local y navegador Edge a 1440/1024/768/390/320 px; módulos alineados, sin overflow, sin cursivas, pausa/reduced-motion. GoatCounter real genera visita y evento de programa en prueba interceptada. Configuración GitHub Pages confirmada: rama `gh-pages`, raíz `/`.
+- **Bloqueantes / pendientes:** Registrar despliegue y verificación real a continuación. Persisten nueva planilla/script/pagos V5 y certificados V4.
+- **Próxima sesión:** Terminar configuración de inscripción y cierre V4.
+- **Commits relevantes:** Pendiente commit de publicación autorizado.
+
+---
+
+### 2026-09-18 — Integración GoatCounter alojado
+- **Objetivo:** Conectar el snippet proporcionado por el usuario a su cuenta de analítica gratuita, sin servidor propio.
+- **Hecho:** Script async HTTPS integrado una sola vez en `index.html` y `preview_v5.html`, endpoint `https://julloar.goatcounter.com/count`. Eventos declarativos V5 para interés de registro, programa, portafolio y LinkedIn. Actualizados README, AGENTS y propuesta OpenSpec.
+- **Decidido:** GoatCounter reemplaza la recomendación Umami. Clic de interés no equivale a conversión de inscripción. Se usa el script oficial y sus atributos nativos, sin dependencias ni lógica adicional propia.
+- **Verificación:** Edge/Chromium con script real, HTML servido mediante intercepción en origen de prueba y peticiones de conteo interceptadas: visita en index, visita y clic de programa en preview. No se enviaron conteos de prueba a producción. `node test_preview_v5.js` pasó.
+- **Bloqueantes / pendientes:** Publicar cambios en `gh-pages` cuando el usuario solicite commit/despliegue y verificar recepción real en https://julloar.goatcounter.com/. No se afirma monitoreo activo en la web publicada.
+- **Próxima sesión:** Desplegar y revisar una visita real en el panel.
+- **Commits relevantes:** Ninguno; sin push ni despliegue.
+
+---
+
+### 2026-09-18 — Portafolio y estado de analítica
+- **Objetivo:** Agregar portafolio y comprobar si se implementó el monitoreo open source solicitado.
+- **Hecho:** Añadido enlace al portafolio https://geoidegeoidal.github.io/ junto a LinkedIn en `preview_v5.html`, con distribución flexible. Búsqueda del repositorio por integraciones de analítica sin coincidencias; consultada documentación oficial de Umami.
+- **Decidido:** Comunicar que la analítica no está implementada; recomendar Umami para visitas, procedencia, dispositivos y eventos. Requiere servicio alojado o instancia propia antes de conectar el sitio.
+- **Bloqueantes / pendientes:** Seleccionar alojamiento/cuenta de Umami, obtener URL del script e ID del sitio y verificar recepción de datos. Pendientes de lanzamiento V5/V4 anteriores siguen vigentes.
+- **Próxima sesión:** Configurar analítica con el usuario y comprobar el panel con una visita de prueba.
+- **Commits relevantes:** Ninguno; enlace agregado solo a propuesta local, sin despliegue.
+
+---
+
+### 2026-09-18 — Aclaración de vínculos laborales del instructor
+- **Objetivo:** Incorporar la aclaración del usuario sobre sus funciones actuales.
+- **Hecho:** Biografía en `preview_v5.html` actualizada con trabajo a contrata en el Ministerio del Medio Ambiente y participación a honorarios en un proyecto del Ministerio de las Culturas, las Artes y el Patrimonio. Sincronizados AGENTS y propuesta OpenSpec.
+- **Decidido:** Ambos vínculos son actuales y compatibles; no existe contradicción entre encabezado y Acerca de por nombrar instituciones distintas.
+- **Bloqueantes / pendientes:** Ninguno para esta aclaración; siguen los pendientes operativos V5/V4.
+- **Próxima sesión:** Continuar preparación del lanzamiento.
+- **Commits relevantes:** Ninguno.
+
+---
+
+### 2026-09-18 — Biografía contrastada desde Edge autenticado
+- **Objetivo:** Usar la sesión Edge del usuario para consultar su LinkedIn y mejorar la biografía.
+- **Hecho:** Perfil abierto en ventana nueva de Edge con la sesión existente y leído mediante Windows UI Automation, sin modificar el perfil. Actualizada biografía en `preview_v5.html`: formación UAH, ocho años de experiencia, participación en equipo Servel, ConMapas y AutoAtlas Pro.
+- **Decidido:** Evitar cargo actual: encabezado indica Ministerio de las Culturas, mientras Acerca de menciona Ministerio del Medio Ambiente. No convertir participación en equipo en autoría o liderazgo individual. Direct HTTP sigue bloqueado; la lectura autenticada sí funcionó.
+- **Bloqueantes / pendientes:** Confirmar cargo actual si se desea incluirlo. Pendientes operativos de V5/V4 siguen vigentes.
+- **Próxima sesión:** Revisar biografía con el usuario y continuar preparación del lanzamiento.
+- **Commits relevantes:** Ninguno.
+
+---
+
+### Session: 2026-09-17 — Español neutro, módulos alineados y biografía
+- **Objetivo:** Corregir voseo argentino, desnivel de tarjetas y falta de descripción del instructor.
+- **Hecho:** Revisado todo el texto de `preview_v5.html`, declarado `es-CL`; eliminado margen vertical de 40 px en tarjeta central y alineados entregables mediante flex. Añadida biografía de Jorge Ulloa Roa basada en la descripción existente en `index.html` (UAH, ConMapas y tecnologías geoespaciales).
+- **Decidido:** Español neutro adecuado a Chile; módulos alineados en lugar de escalonados. LinkedIn bloqueó consulta automática (HTTP 999): no presentar la biografía como contrastada con el perfil actual ni añadir cargos/años no comprobados.
+- **Verificación:** `node test_preview_v5.js` pasó. Chromium a 1440/1024/768/390/320 px: sin overflow ni errores JS; bordes y entregables alineados en escritorio; capturas de tarjetas e instructor revisadas. Búsqueda de formas de voseo originales sin coincidencias.
+- **Bloqueantes / pendientes:** Para contrastar la biografía con LinkedIn, obtener texto o exportación del perfil. Persisten pendientes de lanzamiento V5 y certificados V4.
+- **Próxima sesión:** Revisar texto del instructor con el usuario y avanzar configuración operativa.
+- **Commits relevantes:** Ninguno; cambios solo locales.
+
+---
+
+### Session: 2026-09-17 — Tipografía técnica, transiciones y condiciones V5
+- **Objetivo:** Proponer tipografía sin cursivas, elevar transiciones e incorporar fechas/precios confirmados.
+- **Hecho:** `preview_v5.html` usa Chakra Petch para títulos; hero escalonado, revelaciones IntersectionObserver, efectos de luz, profundidad CSS progresiva y controles accesibles. Incorporados 16–18 octubre 2026, 20:00–21:30 Santiago (UTC−3), CLP 35.000 / 30.000 y USD referenciales 36,65 / 31,42, con fuente/fecha y advertencia de comisiones.
+- **Decidido:** Mantener identidad surrealista aprobada y evitar cursivas. Año y zona horaria inferidos del contexto; verificar antes de publicar. La duración en vivo es 4,5 horas, no heredar la acreditación V4. USD calculados con dólar observado de 954,85 CLP/USD del 17/09/2026 (mindicador.cl); cobro internacional por confirmar.
+- **Verificación:** `node test_preview_v5.js` pasó. Edge/Chromium headless: 1440, 768, 390 y 320 px sin overflow, fuente cargada, sin cursivas, pausa/movimiento reducido y bloqueo del formulario correctos, sin errores JS. Capturas de escritorio y móvil revisadas. Playwright instalado solo en directorio temporal para esta comprobación; sin dependencia de producción.
+- **Bloqueantes / pendientes:** Aprobación de tipografía; programa/cupos, condiciones estudiante/cupón y cobro internacional; planilla/webhook V5; lista de finalización V4 y envío real de certificados.
+- **Próxima sesión:** Revisar propuesta actualizada y completar configuración de pagos/CRM antes de apertura.
+- **Commits relevantes:** Ninguno; sin despliegue ni envío de correos.
+
+---
+
+### Session: 2026-09-17 — Corrección visual V5: recuperar identidad
+- **Objetivo:** Corregir la propuesta genérica señalada por el usuario.
+- **Hecho:** Revisados hero y keyframes originales; recuperadas manos flotantes, atmósfera, grano, títulos luminosos y CTA con glow en `preview_v5.html`. Añadidas esfera orbital, tarjetas escalonadas, foto del instructor y apariciones CSS progresivas. Control de pausa y prefers-reduced-motion.
+- **Decidido:** Atlas rechazado; nueva dirección Territorios Imposibles evoluciona Superdesign original.
+- **Bloqueantes / pendientes:** Revisión visual en navegador y aprobación del usuario. Playwright no está instalado en este proyecto. Persisten pendientes operativos V5/V4 anteriores.
+- **Próxima sesión:** Revisar composición y animaciones con el usuario antes de promover el diseño.
+- **Commits relevantes:** Ninguno.
+
+---
+
+### Session: 2026-09-17 — Propuesta Atlas V5 y preparación de cierre V4
+- **Objetivo:** Preparar renovación V5, nueva inscripción/CRM y entrega de certificados V4 con agradecimiento y recomendación.
+- **Hecho:** Prototipo navegable `preview_v5.html`; propuesta OpenSpec y checklist operativo con borrador del correo de cierre en `openspec/changes/prepare-v5-and-close-v4/`.
+- **Decidido:** Propuesta cartográfica Atlas con tokens existentes. Configuración V5 separada de V4. Sin publicaciones ni envíos reales realizados.
+- **Bloqueantes / pendientes:** Confirmar fechas, tarifas, programa y cupos V5; recibir nueva planilla y endpoint; lista de finalización V4, fecha de emisión y destino de recomendaciones. El filtro actual `Accesos Enviados` no acredita finalización. Falta revisión visual en navegador y prueba real aislada de PDF/correo.
+- **Próxima sesión:** Revisar diseño con el usuario, completar datos, implementar y verificar CRM/formulario V5 y selección explícita de certificados V4; aplicar specs y archivar al completar.
+- **Commits relevantes:** Ninguno.
+
+---
+
 ### Session: 2026-09-12 — Cierre de inscripciones V4 y anuncio V5
 - **Objective:** Cerrar las inscripciones web de la cohorte V4, bloquear el formulario y anunciar próximamente la Versión 5.
 - **Completed Work:**
