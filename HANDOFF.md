@@ -2,6 +2,17 @@
 
 ## Handoff Log
 
+### 2026-09-18 — Optimización y programa publicados en producción
+- **Objetivo:** Desplegar los cambios autorizados por el usuario («manda a producción»).
+- **Hecho:** `e4483f6` publicado exitosamente en `origin/master` y `origin/gh-pages`; GitHub Pages run `35310028163` finalizado correctamente. URL pública muestra el programa OpenSpec actualizado y sin nombres de datasets de práctica.
+- **Decidido:** Se conserva la identidad visual con manos flotantes y atlas/órbita estáticos.
+- **Verificación:** Benchmark contra producción con Edge software: mediana 16,7 ms (~60 FPS), p95 y máximo estable 16,8 ms. En apertura: máximo 83,3 ms; tareas de 83 y 59 ms. Conteos GoatCounter interceptados durante la prueba.
+- **Bloqueantes / pendientes:** Sin bloqueantes de despliegue. Continúan pendientes CRM/pagos V5 y cierre de certificados V4.
+- **Próxima sesión:** Comprobar la experiencia en el navegador del usuario y continuar preparación de inscripciones.
+- **Commits relevantes:** `e4483f6` (implementación, push confirmado en ambas ramas); registro documental posterior en el historial Git.
+
+---
+
 ### 2026-09-18 — Rendimiento y syllabus OpenSpec actualizados localmente
 - **Objetivo:** Investigar la lentitud al abrir la web y actualizar el programa sin nombrar capas/datasets de práctica.
 - **Hecho:** Atlas/órbita estáticos, retirados blends/blur/parallax costosos; conservadas manos flotantes y reveals accesibles. Grano externo 404 reemplazado por textura embebida. Programa actualizado al delta de la presentación de 50 páginas: OpenSpec y artefactos, exportación filtrada, simbología/leyenda y filtros compartidos. Retiradas referencias a humedales, contrato.md, Stitch e intersecciones.

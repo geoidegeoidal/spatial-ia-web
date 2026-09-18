@@ -18,4 +18,4 @@ Fuente vigente: PDF de 50 páginas. SDD con OpenSpec (Explore, Propose, Apply; p
 - Edge a 1440/1024/768/390/320 px: sin overflow, módulos alineados, tipografía correcta, pausa y reduced-motion, sin errores JavaScript.
 - Archivo final con `--disable-gpu`: mediana y p95 16,7 ms, máximo 16,8 ms durante muestra estable de 120 frames, frente a mediana 50 ms anterior. Apertura aún tuvo un frame de 100 ms y una tarea de 80 ms; no afirmar eliminación absoluta de cualquier bloqueo.
 - Benchmark y capturas en temporal preexistente de OpenCode; sin dependencia añadida al proyecto.
-- Archivado como implementación local verificada. Publicación pendiente de autorización; no commit ni push.
+- Publicación autorizada y completada: commit `e4483f6` en master/gh-pages, Pages run `35310028163` exitoso. Contenido confirmado en URL pública; benchmark software en producción: mediana 16,7 ms, p95/máximo estable 16,8 ms.
