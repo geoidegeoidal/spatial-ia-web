@@ -35,3 +35,6 @@ Huellas SHA-256 tomadas antes de editar desde DOM oficial (solo espacios normali
 - Revisión de capturas de portada, móvil, programa, instructor y precios. Capturas temporales `official-hydra-*.png` en `%TEMP%/opencode`; se regeneran con `SPATIAL_CAPTURE_DIR` en el test.
 - Benchmark local de portada: Edge software, 1440×900, 5,5 s de scroll activo, 331 intervalos; mediana/p95 16,7 ms, máximo 16,8 ms, cero intervalos >50 ms y cero long tasks.
 - Estado: aplicado a la portada local y listo para revisión. Sin commit, push ni despliegue; no se afirma actualización del sitio público.
+
+## Publicación posterior autorizada — 2026-09-18
+Tras «publicalo», commit `e4c423c` publicado en master y gh-pages; Pages run `35364535749` exitoso. Comprobación directa de HTTPS público: HTML/CSS/JS idénticos al release, animación y morph activos, secciones completas, foto/perfil ampliado, 1440/390/320 px, redirect y ausencia de errores JS/assets. Conteos de prueba interceptados. Evidencia detallada en HANDOFF.

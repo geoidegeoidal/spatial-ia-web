@@ -42,7 +42,7 @@ Define los estándares visuales, componentes de interfaz de usuario, arquitectur
 ### `RULE-UI-007`: Muestras alternativas de rediseño
 - `proposals/01-hydra.html`: negro/naranja, tipografía pixelada, relieve de partículas reactivo y transformación a esfera con scroll, banda desplazable y transiciones, inspirada en HydraDB.
 - `proposals/02-illoca.html`: papel cuadriculado/azul cobalto, recorrido de cámara por maqueta 3D, construcción progresiva y transición a interfaz, inspirada en Illoca.
-- Hydra fue seleccionado y aplicado a `index.html`, regido ahora por `RULE-UI-001`. Illoca conserva sus tokens alternativos solo en la muestra. Publicación pendiente de solicitud explícita.
+- Hydra fue seleccionado y aplicado a `index.html`, regido ahora por `RULE-UI-001`. Illoca conserva sus tokens alternativos solo en la muestra. Publicación autorizada y verificada el 18/09/2026, commit `e4c423c`, Pages run `35364535749`.
 - Ambas mantienen oferta y programa V5, sin formularios, pagos, analítica ni publicación del material de clase. Enlaces cruzados, foco visible, desplegables nativos y adaptación 320–1440 px.
 - El movimiento es central, no opcional en la interpretación de referencias. Implementación compartida en `assets/motion.js` y `assets/motion.css`, con scroll nativo, pausa visible, reduced-motion, suspensión fuera de pantalla/pestaña oculta y contenido/SVG de respaldo sin JavaScript.
 - Verificación: `node test_redesign.js`, `node test_redesign_motion.cjs` (Playwright/Edge), comparación de estados y rendimiento documentada en `2026-09-18-redesign-motion`. Videos `proposals/*-motion.webm` y capturas escritorio/móvil/etapas.

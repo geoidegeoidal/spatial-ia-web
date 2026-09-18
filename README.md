@@ -85,7 +85,7 @@ La página principal `index.html` adopta el diseño Hydra elegido: Geist Pixel /
 
 Foto en color y perfil de Jorge Ulloa Roa ampliado, manteniendo biografía previa, roles actuales, portafolio y LinkedIn. Fechas: 16–18 octubre de 2026, 20:00–21:30 (Santiago); $35.000 CLP general / $30.000 CLP estudiantes, USD referencial fechado. Programa: agentes/SDD/OpenSpec, MapLibre/GeoJSON, Turf.js, Chart.js, exportación y GitHub Pages. Inscripciones cerradas, sin formulario público; cobro internacional y CRM pendientes.
 
-Archivos: `index.html`, `assets/site.css`, `assets/motion.js`, `assets/motion.css`, `assets/instructor.jpg`. HTML/CSS/Canvas nativos, sin compilación ni nuevas dependencias de producción. **Hydra aplicado localmente; aún no desplegado.** Inventario y verificación: [`2026-09-18-promote-hydra-official`](openspec/archive/2026-09-18-promote-hydra-official/proposal.md).
+Archivos: `index.html`, `assets/site.css`, `assets/motion.js`, `assets/motion.css`, `assets/instructor.jpg`. HTML/CSS/Canvas nativos, sin compilación ni nuevas dependencias de producción. **Hydra publicado y verificado el 18/09/2026**, commit `e4c423c`, Pages run `35364535749`. [Abrir el sitio](https://geoidegeoidal.github.io/spatial-ia-web/). Inventario y verificación: [`2026-09-18-promote-hydra-official`](openspec/archive/2026-09-18-promote-hydra-official/proposal.md).
 
 Alcance y preparación operativa: [`openspec/changes/prepare-v5-and-close-v4/proposal.md`](openspec/changes/prepare-v5-and-close-v4/proposal.md) y [`launch-checklist.md`](openspec/changes/prepare-v5-and-close-v4/launch-checklist.md).
 

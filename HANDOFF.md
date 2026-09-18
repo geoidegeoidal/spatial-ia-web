@@ -4,11 +4,12 @@
 
 ### 2026-09-18 — Publicación autorizada del rediseño Hydra
 - **Objetivo:** Publicar la portada Hydra, foto y perfil ampliado tras la petición explícita «publicalo».
-- **Hecho:** Revisados cambios y ramas; `master`, `gh-pages` y sus remotos sincronizados antes del despliegue. GitHub Pages confirmado desde `gh-pages`, raíz `/`.
+- **Hecho:** `e4c423c` subido correctamente a `origin/master` y `origin/gh-pages`. GitHub Pages run `35364535749` completado con éxito. La URL https://geoidegeoidal.github.io/spatial-ia-web/ ya sirve Hydra, foto y perfil ampliado.
 - **Decidido:** Publicar implementación, assets, muestras y verificaciones del rediseño; conservar `.opencode/` local fuera del commit. Mantener inscripción cerrada y todo el contenido verificado.
-- **Bloqueantes / pendientes:** En curso: commit, push de ambas ramas, ejecución de Pages y comprobación de la URL pública.
+- **Verificación pública:** `index.html`, `assets/site.css`, `assets/motion.css` y `assets/motion.js` con HTTP 200 y contenido idéntico al release local. Edge en URL real: partículas animadas y transformación a esfera, 12 temas/3 resultados/3 detalles/10 tecnologías, 4 FAQs, 8 párrafos del perfil, foto 1024 px cargada, redirect y cero errores JS/assets. Layout a 1440/390/320 px aprobado. Script GoatCounter ejecutado; todos los conteos de comprobación interceptados.
+- **Bloqueantes / pendientes:** Ninguno para la publicación. Continúan pendientes CRM/pagos V5 y cierre de certificados V4.
 - **Próxima sesión:** Continuar preparación de CRM/pagos V5 tras verificar la publicación.
-- **Commits relevantes:** [TODO: registrar hash y push confirmado al finalizar].
+- **Commits relevantes:** `e4c423c` (implementación, push confirmado en ambas ramas); registro documental posterior al despliegue en el historial Git.
 
 ---
 
