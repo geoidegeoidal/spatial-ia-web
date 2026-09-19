@@ -14,6 +14,8 @@ section{padding:90px 0;border-bottom:1px solid var(--line)}h2{font:400 clamp(32p
 @media(max-width:360px){.price-card strong{font-size:26px}.price-card small{display:block;margin-top:7px}.facts>div{flex-direction:column;gap:4px}.facts dd{text-align:left}.instructor .actions{align-items:flex-start;flex-direction:column}}
 @media(max-width:700px){.registration-panel{padding:22px 17px;box-shadow:6px 6px 0 #ff541c12}.form-grid{grid-template-columns:1fr}.sig-choices{grid-template-columns:1fr}.choice-grid label>span{padding:13px}.registration-success{min-height:330px}}
 @media(max-width:390px){.plan-choices{grid-template-columns:1fr}.pricing{grid-template-columns:1fr}.country-options{max-height:210px}}
+.course-details summary,.faq summary{min-height:44px;align-items:center}.country-options button{min-height:44px}.nav-links>a,.instructor .text-link,.footer .brand{display:inline-flex;align-items:center;min-height:44px}a,button,summary{touch-action:manipulation}
+@media(max-width:700px){.logo,.nav .button,.mobile-menu summary,.hero .button,.hero .actions>.text-link{min-height:44px;display:flex;align-items:center}.mobile-menu summary{min-width:44px;justify-content:center}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
 .site .hero h1 .title-line:last-child{color:var(--accent)}
 .site .hero{overflow:clip}

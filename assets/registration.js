@@ -24,7 +24,7 @@
   const setCountry = option => {
     const country = option.dataset.country;
     countryInput.value = country;
-    countryCurrent.innerHTML = `<iconify-icon icon="${option.dataset.icon}"></iconify-icon>${option.textContent.trim()}`;
+    countryCurrent.innerHTML = `<iconify-icon icon="${option.dataset.icon}" aria-hidden="true"></iconify-icon>${option.textContent.trim()}`;
     countryOptions.forEach(item => item.setAttribute('aria-selected', String(item === option)));
     const chile = country === 'Chile';
     studentPlan.disabled = !chile;

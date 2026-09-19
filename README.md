@@ -89,6 +89,8 @@ Archivos: `index.html`, `assets/site.css`, `assets/motion.js`, `assets/motion.cs
 
 Alcance y preparación operativa: [`openspec/changes/prepare-v5-and-close-v4/proposal.md`](openspec/changes/prepare-v5-and-close-v4/proposal.md) y [`launch-checklist.md`](openspec/changes/prepare-v5-and-close-v4/launch-checklist.md).
 
+Auditoría ley por ley de la experiencia: [`UX_AUDIT.md`](UX_AUDIT.md).
+
 ### Analítica web — GoatCounter
 
 Panel: https://julloar.goatcounter.com/. El script alojado de GoatCounter está integrado una vez en `index.html` para registrar visitas. V5 también mide clics en el CTA de interés, programa, portafolio y LinkedIn mediante atributos `data-goatcounter-click`; no recopila campos del formulario ni interpreta un clic como inscripción completada. La redirección `preview_v5.html` no genera un conteo adicional.

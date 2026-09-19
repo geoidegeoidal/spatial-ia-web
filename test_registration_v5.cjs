@@ -27,6 +27,8 @@ const endpoint = 'https://script.google.com/macros/s/AKfycbzkX21TwO9LqpJao8mjVZ2
 
     const page = await context.newPage();
     await page.goto(base);
+    assert.equal(await page.locator('#country-trigger').getAttribute('aria-labelledby'), 'country-label country-current');
+    assert.equal(await page.locator('.country-field iconify-icon:not([aria-hidden="true"])').count(), 0);
     await page.locator('#registration-submit').click();
     assert.equal(requests.length, 0, 'Native required fields must block empty submission');
 
@@ -79,6 +81,16 @@ const endpoint = 'https://script.google.com/macros/s/AKfycbzkX21TwO9LqpJao8mjVZ2
         .map(element => `${element.tagName}:${(element.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 40)}`));
       assert.deepEqual(overflowing, [], `${width}px form content overflow: ${overflowing.join(', ')}`);
       if (width <= 1100) assert.ok((await page.locator('#pause-motion').boundingBox()).width <= 44, `${width}px motion control obscures content`);
+      if (width <= 390) {
+        const smallTargets = await page.locator('a,button,summary,label:has(input[type=radio])').evaluateAll(elements => elements
+          .filter(element => {
+            const style = getComputedStyle(element);
+            const rect = element.getBoundingClientRect();
+            return style.display !== 'none' && style.visibility !== 'hidden' && rect.width > 0 && rect.height > 0 && (rect.width < 44 || rect.height < 44);
+          })
+          .map(element => `${element.tagName}:${(element.textContent || element.getAttribute('aria-label') || '').trim().slice(0, 30)}`));
+        assert.deepEqual(smallTargets, [], `${width}px touch targets below 44px: ${smallTargets.join(', ')}`);
+      }
     }
     console.log('V5 registration: native validation, mocked JSON success/error, one-submit guard, keyboard country selector, Chile-only student plan and responsive layout OK. No real registration sent.');
   } finally {
