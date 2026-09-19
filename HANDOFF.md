@@ -6,10 +6,10 @@
 - **Objetivo:** Revisar cada ley publicada en https://lawsofux.com/es/ y aplicar correcciones justificadas en toda la landing V5.
 - **Hecho:** Creado `UX_AUDIT.md` con las 30 leyes, estado y evidencia. Ajustados objetivos táctiles a 44×44 px, asociación accesible del selector de país, banderas decorativas, ayuda del plan, spellcheck del correo y respuesta táctil. README y trazabilidad OpenSpec enlazan la auditoría.
 - **Decidido:** No añadir progreso artificial, urgencia, persistencia de datos personales, más opciones ni un wizard: contradicen Occam, carga cognitiva, sesgo y la brevedad real del formulario. La lista de 11 países se mantiene cerrada bajo demanda; es reconocimiento, no memoria de trabajo.
-- **Verificación:** `test_preview_v5.js`, `test_registration_v5.cjs` y `test_site_hydra.cjs` aprobados. Navegación, objetivos táctiles, teclado, ARIA, movimiento, contenido y responsive verificados a 1440/1024/768/390/320 px con envíos interceptados.
-- **Bloqueantes / pendientes:** El usuario autorizó publicar; despliegue y comprobación pública en curso.
-- **Próxima sesión:** Confirmar Pages y repetir comprobación pública de ARIA, objetivos táctiles y responsive sin POST.
-- **Commits relevantes:** Ninguno.
+- **Verificación:** Las tres suites locales aprobaron. Pages run `35411522855` finalizó correctamente. Edge público verificó ARIA, selección de país por teclado, objetivos táctiles ≥44 px y ausencia de overflow a 1440/1024/768/390/320 px; no se envió ningún POST. `UX_AUDIT.md` público contiene las 30 leyes.
+- **Bloqueantes / pendientes:** Ninguno para la auditoría. Avisos no bloqueantes de Actions sobre Node 20→24 y futura migración de `ubuntu-latest`.
+- **Próxima sesión:** Mantener la matriz Laws of UX como criterio de aceptación para cambios visuales futuros.
+- **Commits relevantes:** `643ec30` publicado en `origin/master` y `origin/gh-pages`; Pages `35411522855` exitoso.
 
 ---
 
