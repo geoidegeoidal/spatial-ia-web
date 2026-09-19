@@ -6,10 +6,10 @@
 - **Objetivo:** Corregir la ausencia de favicon y los textos del formulario que excedían sus tarjetas tras el despliegue V5.
 - **Hecho:** Añadido `assets/favicon.svg`, marca pixel `S/` en negro/blanco/naranja, y enlace `rel="icon"` en `index.html`. Corregido un `</div>` faltante en el selector de país que absorbía el resto del formulario dentro de una grilla de dos columnas. Añadido wrapping defensivo y control de movimiento compacto bajo 1100 px para no tapar contenido.
 - **Decidido:** SVG nativo, sin dependencia ni variantes binarias. Laws of UX queda como criterio permanente de revisión, junto con accesibilidad; se priorizan carga cognitiva, proximidad, región común, Fitts, Hick, Jakob y estética-usabilidad.
-- **Verificación:** `test_preview_v5.js`, `test_registration_v5.cjs` y `test_site_hydra.cjs` aprobados. Auditoría automática sin desbordes internos ni de página a 1440/1024/768/390/320 px; capturas 1440/1024 revisadas y favicon enlazado. No se enviaron registros reales.
-- **Bloqueantes / pendientes:** El usuario autorizó `despliega`; publicación y comprobación pública en curso.
-- **Próxima sesión:** Confirmar el build de Pages y revisar favicon/formulario en la URL pública sin enviar datos.
-- **Commits relevantes:** Ninguno.
+- **Verificación:** `test_preview_v5.js`, `test_registration_v5.cjs` y `test_site_hydra.cjs` aprobados. Pages run `35410778966` exitoso. La URL pública sirve el SVG y su enlace; Edge público confirmó cero desbordes internos/de página a 1440/1024/768/390/320 px, sin enviar registros reales.
+- **Bloqueantes / pendientes:** Ninguno para esta corrección. Avisos no bloqueantes de Actions sobre Node 20→24 y futura migración de `ubuntu-latest`.
+- **Próxima sesión:** Monitorear uso real y mantener Laws of UX como baseline para cambios visuales.
+- **Commits relevantes:** `e407253` publicado en `origin/master` y `origin/gh-pages`; Pages `35410778966` exitoso.
 
 ---
 
