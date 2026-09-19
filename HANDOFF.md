@@ -2,6 +2,17 @@
 
 ## Handoff Log
 
+### 2026-09-19 — Aviso y confirmación del formulario publicados
+- **Objetivo:** Publicar el ajuste autorizado que hace notorios el correo posterior a la inscripción y la revisión de Spam/Promociones.
+- **Hecho:** `135c446` se subió a `origin/master`, se integró por fast-forward en `gh-pages` y se publicó mediante GitHub Pages. La URL pública sirve el aviso antes del formulario y la confirmación «Tu formulario fue enviado» con los próximos pasos.
+- **Decidido:** Conservar el flujo de un solo paso y el éxito condicionado a JSON `result === "success"`; la verificación pública fue de solo lectura, sin enviar una inscripción.
+- **Verificación:** Pages run `35417600223` finalizó exitosamente. La URL pública con cache-busting devolvió ambos mensajes nuevos. Antes del despliegue aprobaron `test_preview_v5.js`, `test_registration_v5.cjs` y `test_site_hydra.cjs` a 1440/1024/768/390/320 px.
+- **Bloqueantes / pendientes:** Ninguno para este despliegue. Actions mantiene avisos no bloqueantes sobre Node 20→24 y la futura migración de `ubuntu-latest`.
+- **Próxima sesión:** Monitorear inscripciones reales; no ejecutar POST de prueba contra producción.
+- **Commits relevantes:** `135c446` publicado en `master` y `gh-pages`; Pages `35417600223` exitoso.
+
+---
+
 ### 2026-09-18 — Confirmación visible de inscripción y skill global Laws of UX
 - **Objetivo:** Recuperar una señal clara antes y después de enviar el formulario V5, y convertir las 30 Laws of UX en un skill portable para todos los proyectos.
 - **Hecho:** El panel de inscripción muestra antes del formulario un aviso destacado sobre el correo de pago y la revisión de Spam/Promociones. El éxito ahora confirma explícitamente que el formulario fue enviado, repite los próximos pasos y conserva el foco accesible. `RULE-UI-004`, trazabilidad, auditoría y pruebas quedaron sincronizadas. Fuera del repositorio se creó `~/.agents/skills/laws-of-ux` con las 30 leyes, workflow, matriz de evidencia y auditor Playwright reutilizable; `npx skills` lo instaló globalmente para Codex, OpenCode y Antigravity.
