@@ -83,7 +83,7 @@ El desarrollo, evolución técnica y reglas de negocio de este repositorio está
 
 La página principal `index.html` adopta el diseño Hydra elegido: Geist Pixel / Manrope / Space Mono, negro y naranja, relieve de partículas reactivo que se transforma en esfera con scroll y transiciones accesibles. `preview_v5.html` redirige a ella. Se preservan todas las secciones: capacidades, tres módulos completos, metodología y detalles, tecnologías, instructor, precios/convocatoria, cuatro preguntas frecuentes y footer.
 
-Foto en color y perfil de Jorge Ulloa Roa ampliado, manteniendo biografía previa, roles actuales, portafolio y LinkedIn. Fechas: 16–18 octubre de 2026, 20:00–21:30 (Santiago); $35.000 CLP general / $30.000 CLP estudiantes, USD referencial fechado. Programa: agentes/SDD/OpenSpec, MapLibre/GeoJSON, Turf.js, Chart.js, exportación y GitHub Pages. Inscripciones cerradas, sin formulario público; cobro internacional y CRM pendientes.
+Foto en color y perfil de Jorge Ulloa Roa ampliado, manteniendo biografía previa, roles actuales, portafolio y LinkedIn. Fechas: 16–18 octubre de 2026, 20:00–21:30 (Santiago). Chile: $35.000 CLP general / $30.000 CLP estudiantes, **pase estudiantes válido solo para Chile**. General internacional: **US$36**, verificado en el PayPal confirmado por el usuario (`https://www.paypal.com/ncp/payment/2PVCP7EQT3DWU`). V5 no ofrece cupones; `CONMAPAS` permanece únicamente como lógica histórica del CRM V4. Programa: agentes/SDD/OpenSpec, MapLibre/GeoJSON, Turf.js, Chart.js, exportación y GitHub Pages. El formulario y CRM V5 están conectados y verificados localmente; la reapertura pública sigue pendiente de autorización y despliegue.
 
 Archivos: `index.html`, `assets/site.css`, `assets/motion.js`, `assets/motion.css`, `assets/instructor.jpg`. HTML/CSS/Canvas nativos, sin compilación ni nuevas dependencias de producción. **Hydra publicado y verificado el 18/09/2026**, commit `e4c423c`, Pages run `35364535749`. [Abrir el sitio](https://geoidegeoidal.github.io/spatial-ia-web/). Inventario y verificación: [`2026-09-18-promote-hydra-official`](openspec/archive/2026-09-18-promote-hydra-official/proposal.md).
 
@@ -113,11 +113,24 @@ node test_redesign_motion.cjs
 node test_site_hydra.cjs
 ```
 
-El primer test verifica las muestras y actualiza sus capturas. El segundo comprueba siete huellas del contenido oficial anterior, ampliación del perfil/foto, siete desplegables, menú móvil, módulos alineados, pausa/reduced-motion, fallback sin JS, redirect, rutas de assets y visita/cuatro eventos GoatCounter interceptados. Tamaños 320–1440 px, incluido 320×568. Para guardar capturas oficiales, definir `SPATIAL_CAPTURE_DIR` con una carpeta existente antes de ejecutarlo. No envía visitas de prueba a producción.
+El primer test verifica las muestras y actualiza sus capturas. El segundo comprueba siete huellas de contenido (cinco originales y dos actualizadas por la aclaración autorizada de precios/país), perfil/foto, siete desplegables, menú móvil, módulos alineados, pausa/reduced-motion, fallback sin JS, redirect, rutas de assets y visita/cuatro eventos GoatCounter interceptados. Valida estudiantes solo Chile sin equivalente USD y general internacional US$36. Tamaños 320–1440 px, incluido 320×568. Para guardar capturas oficiales, definir `SPATIAL_CAPTURE_DIR` con una carpeta existente antes de ejecutarlo. No envía visitas de prueba a producción.
 
-### Comandos de verificación
+### Cierre de V4 — correo y diploma
+
+Código completo para reemplazar en Apps Script: [`crm_script.gs`](crm_script.gs). Configuración y secuencia: **[`CIERRE_V4.md`](CIERRE_V4.md)**.
+
+Destinatarios confirmados: `Carpeta Grabaciones Enviada`. Copiar el archivo completo, pegar en Apps Script vinculado a V4 y ejecutar: sin rellenar IDs, pestañas o banderas. `enviarDiplomasYCierre` detecta la única pestaña compatible y muestra el lote exacto para confirmar en Sheets. Se conservan `previsualizarDiplomasV4` (solo lectura) y `enviarPruebaDiplomaV4` (solo administrador). Diploma de 9 horas, fecha Santiago, recordatorio de grabaciones y estados sin reintentos automáticos inciertos. Pruebas locales con mocks; conversión/entrega real pendiente de prueba individual en Google.
+
+### CRM V5
+
+Reemplazo completo: [`crm_v5_script.gs`](crm_v5_script.gs). Preparación y despliegue: [`CRM_V5.md`](CRM_V5.md). Usa la planilla V5 confirmada y su pestaña existente `gid=0`; no regenera ni reformatea la hoja. Registro, correos iniciales y recordatorios 24/72h son automáticos. El operador valida el comprobante escribiendo `Pagado` en H y el tutorial se envía automáticamente en el siguiente ciclo. Sin cupones ni confirmación visual. Endpoint, correo inicial y transición real hasta `Tutorial Enviado` verificados. `index.html` y `assets/registration.js` ya lo consumen localmente; producción aún no fue reabierta.
+
+### Pruebas locales
 
 ```bash
+node test_diplomas_v4.cjs
+node test_crm_v5.cjs
+node test_registration_v5.cjs
 node test_redesign.js
 node test_preview_v5.js
 node test_crm_cupon.js

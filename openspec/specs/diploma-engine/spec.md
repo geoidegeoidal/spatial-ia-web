@@ -24,18 +24,23 @@ Especifica los requerimientos de diseño, intensidad horaria, motor de renderiza
 - **Producción (Google Apps Script):**
   - Generación dinámica vía `generarDiplomaHtml(nombreAlumno, fechaEmision)`.
   - Conversión vectorial a PDF mediante `Utilities.newBlob(html, "text/html", "diploma.html").getAs("application/pdf")`.
-  - Sanitización de nombre de archivo: `Diploma_GeoIA_V4_Nombre_Estudiante.pdf`.
-- **Entorno Local de Pruebas (Python):**
-  - Scripts de emulación y validación previa: [generate_pdf.py](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/generate_pdf.py) y [test_generar_diplomas.py](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/test_generar_diplomas.py).
+   - Sanitización de nombre de archivo: `Diploma_GeoIA_V4_Nombre_Estudiante.pdf`.
+   - Nombre y fecha escapados como texto HTML. Fecha de emisión actual de `America/Santiago`, salvo texto explícito en `CIERRE_V4.fechaEmision`.
+- **Entorno local:** `test_diplomas_v4.cjs` ejecuta el código real con servicios simulados. Para revisar la plantilla se renderiza `generarDiplomaHtml` en Chromium; esto no sustituye la prueba individual de conversión en Apps Script. Los scripts Python existentes son maquetas históricas; `test_generar_diplomas.py` aún contiene V3.
 
 ### `RULE-DIP-004`: Despacho de Correo de Cierre V4 (`enviarDiplomasYCierre`)
-- **Filtro de Seguridad:** Únicamente alumnos cuyo estado sea estrictamente `"Accesos Enviados"` y cuenten con email válido.
+- **Destinatarios confirmados por el instructor (18/09/2026):** Únicamente filas con estado `"Carpeta Grabaciones Enviada"`, nombre y email válidos. Esta decisión explícita sustituye el filtro anterior `"Accesos Enviados"` para el cierre V4; no deducir acreditación para otros grupos.
+- **Destino sin configuración:** Usar la planilla vinculada al proyecto y detectar la única pestaña compatible con B=Nombre, C=Email, H=Estado Pago. No depender de la pestaña activa ni exigir IDs al usuario. Si falta planilla, no hay coincidencias o hay varias, no enviar ni adivinar.
+- **Revisión y prueba:** `previsualizarDiplomasV4` solo lee y lista. `enviarPruebaDiplomaV4` envía únicamente a `EMAIL_ADMIN` con nombre ficticio y sin acceder a la planilla. `enviarDiplomasYCierre` muestra confirmación nativa con identidad de planilla/pestaña, fecha y nombres/correos exactos del lote; No/cerrar cancela sin efectos. No requiere bandera manual de habilitación. Prueba de PDF/entrega real disponible mediante la función individual.
+- **Confirmación y concurrencia:** El lock se adquiere después del diálogo (Apps Script suspende la ejecución mientras se muestra). Volver a validar esquema, duplicados, lote y cuota tras confirmar; abortar si cambió el lote. No incluir destinatarios nuevos que no estuvieran en la lista mostrada. Revalidar cada fila antes y después de reservarla como `Enviando Diploma`; el lock coordina ejecuciones del script, pero no impide ediciones manuales. Un cambio detectado falla sin llamar a Gmail y deja la fila para revisión.
+- **Idempotencia y fallos:** Bloquear duplicados (incluidos correos presentes como enviados o en revisión), usar ScriptLock, respetar cuota y lotes de hasta 20. Antes de Gmail marcar `Enviando Diploma`; después de éxito guardar `Diploma Enviado`; ante resultado incierto marcar `Revisar Diploma` y detener la ejecución. No reintentar automáticamente las filas en revisión. El resumen y la previsualización informan cuántas quedan por revisar.
 - **Contenido del Paquete de Cierre:**
-  1. PDF del diploma adjunto (emisión 14 de Septiembre de 2026).
+   1. PDF V4 personalizado de 9 horas, fecha actual de Santiago o fecha configurada por el instructor.
   2. Enlace a la presentación interactiva de Canva (`https://canva.link/workshop-gis-ia`).
-  3. Enlace permanente a la Bóveda de Grabaciones en Google Drive.
+   3. Recordatorio explícito que vuelve a compartir la carpeta de grabaciones y materiales de V4 en Google Drive, dentro del mismo correo del diploma, con botón destacado y enlace también en texto plano.
   4. Bloque de invitación a compartir en LinkedIn (`https://www.linkedin.com/in/jorge-ulloa-roa/`).
-- **Transición de Estado:** Actualización inmediata en columna 8 a `"Diploma Enviado"`.
+- **Transición de Estado:** Columna 8: `Carpeta Grabaciones Enviada` → `Enviando Diploma` → `Diploma Enviado`. Fallo incierto: `Revisar Diploma`. Los estados de revisión requieren contrastar Enviados de Gmail antes de un cambio manual; `Diploma Enviado` significa aceptación por Gmail, no lectura ni entrega final garantizada.
+- **Operación:** Guía completa en `CIERRE_V4.md`. Guardar el código basta para ejecución manual; no crear activadores ni desplegar el webhook para ejecutar este cierre.
 
 ---
 
@@ -43,7 +48,8 @@ Especifica los requerimientos de diseño, intensidad horaria, motor de renderiza
 
 | Componente | Archivo | Líneas Aprox. |
 | :--- | :--- | :--- |
-| Plantilla HTML Diploma | [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs#L428-L588) | 428–588 |
-| Lógica de Envío y PDF | [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs#L590-L686) | 590–686 |
-| Script Local de Test | [test_generar_diplomas.py](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/test_generar_diplomas.py) | 1–160 |
-| Previsualización Visual | [preview_final_bootcamp.html](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/preview_final_bootcamp.html) | 1–250 |
+| Plantilla HTML Diploma | `crm_script.gs` | `generarDiplomaHtml` |
+| Correo y PDF | `crm_script.gs` | `prepararCorreoDiplomaV4_` |
+| Selección, prueba y envío | `crm_script.gs` | `seleccionarDiplomasV4_`, `previsualizarDiplomasV4`, `enviarPruebaDiplomaV4`, `enviarDiplomasYCierre` |
+| Test local V4 | `test_diplomas_v4.cjs` | Servicios simulados; cero correos reales |
+| Instrucciones de reemplazo | `CIERRE_V4.md` | Configuración, prueba y manejo de estados |

@@ -2,6 +2,103 @@
 
 ## Handoff Log
 
+### 2026-09-18 — Formulario V5 conectado y verificado localmente
+- **Objetivo:** Completar la integración local del formulario V5 con el CRM real ya validado, sin publicar ni generar nuevas inscripciones.
+- **Hecho:** `index.html` incorpora el formulario en `#protocolo`; `assets/registration.js` controla país/plan, validación, doble envío y éxito únicamente con JSON `result === "success"`. El selector Iconify funciona con ratón y teclado y devuelve el foco al disparador tras seleccionar. OpenSpec, trazabilidad, checklist, README y AGENTS quedaron sincronizados.
+- **Decidido:** No hacer ajustes visuales adicionales: las capturas desktop/móvil son coherentes con Hydra y no presentan overflow. La integración queda local; producción no se reabre sin autorización explícita del usuario.
+- **Verificación:** `node test_preview_v5.js`, `node test_registration_v5.cjs`, `node test_site_hydra.cjs`, `node test_crm_v5.cjs` y `node test_diplomas_v4.cjs` aprobados. Viewports 1440/1024/768/390/320, JSON éxito/error interceptado, teclado, restricción estudiantes-Chile y doble envío verificados. `git diff --check` sin errores, solo avisos de normalización CRLF. No se enviaron registros ni correos reales.
+- **Bloqueantes / pendientes:** Publicación/reapertura requiere autorización explícita. Cierre V4 continúa a cargo del operador en Apps Script; no hubo envío real de diplomas.
+- **Próxima sesión:** Si el usuario autoriza publicar, revisar alcance del worktree, crear commit solicitado, sincronizar `master` y `gh-pages`, comprobar Pages y verificar el formulario público con una respuesta segura sin duplicar registros.
+- **Commits relevantes:** Ninguno; cambios locales sin commit ni push.
+
+---
+
+### 2026-09-18 — Endpoint V5 desplegado y POST real aceptado
+- **Objetivo:** Verificar el despliegue Apps Script proporcionado por el usuario antes de conectar la landing.
+- **Hecho:** Endpoint `/exec` registrado. GET respondió «no se encontró doGet», confirmando acceso al despliegue esperado solo-POST. Con autorización explícita se envió un único registro `Prueba CRM V5` a `jorge.ulloa.roa@gmail.com`, Chile/general. Respuesta: `result=success`, fila 2, estado `Pendiente`.
+- **Decidido:** No conectar ni reabrir el formulario público hasta que el usuario confirme la recepción del aviso administrativo y el correo de pago. No ejecutar pruebas masivas.
+- **Bloqueantes / pendientes:** El usuario confirmó ambos correos, estado `Tutorial Enviado` y recepción del tutorial. Falta integrar endpoint en la landing y probar respuesta JSON/estados UI. Reapertura y publicación requieren decisión explícita.
+- **Próxima sesión:** Definir si se conecta localmente el formulario V5 o si además se autoriza reapertura/publicación.
+- **Commits relevantes:** Ninguno; cambios locales.
+
+---
+
+### 2026-09-18 — CRM V5 ampliado hasta tutorial posterior al pago
+- **Objetivo:** Igualar el flujo útil V4 hasta la validación de pago y envío del tutorial, manteniendo automatización V5.
+- **Hecho:** La captura confirmó la pestaña `gid=0` vacía con A:H; el script ya no crea ni reformatea hojas. `prepararCRMV5` valida esa pestaña y reemplaza solo el activador horario V5. `ejecutarCRMV5` envía recordatorios de 24/72h y, cuando el operador escribe exactamente `Pagado` en H, envía automáticamente el tutorial Drive existente con fechas/copy V5 y deja `Tutorial Enviado`. `crm_v5_script.gs` quedó comentado en español por secciones para facilitar la copia y operación del usuario.
+- **Decidido:** Validación del comprobante humana; todo envío posterior automático y sin diálogo. Tutorial conserva el recurso Drive, no textos V4/binarios. Transiciones por correo único toleran ordenamiento y preservan `Pagado`; fallos inciertos nunca se auto-reintentan.
+- **Verificación:** `node test_crm_v5.cjs` aprobado con mocks: hoja existente intacta, activador ajeno preservado, recordatorios, pago durante concurrencia, ordenamiento, tutorial, estado exacto, locks/escrituras/fallos ambiguos y ausencia de contenido V4. Revisión independiente final: sin hallazgos críticos/altos. Sin servicios Google ni correos reales.
+- **Bloqueantes / pendientes:** Falta pegar el script en Apps Script V5, ejecutar `prepararCRMV5`, desplegar `/exec` y probar un registro/pago/tutorial aislado real. Enlaces de conexión y etapas posteriores no están incluidos.
+- **Próxima sesión:** Completar preparación/despliegue en Google y conectar el formulario solo después de la prueba aislada.
+- **Commits relevantes:** Ninguno; cambios locales.
+
+---
+
+### 2026-09-18 — Planilla y CRM automático V5 preparados
+- **Objetivo:** Configurar la copia de Google Sheets entregada por el usuario para V5 sin tocar V4.
+- **Hecho:** Planilla V5 fijada a `13MgX1IAFHdkJCMrv6Iz1uu1q4zy8fZWR9HICcZ2glDs`. La captura posterior confirmó `gid=0` vacío con A:H, por lo que `prepararCRMV5` solo lo valida y no regenera la hoja. `doPost` rechaza cupones/estudiante internacional/duplicados, neutraliza fórmulas y controles, registra y envía automáticamente correos al administrador y participante. Tarifas V5 y enlaces existentes aplicados. Guía `CRM_V5.md` y delta OpenSpec añadidos.
+- **Decidido:** Payload mediante FormData/URL-encoded. El frontend debe parsear JSON y exigir `result === "success"`, no confiar solo en HTTP 200. Fallos inciertos se separan en `Revisar Notificación Admin` / `Revisar Correo Participante` y no se reintentan automáticamente.
+- **Verificación:** `node test_crm_v5.cjs` aprobado con mocks: pestaña aislada, V4 intacta, rutas CLP/USD, correos automáticos, inyección de fórmula/control, duplicados, lock y fallos parciales/ambiguos. Regresiones `test_preview_v5.js`, `test_diplomas_v4.cjs`, `test_crm_cupon.js` y `test_crm_oferta.js` aprobadas. Revisión independiente detectó la inyección de fórmulas y fue corregida. Sin servicios Google ni correos reales.
+- **Bloqueantes / pendientes:** La planilla es privada (consulta externa devolvió 401). Falta pegar el script en Apps Script V5, ejecutar `prepararCRMV5`, desplegar una aplicación web nueva, obtener `/exec` y hacer una prueba aislada real antes de conectar/reabrir la landing.
+- **Próxima sesión:** Usuario pega `crm_v5_script.gs`, ejecuta `prepararCRMV5` y comparte el `/exec` nuevo para integrar y probar el formulario.
+- **Commits relevantes:** Ninguno; cambios locales.
+
+---
+
+### 2026-09-18 — CRM V5 automático; confirmación solo para diplomas
+- **Objetivo:** Registrar la aclaración operativa del usuario sobre automatización.
+- **Hecho:** Añadida `RULE-CRM-008` a especificación y trazabilidad: cada inscripción V5 válida deberá registrar la fila y enviar automáticamente correos al participante y administrador, sin intervención manual. Propuesta/checklist V5 y `AGENTS.md` sincronizados.
+- **Decidido:** La confirmación visual se limita a `enviarDiplomasYCierre` de V4. El futuro CRM V5 no tendrá confirmación manual ni cupones y no mostrará éxito web antes de recibir respuesta correcta del endpoint.
+- **Bloqueantes / pendientes:** V5 permanece sin formulario público y sin CRM conectado. Faltan planilla/proyecto Apps Script V5 independientes y prueba aislada end-to-end antes de reabrir.
+- **Próxima sesión:** Crear e integrar el CRM V5 automático cuando esté disponible la planilla V5 separada.
+- **Commits relevantes:** Ninguno; cambios locales.
+
+---
+
+### 2026-09-18 — Cierre V4 listo para copiar/pegar y V5 sin cupones
+- **Objetivo:** Eliminar la configuración manual del cierre V4 y fijar la decisión del usuario de que V5 no tenga cupones.
+- **Hecho:** `crm_script.gs` ahora usa la planilla vinculada, detecta la única pestaña B/C/H compatible y muestra en Google Sheets la lista exacta del lote antes de enviar. No exige ID, nombre de pestaña ni bandera. Tras confirmar, adquiere lock, revalida lote/cuota y cada fila antes y después de reservar `Enviando Diploma`; cancelar no escribe ni envía. `CIERRE_V4.md` quedó como guía de copiar, pegar y ejecutar. OpenSpec archivado en `2026-09-18-v4-paste-and-run`.
+- **Decidido:** V5 no ofrece ni procesa cupones/códigos promocionales. `CONMAPAS` se conserva solo en el CRM histórico V4 para no romper filas y recordatorios; ConMapas puede aparecer en V5 exclusivamente como experiencia del instructor.
+- **Verificación:** `node test_diplomas_v4.cjs`, `node test_preview_v5.js`, `NODE_PATH=%TEMP%/opencode/node_modules node test_site_hydra.cjs`, `node test_crm_cupon.js` y `node test_crm_oferta.js` aprobados. Revisión independiente sin hallazgos críticos; sus dos observaciones importantes fueron corregidas. `git diff --check` sin errores, solo avisos CRLF.
+- **Bloqueantes / pendientes:** No se enviaron correos reales ni se publicó. La conversión/entrega real del PDF requiere ejecutar `enviarPruebaDiplomaV4` en Apps Script. La confirmación identifica planilla/pestaña y destinatarios; el operador debe leerla antes de aceptar.
+- **Próxima sesión:** Pegar el archivo completo en el Apps Script vinculado a V4, ejecutar opcionalmente la prueba individual y luego `enviarDiplomasYCierre`; revisar la lista del diálogo antes de pulsar Sí.
+- **Commits relevantes:** Ninguno; cambios locales.
+
+---
+
+### 2026-09-18 — Recordatorio de grabaciones en el correo del diploma V4
+- **Objetivo:** Volver a compartir la carpeta de grabaciones como recordatorio, según solicitud del usuario.
+- **Hecho:** Correo de cierre actualizado en `crm_script.gs`: asunto menciona el recordatorio, bloque explícito «Te comparto nuevamente la carpeta…», botón destacado y enlace en texto plano. Reutiliza `LINK_GRABACIONES_DRIVE`; guía y especificación sincronizadas.
+- **Decidido:** Incluir el recordatorio en el mismo correo del diploma para el grupo ya confirmado `Carpeta Grabaciones Enviada`.
+- **Verificación:** `node test_diplomas_v4.cjs` aprobado con servicios simulados; enlaces de Drive presentes en HTML y texto plano.
+- **Bloqueantes / pendientes:** Configuración y prueba individual en Apps Script a cargo del operador; no se enviaron correos reales.
+- **Próxima sesión:** Revisar el correo de prueba antes del lote V4.
+- **Commits relevantes:** Ninguno; cambio local.
+
+---
+
+### 2026-09-18 — Código de cierre V4 listo para reemplazar en Apps Script
+- **Objetivo:** Preparar el correo con diploma de V4. Al consultar destinatarios, el usuario confirmó «Los que quedaron con el último estado de carpeta grabaciones enviada».
+- **Hecho:** `crm_script.gs` completo de reemplazo: nuevo `CIERRE_V4` con planilla/pestaña explícitas, fecha Santiago configurable, filtro `Carpeta Grabaciones Enviada`, nombres/correos validados, PDF y HTML escapados, previsualización de solo lectura, prueba únicamente a EMAIL_ADMIN sin acceso a Sheets y lote manual protegido/deshabilitado por defecto. Se conserva diploma V4 de 9 horas y estilo naranja, Canva/Drive/LinkedIn. Guía `CIERRE_V4.md` y test `test_diplomas_v4.cjs` añadidos; OpenSpec archivado bajo `2026-09-18-v4-diploma-dispatch`.
+- **Decidido:** El estado de grabaciones es el grupo elegido explícitamente por el instructor; no usar `Accesos Enviados`. Lotes ≤20, cuota y lock; reservar como `Enviando Diploma`, guardar `Diploma Enviado` tras éxito y marcar `Revisar Diploma` ante fallo incierto. Previsualización/resumen muestran pendientes de revisión; no auto-reintentar. Resto del CRM histórico y cambios locales de precios V5 preservados.
+- **Verificación:** `node test_diplomas_v4.cjs`, `node test_crm_cupon.js` y `node test_crm_oferta.js` aprobados con mocks exclusivamente. Se probaron filtros, preview sin efectos, prueba solo admin, duplicados, casos inválidos, cuota/lock/lotes, reejecución y errores antes/después de enviar. Plantilla real renderizada en Edge: PDF de una página A4 con nombre corto/largo, correo revisado; archivos temporales en `%TEMP%/opencode/diploma-v4-*` y `correo-cierre-v4.png`.
+- **Bloqueantes / pendientes:** No se envió ningún correo real. Para operar: usuario debe completar ID y pestaña V4, revisar la lista, ejecutar prueba individual en Apps Script y revisar el PDF/entrega real antes de habilitar envío. La conversión Google no se comprobó desde el agente. `test_generar_diplomas.py` es una maqueta V3, no evidencia del cierre V4.
+- **Próxima sesión:** Acompañar configuración/prueba individual si el usuario lo pide. No ejecutar ni autorizar prueba masiva contra producción. Ajustes de tarifas V5 anteriores siguen locales, sin publicar.
+- **Commits relevantes:** Ninguno; sin commit ni push.
+
+---
+
+### 2026-09-18 — Estudiantes solo Chile y PayPal internacional confirmado
+- **Objetivo:** Incorporar la aclaración de que el pase estudiantes es válido solo para Chile y el enlace PayPal internacional actualizado proporcionado por el usuario.
+- **Hecho:** `index.html`: estudiantes $30.000 CLP con «Válido solo para Chile» en tarjeta y FAQ, sin equivalente USD; internacional general US$36 en tarjeta y FAQ. Retiradas conversiones indicativas. Enlace `https://www.paypal.com/ncp/payment/2PVCP7EQT3DWU` registrado en preparación V5; leído con Edge en modo de solo consulta: «Workshop Visores Territoriales con IA», total 36,00 USD. No se inició pago. Usuario informa haber actualizado los montos de los enlaces restantes.
+- **Decidido:** Restricción geográfica explícita, sin tarifa estudiantil internacional. Registro/CRM V5 continúa pendiente; no modificar el CRM histórico ni habilitar cobros públicos con esta aclaración. Se actualizan solo las dos huellas de oferta/FAQ; las otras cinco permanecen.
+- **Verificación:** `node test_preview_v5.js` y `node test_site_hydra.cjs` aprobados; contenido, siete desplegables, foto, analítica interceptada, movimiento, responsive 320–1440 px y 320×568. Captura móvil de precios revisada. Especificaciones y checklist V5 sincronizados; cambio archivado en `2026-09-18-v5-payment-country`.
+- **Bloqueantes / pendientes:** Ajuste local todavía no publicado. Internacional general ya tiene monto/enlace confirmado; faltan integración CRM V5, condiciones de acreditación/cupones/cupos y pruebas de inscripción/pago. Importes de otros checkouts no comprobados en esta sesión.
+- **Próxima sesión:** Publicar este ajuste cuando se solicite y continuar preparación V5 con validación país/plan en el nuevo CRM.
+- **Commits relevantes:** Ninguno en esta sesión. Producción anterior sigue en `e4c423c` (implementación Hydra), documentación `65c0887`, ambos previamente publicados.
+
+---
+
 ### 2026-09-18 — Publicación autorizada del rediseño Hydra
 - **Objetivo:** Publicar la portada Hydra, foto y perfil ampliado tras la petición explícita «publicalo».
 - **Hecho:** `e4c423c` subido correctamente a `origin/master` y `origin/gh-pages`. GitHub Pages run `35364535749` completado con éxito. La URL https://geoidegeoidal.github.io/spatial-ia-web/ ya sirve Hydra, foto y perfil ampliado.

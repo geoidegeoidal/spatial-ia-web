@@ -21,6 +21,11 @@ const EMAIL_ADMIN = "jorge.ulloa.roa@gmail.com";
 const LINK_OFERTA_MERCADOPAGO = "https://mpago.la/1E75xtF";
 const LINK_OFERTA_PAYPAL = "https://www.paypal.com/ncp/payment/RGT8AG7R7U4DA";
 
+const CIERRE_V4 = {
+  fechaEmision: "",
+  maxPorEjecucion: 20
+};
+
 // Helper para obtener la hoja activa o la primera hoja de forma segura
 function obtenerHoja() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -602,7 +607,8 @@ function enviarGrabaciones() {
 // 8. PLANTILLA Y MOTOR DE DIPLOMA OFICIAL (PDF) V4
 // ---------------------------------------------------------------------------------
 function generarDiplomaHtml(nombreAlumno, fechaEmision) {
-  fechaEmision = fechaEmision || "14 de Septiembre de 2026";
+  nombreAlumno = escaparHtmlV4_(nombreAlumno);
+  fechaEmision = escaparHtmlV4_(fechaEmision || fechaDiplomasV4_());
   return `<!DOCTYPE html>
 <html>
 <head>
@@ -766,26 +772,13 @@ function generarDiplomaHtml(nombreAlumno, fechaEmision) {
 // ---------------------------------------------------------------------------------
 // 9. FUNCIÓN FINAL: CIERRE DE BOOTCAMP Y DIPLOMA PDF
 // ---------------------------------------------------------------------------------
-function enviarDiplomasYCierre() {
-  var sheet = obtenerHoja();
-  var data = sheet.getDataRange().getValues();
-  var enviados = 0;
-  var fechaEmision = "14 de Septiembre de 2026";
-  
-  for (var i = 1; i < data.length; i++) {
-    var email = data[i][2] ? data[i][2].toString().trim() : "";
-    var estado = data[i][7] ? data[i][7].toString().trim() : "";
-    var name = data[i][1] ? data[i][1].toString().trim() : "Estudiante";
-    
-    if (estado === "Accesos Enviados" && email !== "") {
-      try {
-        var diplomaHtml = generarDiplomaHtml(name, fechaEmision);
-        var safeFileName = "Diploma_GeoIA_V4_" + name.replace(/[^a-zA-Z0-9]/g, "_") + ".pdf";
-        var diplomaPdf = Utilities.newBlob(diplomaHtml, "text/html", "diploma.html")
-                                  .getAs("application/pdf")
-                                  .setName(safeFileName);
-        
-        var bodyFinal = `
+function prepararCorreoDiplomaV4_(nombre, fechaEmision) {
+  var name = escaparHtmlV4_(nombre);
+  var diplomaHtml = generarDiplomaHtml(nombre, fechaEmision);
+  var safeFileName = "Diploma_GeoIA_V4_" + nombre.replace(/[^a-zA-Z0-9]/g, "_").slice(0, 90) + ".pdf";
+  var diplomaPdf = Utilities.newBlob(diplomaHtml, "text/html", "diploma.html")
+    .getAs("application/pdf").setName(safeFileName);
+  var bodyFinal = `
           <div style="${ESTILO_BASE}">
             <div style="${CONTENEDOR}">
               <div style="${BADGE_VERDE}">[BOOTCAMP COMPLETED]</div>
@@ -799,7 +792,7 @@ function enviarDiplomasYCierre() {
               <div style="${BLOQUE_INFO}">
                 <h3 style="color: #FF4500; margin-top: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">> 01. TU DIPLOMA OFICIAL (PDF ADJUNTO)</h3>
                 <p style="color: #888888; font-size: 13px; margin-bottom: 0;">
-                  He generado y adjuntado a este correo tu certificado oficial de aprobación en formato PDF de alta resolución. ¡Compártelo con orgullo!
+                  Adjunto tu certificado de aprobación de V4: 9 horas totales (5 lectivas y 4 prácticas). Si tu nombre necesita un ajuste, responde a este correo. ¡Compártelo con orgullo!
                 </p>
               </div>
 
@@ -814,18 +807,18 @@ function enviarDiplomasYCierre() {
 
               <!-- BLOQUE 3: BÓVEDA DRIVE (GRABACIONES E INSUMOS) -->
               <div style="${BLOQUE_INFO_SECUNDARIO}">
-                <h3 style="color: #888888; margin-top: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">> 03. BÓVEDA DE GRABACIONES E INSUMOS</h3>
+                <h3 style="color: #FF4500; margin-top: 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">> 03. RECORDATORIO: GRABACIONES Y MATERIALES</h3>
                 <p style="color: #888888; font-size: 13px; margin-bottom: 15px;">
-                  Aquí tienes el acceso permanente a la carpeta maestra con todas las grabaciones de video, datasets GeoJSON, scripts y código fuente del curso:
+                  Te comparto nuevamente la carpeta de grabaciones y materiales de V4 para que la tengas a mano. Puedes volver a ver las sesiones y repasar los datos, scripts y código fuente del curso. Guarda este enlace para seguir practicando a tu ritmo:
                 </p>
-                <a href="${LINK_GRABACIONES_DRIVE}" style="${BOTON_TERMINAL}">[ ABRIR BÓVEDA EN GOOGLE DRIVE ]</a>
+                <a href="${LINK_GRABACIONES_DRIVE}" style="${BOTON_SOLIDO}">VOLVER A LAS GRABACIONES Y MATERIALES</a>
               </div>
 
               <!-- BLOQUE 4: LINKEDIN & FEEDBACK -->
               <div style="border: 1px dashed #222222; padding: 20px; margin-bottom: 30px;">
                 <h4 style="color: #FFFFFF; margin-top: 0; font-size: 12px; margin-bottom: 15px; text-transform: uppercase;">> COMPARTE TU LOGRO Y CONOCIMIENTO</h4>
                 <p style="color: #888888; font-size: 13px; margin-bottom: 15px;">
-                  Tu validación e impacto profesional son lo más importante. Te invito a publicar tu visor territorial terminado o tu diploma en LinkedIn y etiquetarme. ¡Cualquier recomendación o aprendizaje que compartas ayuda enormemente a seguir expandiendo esta comunidad!
+                  Puedes publicar tu visor territorial o tu diploma en LinkedIn y etiquetarme, o responder con unas líneas sobre lo que aprendiste. Tu recomendación es voluntaria; si autorizas compartirla como testimonio, indícalo en tu respuesta.
                 </p>
                 <p style="color: #888888; font-size: 13px; margin-bottom: 0;">
                   🔗 <a href="https://www.linkedin.com/in/jorge-ulloa-roa/" style="color: #FF4500; text-decoration: none; font-weight: bold;">Mi perfil de LinkedIn — Jorge Ulloa Roa</a>
@@ -839,21 +832,156 @@ function enviarDiplomasYCierre() {
           </div>
         `;
 
-        GmailApp.sendEmail(email, "[DIPLOMA OFICIAL] Certificado de Aprobación, Presentaciones y Bóveda — Bootcamp Geo-IA V4", "", {
-          htmlBody: bodyFinal,
-          attachments: [diplomaPdf],
-          name: "Bootcamp Geo-IA",
-          replyTo: EMAIL_ADMIN
-        });
+  var texto = "Hola, " + nombre + ":\n\nGracias por ser parte del Bootcamp Geo-IA V4. Adjunto tu diploma de aprobación (9 horas: 5 lectivas y 4 prácticas). Si tu nombre necesita un ajuste, responde a este correo.\n\nPresentación: " + LINK_PRESENTACIONES_CANVA + "\n\nRECORDATORIO: GRABACIONES Y MATERIALES\nTe comparto nuevamente la carpeta de grabaciones y materiales de V4 para que la tengas a mano. Puedes volver a ver las sesiones y repasar los datos, scripts y código fuente del curso. Guarda este enlace para seguir practicando a tu ritmo:\n" + LINK_GRABACIONES_DRIVE + "\n\nPuedes compartir tu experiencia en LinkedIn o responder a este correo. Si autorizas compartir tu recomendación como testimonio, indícalo expresamente.\nhttps://www.linkedin.com/in/jorge-ulloa-roa/\n\nGracias por tu confianza,\nJorge Ulloa Roa";
+  return {
+    asunto: "Tu diploma y recordatorio de grabaciones — Bootcamp Geo-IA V4",
+    texto: texto,
+    opciones: { htmlBody: bodyFinal, attachments: [diplomaPdf], name: "Bootcamp Geo-IA", replyTo: EMAIL_ADMIN }
+  };
+}
 
-        sheet.getRange(i + 1, 8).setValue("Diploma Enviado");
+function escaparHtmlV4_(valor) {
+  return String(valor == null ? "" : valor).replace(/[&<>"']/g, function(c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+  });
+}
+
+function fechaDiplomasV4_() {
+  if (CIERRE_V4.fechaEmision.trim()) return CIERRE_V4.fechaEmision.trim();
+  var partes = Utilities.formatDate(new Date(), "America/Santiago", "yyyy-MM-dd").split("-");
+  var meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+  return Number(partes[2]) + " de " + meses[Number(partes[1]) - 1] + " de " + partes[0];
+}
+
+function obtenerHojaDiplomasV4_() {
+  var planilla = SpreadsheetApp.getActiveSpreadsheet();
+  if (!planilla) throw new Error("Abre Apps Script desde Extensiones de la planilla V4 y ejecuta allí esta función.");
+  var hojas = planilla.getSheets().filter(function(hoja) {
+    return hoja.getLastColumn() >= 8 && esEncabezadoDiplomasV4_(hoja.getRange(1, 1, 1, 8).getValues()[0]);
+  });
+  if (hojas.length === 0) throw new Error("No se encontró una pestaña con B=Nombre, C=Email y H=Estado Pago en la planilla vinculada.");
+  if (hojas.length > 1) throw new Error("Hay varias pestañas compatibles: " + hojas.map(function(hoja) { return hoja.getName(); }).join(", ") + ". No se enviaron correos; hace falta identificar la pestaña V4.");
+  return hojas[0];
+}
+
+function esEncabezadoDiplomasV4_(encabezado) {
+  return encabezado && String(encabezado[1]).trim().toLowerCase() === "nombre" &&
+    String(encabezado[2]).trim().toLowerCase() === "email" && String(encabezado[7]).trim().toLowerCase() === "estado pago";
+}
+
+function seleccionarDiplomasV4_(data) {
+  if (!esEncabezadoDiplomasV4_(data[0])) {
+    throw new Error("La hoja no corresponde al esquema V4: B=Nombre, C=Email, H=Estado Pago.");
+  }
+  var destinatarios = [], errores = [], porRevisar = [], vistos = new Set(), protegidos = new Set();
+  data.slice(1).forEach(function(row, index) {
+    var estado = String(row[7] || "").trim();
+    if (["Diploma Enviado", "Enviando Diploma", "Revisar Diploma"].indexOf(estado) !== -1) {
+      protegidos.add(String(row[2] || "").trim().toLowerCase());
+    }
+    if (estado === "Enviando Diploma" || estado === "Revisar Diploma") {
+      porRevisar.push({ fila: index + 2, nombre: String(row[1] || "").trim(), email: String(row[2] || "").trim(), estado: estado });
+    }
+  });
+  data.slice(1).forEach(function(row, index) {
+    if (String(row[7] || "").trim() !== "Carpeta Grabaciones Enviada") return;
+    var fila = index + 2, nombre = String(row[1] || "").trim(), email = String(row[2] || "").trim().toLowerCase();
+    if (!nombre || !/^[^\s@,;<>"']+@[^\s@,;<>"']+\.[^\s@,;<>"']+$/.test(email)) {
+      errores.push("Fila " + fila + ": falta nombre o el correo no es válido.");
+    } else if (vistos.has(email) || protegidos.has(email)) {
+      errores.push("Fila " + fila + ": correo duplicado, ya enviado o con envío por revisar: " + email);
+    } else {
+      vistos.add(email);
+      destinatarios.push({ fila: fila, nombre: nombre, email: email });
+    }
+  });
+  return { destinatarios: destinatarios, errores: errores, porRevisar: porRevisar };
+}
+
+function previsualizarDiplomasV4() {
+  var hoja = obtenerHojaDiplomasV4_();
+  var revision = seleccionarDiplomasV4_(hoja.getDataRange().getValues());
+  revision.planillaId = hoja.getParent().getId();
+  revision.pestana = hoja.getName();
+  revision.fechaEmision = fechaDiplomasV4_();
+  revision.total = revision.destinatarios.length;
+  console.log(JSON.stringify(revision, null, 2));
+  return revision;
+}
+
+function enviarPruebaDiplomaV4() {
+  var correo = prepararCorreoDiplomaV4_("Estudiante de prueba", fechaDiplomasV4_());
+  GmailApp.sendEmail(EMAIL_ADMIN, "[PRUEBA SOLO ADMIN] " + correo.asunto, correo.texto, correo.opciones);
+  console.log("Prueba individual enviada únicamente a " + EMAIL_ADMIN + ". No se leyó ni modificó la planilla.");
+}
+
+function enviarDiplomasYCierre() {
+  if (!Number.isInteger(CIERRE_V4.maxPorEjecucion) || CIERRE_V4.maxPorEjecucion < 1 || CIERRE_V4.maxPorEjecucion > 20) {
+    throw new Error("maxPorEjecucion debe ser un entero entre 1 y 20.");
+  }
+  var hoja = obtenerHojaDiplomasV4_();
+  var revision = seleccionarDiplomasV4_(hoja.getDataRange().getValues());
+  if (revision.errores.length) throw new Error(revision.errores.join("\n"));
+  var fecha = fechaDiplomasV4_();
+  if (!revision.destinatarios.length) {
+    var vacio = { enviados: 0, pendientes: 0, porRevisar: revision.porRevisar.length, fechaEmision: fecha };
+    console.log(JSON.stringify(vacio));
+    return vacio;
+  }
+  var cuota = MailApp.getRemainingDailyQuota();
+  if (cuota < 1) throw new Error("Sin cuota diaria disponible. No se enviaron correos.");
+  var lote = revision.destinatarios.slice(0, Math.min(CIERRE_V4.maxPorEjecucion, cuota));
+  var ui = SpreadsheetApp.getUi();
+  var lista = lote.map(function(alumno) { return "Fila " + alumno.fila + ": " + alumno.nombre + " <" + alumno.email + ">"; }).join("\n");
+  var respuesta = ui.alert("Confirmar envío de diplomas V4",
+    "Planilla: " + hoja.getParent().getName() + "\nPestaña: " + hoja.getName() + "\nFecha: " + fecha +
+    "\nEstado: Carpeta Grabaciones Enviada\nEste lote: " + lote.length + " de " + revision.destinatarios.length + " pendientes.\n\n" + lista +
+    "\n\nSe enviará el diploma y el recordatorio de grabaciones a estas personas. ¿Confirmas el envío?", ui.ButtonSet.YES_NO);
+  if (respuesta !== ui.Button.YES) {
+    console.log("Envío cancelado. No se enviaron correos ni se modificó la planilla.");
+    return { enviados: 0, pendientes: revision.destinatarios.length, porRevisar: revision.porRevisar.length, cancelado: true };
+  }
+  var lock = LockService.getScriptLock();
+  if (!lock.tryLock(1000)) throw new Error("Ya hay un envío de diplomas en ejecución.");
+  try {
+    revision = seleccionarDiplomasV4_(hoja.getDataRange().getValues());
+    if (revision.errores.length) throw new Error(revision.errores.join("\n"));
+    if (JSON.stringify(revision.destinatarios.slice(0, lote.length)) !== JSON.stringify(lote)) {
+      throw new Error("El lote cambió mientras revisabas la confirmación. Vuelve a ejecutar para revisar la lista actualizada.");
+    }
+    cuota = MailApp.getRemainingDailyQuota();
+    if (cuota < 1) throw new Error("Sin cuota diaria disponible. No se enviaron correos.");
+    var limite = Math.min(lote.length, cuota);
+    var inicio = Date.now(), enviados = 0;
+    for (var i = 0; i < limite; i++) {
+      if (Date.now() - inicio > 240000) break;
+      var alumno = lote[i];
+      var correo = prepararCorreoDiplomaV4_(alumno.nombre, fecha);
+      var actual = hoja.getRange(alumno.fila, 2, 1, 7).getValues()[0];
+      if (String(actual[0] || "").trim() !== alumno.nombre || String(actual[1] || "").trim().toLowerCase() !== alumno.email || String(actual[6] || "").trim() !== "Carpeta Grabaciones Enviada") {
+        throw new Error("La fila " + alumno.fila + " cambió durante el proceso. Vuelve a previsualizar la lista.");
+      }
+      var estado = hoja.getRange(alumno.fila, 8);
+      estado.setValue("Enviando Diploma");
+      SpreadsheetApp.flush();
+      var reservado = hoja.getRange(alumno.fila, 2, 1, 7).getValues()[0];
+      if (String(reservado[0] || "").trim() !== alumno.nombre || String(reservado[1] || "").trim().toLowerCase() !== alumno.email || String(reservado[6] || "").trim() !== "Enviando Diploma") {
+        throw new Error("La fila " + alumno.fila + " cambió después de reservarla. No se envió el correo; revisa la fila marcada Enviando Diploma.");
+      }
+      try {
+        GmailApp.sendEmail(alumno.email, correo.asunto, correo.texto, correo.opciones);
+        estado.setValue("Diploma Enviado");
+        SpreadsheetApp.flush();
         enviados++;
-        console.log("✓ Diploma despachado con éxito a: " + email);
-        
-      } catch (err) {
-        console.error("✗ Error despachando diploma a " + email + ": " + err.toString());
+        console.log("Diploma enviado: fila " + alumno.fila + ", " + alumno.email);
+      } catch (error) {
+        try { estado.setValue("Revisar Diploma"); SpreadsheetApp.flush(); }
+        catch (errorEstado) { console.error("No se pudo actualizar el estado de la fila " + alumno.fila + ": " + errorEstado.message); }
+        throw new Error("Envío interrumpido en fila " + alumno.fila + " (" + alumno.email + "). Revisa Enviados de Gmail antes de reintentar: " + error.message);
       }
     }
-  }
-  console.log("Total de diplomas enviados: " + enviados);
+    var resultado = { enviados: enviados, pendientes: revision.destinatarios.length - enviados, porRevisar: revision.porRevisar.length, fechaEmision: fecha };
+    console.log(JSON.stringify(resultado));
+    return resultado;
+  } finally { lock.releaseLock(); }
 }

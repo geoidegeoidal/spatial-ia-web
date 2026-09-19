@@ -2,24 +2,29 @@
 
 ## Datos necesarios del instructor
 1. Confirmados 16, 17 y 18 de octubre, 20:00–21:30. Prototipo usa 2026 y Santiago (UTC−3); confirmar referencia antes de publicación. Son 4,5 horas en vivo. Faltan programa final y cupos.
-2. Confirmados $35.000 CLP general y $30.000 CLP estudiantes. Conversión referencial al 17/09/2026: US$36,65 / US$31,42 (954,85 CLP/USD, mindicador.cl). Confirmar tarifa de cobro internacional, enlaces de pago y si continúa CONMAPAS.
-3. URL de nueva planilla y nombre de pestaña. Crear proyecto Apps Script vinculado exclusivamente a V5 y compartir su endpoint `/exec` después del despliegue.
+2. Confirmados $35.000 CLP general y $30.000 CLP estudiantes **solo para Chile**. Usuario informa que actualizó los montos de los enlaces existentes. PayPal general internacional confirmado: https://www.paypal.com/ncp/payment/2PVCP7EQT3DWU, **US$36** verificados en el resumen del pedido el 18/09/2026, sin iniciar pago. No ofrecer pase estudiantes internacional ni cupones en V5. Confirmar condiciones de acreditación.
+3. Planilla V5 confirmada: `13MgX1IAFHdkJCMrv6Iz1uu1q4zy8fZWR9HICcZ2glDs`, pestaña existente `gid=0`. El usuario borró las filas V4 y conservó A:H. `crm_v5_script.gs` usa esa pestaña sin regenerarla. Endpoint desplegado: `https://script.google.com/macros/s/AKfycbzkX21TwO9LqpJao8mjVZ2Guc98J-yvTw-5B1cKP38gzwNxoNQIm0jImAKVoTIi8Iw3rQ/exec`.
 4. Planilla/lista V4 con nombres definitivos, correos y confirmación de finalización. Confirmar fecha de emisión de certificados.
 5. Destino de recomendaciones: LinkedIn, respuesta al correo o formulario. Propuesta inicial: respuesta al correo, sin crear otra herramienta.
 
-## Configuración V5 pendiente de ejecución
-- Crear planilla vacía con encabezados A:H: Fecha | Nombre | Email | País | Nivel SIG | Profesión | Plan | Estado Pago.
-- Preparar adaptación V5 del CRM una vez confirmadas condiciones. No copiar activadores ni fechas de V4 automáticamente.
+## Configuración V5
+- [x] Ejecutar una vez `prepararCRMV5`: valida `gid=0` y A:H (Fecha | Nombre | Email | País | Nivel SIG | Profesión | Plan | Estado Pago), configura zona horaria/activador y no modifica la estructura ni el formato de la hoja.
+- Usar el reemplazo completo `crm_v5_script.gs`. No copiar activadores ni fechas de V4 automáticamente.
+- En el CRM V5, validar país y plan en servidor: el pase estudiantes solo admite Chile. Los pagos internacionales generales usarán el PayPal confirmado de US$36; no reutilizar la antigua tarifa estudiantil USD ni la lógica de cupones de V4.
+- El POST válido de V5 debe registrar y despachar automáticamente los correos iniciales al participante y administrador, sin confirmación manual. Probar el flujo completo en una planilla aislada antes de exponer el formulario. La confirmación visual queda limitada a `enviarDiplomasYCierre` de V4.
+- El activador horario V5 envía recordatorios de 24/72 horas. Tras revisar el comprobante, el operador cambia H exactamente a `Pagado`; el siguiente ciclo envía el tutorial automáticamente y deja `Tutorial Enviado`.
 - Fijar ID de planilla y pestaña explícitos. Configurar zona horaria America/Santiago si corresponde al horario confirmado.
 - Autorizar el proyecto con la cuenta remitente. Desplegar como aplicación web ejecutada por el propietario, con acceso para postulantes externos según las políticas de la cuenta.
-- Probar con planilla y destinatario aislados: alta, validación, precios, correo, estados y errores.
-- Conectar el endpoint y habilitar el formulario tras la prueba satisfactoria. Verificar país accesible por teclado y estados de envío.
+- [x] Probar con destinatario aislado: alta, correo, pago, tutorial y estados.
+- [x] Conectar el endpoint en la copia local y verificar país por teclado, validación, JSON éxito/error, doble envío y responsive sin despachar inscripciones reales.
 - Activar recordatorios solo con sus condiciones revisadas. Publicar sitio cuando el usuario solicite despliegue.
 
-## Cierre V4 pendiente de ejecución
-El código existente `enviarDiplomasYCierre()` ya adjunta PDF y recursos, pero selecciona `Accesos Enviados`. No usar ese estado como prueba de finalización. Revisar además casos con grabaciones enviadas y diplomas ya entregados.
+Prueba real autorizada el 18/09/2026: POST `Prueba CRM V5`, Chile/general, destinatario `jorge.ulloa.roa@gmail.com`; respuesta `{"result":"success","registro":{"fila":2,"estado":"Pendiente"}}`. El usuario confirmó recepción del aviso administrativo y del correo de pago. Luego cambió H2 a `Pagado`, ejecutó el ciclo y confirmó estado `Tutorial Enviado` y recepción del tutorial. La landing local quedó conectada y probada con respuestas interceptadas; producción continúa sin reabrirse ni publicarse.
 
-Preparar selección explícita de alumnos que completaron, previsualización de destinatarios y prueba de un PDF/correo antes de ejecutar la entrega. El generador actual fija emisión al 14 de septiembre de 2026. La entrega real requiere acceso a Apps Script/Gmail; no se ha realizado desde esta sesión.
+## Cierre V4 pendiente de ejecución
+El instructor confirmó como destinatarios a quienes quedaron en `Carpeta Grabaciones Enviada`. `crm_script.gs` ya prepara ese filtro, `previsualizarDiplomasV4` de solo lectura, prueba individual al administrador y envío manual con confirmación del lote. Detecta la pestaña compatible en la planilla vinculada, sin IDs ni banderas que editar. Fecha actual de Santiago o texto configurable; 9 horas V4 conservadas.
+
+Seguir `CIERRE_V4.md`: pegar el archivo completo en Apps Script vinculado a V4, comprobar el PDF mediante la prueba individual y ejecutar el envío, revisando la lista de la confirmación en Sheets. Los estados `Enviando Diploma` / `Revisar Diploma` requieren revisión en Gmail antes de reintentar. Código probado solo con mocks y render local; no hubo envío real ni conversión en Apps Script desde el agente.
 
 ## Borrador del correo de cierre
 **Asunto:** Tu certificado V4 y un gracias por construir juntos — Bootcamp Geo-IA

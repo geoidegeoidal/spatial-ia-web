@@ -41,7 +41,12 @@ stateDiagram-v2
     TutorialEnviado --> AccesosEnviados: enviarLinksConexion()
     TutorialEnviadoV3 --> AccesosEnviados: enviarLinksConexion()
     
-    AccesosEnviados --> DiplomaEnviado: enviarDiplomasYCierre()
+    AccesosEnviados --> CarpetaGrabacionesEnviada: enviarGrabaciones()
+    CarpetaGrabacionesEnviada --> EnviandoDiploma: enviarDiplomasYCierre() [lista revisada]
+    EnviandoDiploma --> DiplomaEnviado: Gmail acepta y se guarda estado
+    EnviandoDiploma --> RevisarDiploma: fallo o resultado incierto
+    RevisarDiploma --> DiplomaEnviado: revisión manual en Gmail
+    RevisarDiploma --> CarpetaGrabacionesEnviada: revisión manual confirma que no se envió
     DiplomaEnviado --> [*]
 ```
 
@@ -65,9 +70,9 @@ stateDiagram-v2
 - Un envío exitoso cambia el estado a `"Oferta Exclusiva Enviada"`, impidiendo duplicados.
 - Si falta el enlace correspondiente al país, el correo no se envía y el estado permanece intacto.
 
-### `RULE-CRM-007`: Cupón Promocional CONMAPAS en Formulario Web y CRM
-- El formulario de registro en [index.html](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/index.html) expone el campo opcional `cupon`.
-- Validación interactiva en tiempo real en frontend: si el valor ingresado es `CONMAPAS` (case-insensitive), se despliega de inmediato un badge visual indicando la tarifa con descuento ($20.000 CLP en Chile o 22 USD internacionalmente).
+### `RULE-CRM-007`: Cupón Promocional CONMAPAS histórico de V4
+- Esta regla pertenece exclusivamente al CRM V4 conservado en `crm_script.gs`. V5 no debe exponer, aceptar ni aplicar cupones, incluido `CONMAPAS`.
+- La landing pública V5 `index.html` no contiene formulario ni campo `cupon`; ConMapas aparece solo como antecedente profesional del instructor.
 - Ingesta en `doPost(e)`:
   - Detecta si `cupon.toUpperCase().trim() === "CONMAPAS"`.
   - Asigna tarifa de **$20.000 CLP** con enlace MercadoPago `https://mpago.la/1E75xtF` y datos de transferencia bancaria por $20.000 CLP para Chile.
@@ -77,14 +82,22 @@ stateDiagram-v2
 - En `enviarRecordatoriosPago()`:
   - Se valida si el registro contiene el cupón para despachar recordatorios periódicos (24h y 72h) respetando la tarifa reducida ($20.000 CLP / 22 USD).
 
+### `RULE-CRM-008`: Automatización obligatoria del CRM V5
+- Cuando se habilite el registro V5, cada envío válido del formulario debe ejecutar automáticamente el flujo transaccional: validación del payload, registro en la planilla V5, estado inicial, notificación al administrador y correo al participante con las instrucciones de pago correspondientes a país y plan.
+- El participante no debe esperar una aprobación, ejecución manual ni confirmación visual del operador para recibir el correo inicial. La interfaz solo muestra éxito después de que el endpoint confirme la recepción.
+- Si falla la validación, escritura o preparación del correo, el endpoint debe devolver error y la página no debe mostrar una inscripción exitosa falsa.
+- La confirmación visual/manual se reserva al despacho masivo de diplomas V4 (`enviarDiplomasYCierre`); no forma parte del CRM operativo V5.
+- V5 usa una planilla, Apps Script y endpoint independientes de V4, sin cupones ni activadores heredados hasta que sean revisados y probados explícitamente.
+- El activador V5 ejecuta cada hora recordatorios de pago de 24/72 horas y detecta el estado exacto `Pagado`. La validación del comprobante es manual; después de esa marca, el tutorial V5 se envía automáticamente y cambia a `Tutorial Enviado`. Solo resultados inciertos requieren revisión manual y nunca se auto-reintentan.
+
 ---
 
 ## 3. Implementación y Mapeo en Código
 
 | Función | Archivo | Líneas Aprox. | Propósito |
 | :--- | :--- | :--- | :--- |
-| `doPost(e)` | [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs#L33-L150) | 33–150 | Receptor de inscripciones, parsing de cupón `CONMAPAS` y despacho de bienvenida |
-| `enviarRecordatoriosPago()` | [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs#L155-L235) | 155–235 | Cron de 24h y 72h respetando precios regulares o promocionales con cupón |
+| `doPost(e)` | [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs#L33-L150) | 33–150 | Receptor histórico V4, parsing de cupón `CONMAPAS` y despacho de bienvenida |
+| `enviarRecordatoriosPago()` | [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs#L155-L235) | 155–235 | Cron histórico V4 de 24h y 72h respetando precios regulares o promocionales |
 | `enviarOfertaExclusivaHoy()` | [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs#L240-L300) | 240–300 | Oferta manual de un día para postulantes con recordatorio final agotado |
 | `enviarTutorialAutomático()` | [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs#L305-L355) | 305–355 | Entrega de binarios e instructivo de instalación a alumnos con pago confirmado |
 | `enviarLinksConexion()` | [crm_script.gs](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/crm_script.gs#L415-L490) | 415–490 | Envío masivo de accesos a Google Meet y Drive |

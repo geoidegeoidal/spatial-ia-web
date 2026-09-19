@@ -1,0 +1,11 @@
+# Delta CRM V5 automático
+
+- La planilla V5 confirmada es `13MgX1IAFHdkJCMrv6Iz1uu1q4zy8fZWR9HICcZ2glDs`; usar la pestaña existente `gid=0`. El usuario borró los datos V4 y conservó los encabezados A:H. No crear, borrar, renombrar ni reformatear hojas.
+- `crm_v5_script.gs` es el reemplazo completo del proyecto Apps Script V5. `prepararCRMV5` valida la pestaña/encabezados existentes, configura zona horaria y activador, y se ejecuta una sola vez antes del despliegue.
+- `doPost` valida nombre, correo, país y plan; elimina controles, neutraliza fórmulas de Sheets, rechaza todo cupón, no admite estudiantes fuera de Chile y evita duplicados dentro de la pestaña V5. Escribe estado transitorio, envía automáticamente notificación al administrador y correo de pago al participante, y termina en `Pendiente`.
+- Si falla el aviso administrativo o el correo al participante, responder error y marcar el destino exacto por revisar. No auto-reintentar resultados inciertos; comprobar Gmail para evitar duplicados. No usar diálogo ni confirmación manual en el camino normal.
+- El frontend envía formulario URL-encoded/FormData y solo muestra éxito si el JSON contiene `result === "success"`; Apps Script puede devolver errores de aplicación con HTTP 200.
+- Tarifas: Chile general $35.000 CLP, Chile estudiantes $30.000 CLP, internacional general US$36. Enlaces existentes reportados por el usuario como actualizados; PayPal US$36 verificado. Sin pase estudiante internacional ni cupones.
+- `prepararCRMV5` conserva activadores ajenos y reemplaza solo `ejecutarCRMV5`, con frecuencia horaria. El orquestador envía recordatorios a las 24/72 horas y tutoriales para estado exacto `Pagado`.
+- La validación del comprobante sigue siendo humana: el operador escribe `Pagado` en H. El tutorial se envía automáticamente en el siguiente ciclo y termina en `Tutorial Enviado`, sin confirmación visual. Usa el tutorial Drive existente con fechas/copy V5; no heredar binarios, fechas, precios ni enlaces de sesiones V4.
+- Todas las transiciones localizan la fila por correo único, no por número de fila, para tolerar ordenamiento. Preservar un `Pagado` concurrente. Después de Gmail, un fallo ambiguo de escritura/lock debe terminar en estado no reintentable `Revisar ...` o `Enviando ...`, nunca en `Pendiente`/`Pagado` susceptible de duplicar automáticamente.
