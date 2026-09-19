@@ -33,9 +33,7 @@ Define los estándares visuales, componentes de interfaz de usuario, arquitectur
 - Nombre, correo y profesión usan validación nativa. País, experiencia SIG y plan se envían con los nombres esperados por `crm_v5_script.gs`.
 - Fuera de Chile se deshabilita el pase estudiantes, se selecciona general y se muestra US$36. No hay campos ni lógica de cupones.
 - Los errores mantienen el formulario disponible y se anuncian mediante una región `aria-live`. El éxito oculta el formulario y mueve el foco a la confirmación.
-- Antes de completar el formulario, un aviso destacado anticipa que las instrucciones de pago llegarán por correo y pide revisar Spam o Promociones. Tras una respuesta válida, la confirmación repite claramente ambos próximos pasos.
 - Integración publicada por autorización explícita el 18/09/2026: commit `7dfc4c9` en `master`/`gh-pages`, Pages run `35409668450` exitoso y formulario público verificado sin enviar datos.
-- Aviso y confirmación reforzada publicados por autorización explícita el 19/09/2026: commit `135c446` en `master`/`gh-pages`, Pages run `35417600223` exitoso y copia pública verificada sin POST.
 
 ### `RULE-UI-005`: Selector de País Accesible
 - Usar un listbox personalizado con banderas SVG Iconify `circle-flags:*`, porque los emoji de banderas no se muestran de forma fiable en Windows.
@@ -66,7 +64,7 @@ Define los estándares visuales, componentes de interfaz de usuario, arquitectur
 | **Syllabus (3 Módulos en 3 Col)** | [index.html](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/index.html) | Desglose modular: M01 (IA & SDD), M02 (Web Mapping MapLibre), M03 (Turf.js & GitHub Pages Deploy) |
 | **Instructor & Trayectoria** | `index.html`, `assets/instructor.jpg` | Foto en color, perfil ampliado, dos roles actuales, portafolio y LinkedIn |
 | **Matriz de Inversión** | `index.html` | Chile general $35.000 CLP / estudiantes $30.000 CLP solo Chile; general internacional US$36 vía PayPal |
-| **Formulario V5 (#protocolo)** | `index.html`, `assets/site.css`, `assets/registration.js` | Alta V5 publicada, selector de país accesible, validación por plan y estados JSON, aviso previo y confirmación reforzada |
+| **Formulario V5 (#protocolo)** | `index.html`, `assets/registration.js` | Alta V5 publicada, selector de país accesible, validación por plan y estados JSON |
 | **Detalles & FAQ** | `index.html` | Tres desplegables del programa y cuatro preguntas frecuentes, incluida certificación V4 |
 
 ---

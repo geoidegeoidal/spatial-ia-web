@@ -19,4 +19,3 @@ section{padding:90px 0;border-bottom:1px solid var(--line)}h2{font:400 clamp(32p
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
 .site .hero h1 .title-line:last-child{color:var(--accent)}
 .site .hero{overflow:clip}
-.email-notice{display:grid;grid-template-columns:34px 1fr;gap:13px;align-items:start;margin:-7px 0 24px;padding:16px;border:1px solid #58432f;border-left:3px solid var(--accent);background:#1b120e}.email-notice-mark{display:grid;place-items:center;width:30px;height:30px;background:var(--accent);color:#080909;font:700 16px/1 var(--mono)}.email-notice strong{display:block;color:#fff;font:700 12px/1.5 Manrope,sans-serif}.email-notice p{margin:4px 0 0;color:#c9bdb2;font-size:11px;line-height:1.7}.registration-success{border:1px solid #58432f;border-left:3px solid var(--accent);background:#1b120e;padding-inline:26px}.registration-success strong{color:#fff}

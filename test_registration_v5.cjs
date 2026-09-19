@@ -29,8 +29,6 @@ const endpoint = 'https://script.google.com/macros/s/AKfycbzkX21TwO9LqpJao8mjVZ2
     await page.goto(base);
     assert.equal(await page.locator('#country-trigger').getAttribute('aria-labelledby'), 'country-label country-current');
     assert.equal(await page.locator('.country-field iconify-icon:not([aria-hidden="true"])').count(), 0);
-    assert.match(await page.locator('.email-notice').innerText(), /revisa tu correo/i);
-    assert.match(await page.locator('.email-notice').innerText(), /spam o promociones/i);
     await page.locator('#registration-submit').click();
     assert.equal(requests.length, 0, 'Native required fields must block empty submission');
 
@@ -44,7 +42,7 @@ const endpoint = 'https://script.google.com/macros/s/AKfycbzkX21TwO9LqpJao8mjVZ2
     await page.locator('#registration-submit').click();
     await page.waitForFunction(() => !document.querySelector('#registration-success').hidden);
     assert.notEqual(await page.locator('#registration-success').evaluate(element => getComputedStyle(element).display), 'none');
-    assert.match(await page.locator('#registration-success').innerText(), /formulario fue enviado/i);
+    assert.match(await page.locator('#registration-success').innerText(), /revisa tu correo/i);
     assert.match(await page.locator('#registration-success').innerText(), /spam o promociones/i);
     assert.equal(await page.locator('#registration-success').evaluate(element => element === document.activeElement), true);
     assert.equal(requests.length, 1);
