@@ -30,7 +30,7 @@ Fuente revisada: https://lawsofux.com/es/ (18/09/2026). Alcance: portada, navega
 | Modelo mental | Aplicada | Flujo familiar: conocer programa → revisar precio → completar formulario → revisar correo. |
 | Paradoja del usuario activo | Aplicada | La interfaz se entiende sin manual; instrucciones y restricciones aparecen justo donde se usan. |
 | Principio de Pareto | Aplicada | CTA, programa, precio y formulario dominan el recorrido; información secundaria usa detalles progresivos. |
-| Regla de fin de pico | Aplicada | El envío termina con confirmación enfocada, próximo paso explícito y recordatorio de revisar spam/promociones. |
+| Regla de fin de pico | Aplicada | Un aviso previo anticipa el correo y Spam/Promociones; el envío termina con una confirmación enfocada que repite claramente ambos próximos pasos. |
 | Sesgo cognitivo | Aplicada | Precios y alcance se expresan sin escasez falsa, cuenta regresiva, precio tachado ni cupón promocional. |
 | Sobrecarga de opciones | Aplicada | Se limitan decisiones a experiencia y plan; el país solo despliega opciones bajo demanda. |
 | Umbral de Doherty | Aplicada | El clic cambia a “Enviando…” inmediatamente; animación responde en cada frame y se suspende fuera de pantalla. |

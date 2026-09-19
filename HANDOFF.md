@@ -2,6 +2,17 @@
 
 ## Handoff Log
 
+### 2026-09-18 — Confirmación visible de inscripción y skill global Laws of UX
+- **Objetivo:** Recuperar una señal clara antes y después de enviar el formulario V5, y convertir las 30 Laws of UX en un skill portable para todos los proyectos.
+- **Hecho:** El panel de inscripción muestra antes del formulario un aviso destacado sobre el correo de pago y la revisión de Spam/Promociones. El éxito ahora confirma explícitamente que el formulario fue enviado, repite los próximos pasos y conserva el foco accesible. `RULE-UI-004`, trazabilidad, auditoría y pruebas quedaron sincronizadas. Fuera del repositorio se creó `~/.agents/skills/laws-of-ux` con las 30 leyes, workflow, matriz de evidencia y auditor Playwright reutilizable; `npx skills` lo instaló globalmente para Codex, OpenCode y Antigravity.
+- **Decidido:** Mantener un solo paso, sin modal ni progreso artificial. El aviso previo permanece visible dentro del panel y la confirmación solo aparece tras JSON `result === "success"`. El skill usa la ubicación universal Agent Skills como única fuente y no incorpora hooks específicos.
+- **Verificación:** `node test_preview_v5.js`, `node test_registration_v5.cjs` y `node test_site_hydra.cjs` aprobados; formulario sin overflow a 1440/1024/768/390/320 px y captura móvil revisada. El auditor global pasó en esos cinco anchos contra producción. La referencia contiene exactamente 30 leyes y `npx skills list --global --agent <codex|opencode|antigravity>` muestra `laws-of-ux` en los tres.
+- **Bloqueantes / pendientes:** El ajuste del formulario permanece local; no se hizo commit, push ni despliegue. Los agentes ya abiertos deben reiniciarse para recargar skills instalados durante la sesión.
+- **Próxima sesión:** Publicar el ajuste solo con autorización explícita y verificar el aviso/éxito en la URL pública sin enviar datos reales.
+- **Commits relevantes:** Ninguno; cambios locales.
+
+---
+
 ### 2026-09-18 — Auditoría completa de las 30 Laws of UX
 - **Objetivo:** Revisar cada ley publicada en https://lawsofux.com/es/ y aplicar correcciones justificadas en toda la landing V5.
 - **Hecho:** Creado `UX_AUDIT.md` con las 30 leyes, estado y evidencia. Ajustados objetivos táctiles a 44×44 px, asociación accesible del selector de país, banderas decorativas, ayuda del plan, spellcheck del correo y respuesta táctil. README y trazabilidad OpenSpec enlazan la auditoría.
