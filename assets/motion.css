@@ -52,7 +52,7 @@
 .motion-paused .hero-track,.motion-paused .scene-track{height:auto}.motion-paused .hero-track>.hero,.motion-paused.illoca .scene{position:relative;top:0}.motion-paused .scene-story,.motion-paused .scene-stops,.motion-paused .scene-app,.motion-paused .scene-progress,.motion-paused .motion-hint{display:none}
 .motion-paused *, .motion-paused *::before,.motion-paused *::after{animation:none!important;transition:none!important}.motion-paused .reveal{opacity:1;transform:none}.motion-paused .title-words{transform:none}.motion-paused .diagram path{stroke-dashoffset:0}.motion-paused .terminal .terminal-body p{opacity:1;transform:none}
 .tab-hidden *, .tab-hidden *::before,.tab-hidden *::after,.motion-offscreen *,.motion-offscreen *::after{animation-play-state:paused!important}
-@media(max-width:1100px){.scene-story{width:200px;left:22px}.scene-story h2{font-size:34px}.scene-story p{max-width:170px}.scene-app{right:22px;width:185px}.hydra.motion-ready .terrain{width:85%;right:-12%}}
+@media(max-width:1100px){.scene-story{width:200px;left:22px}.scene-story h2{font-size:34px}.scene-story p{max-width:170px}.scene-app{right:22px;width:185px}.hydra.motion-ready .terrain{width:85%;right:-12%}.motion-toggle{width:44px;justify-content:center;padding:10px;font-size:0}.motion-toggle::before{content:'Ⅱ';font:12px 'Space Mono',monospace}.motion-paused .motion-toggle::before{content:'▶'}}
 @media(max-width:700px){
   .motion-toggle{bottom:10px;right:10px;font-size:9px;padding:9px 11px}.motion-ready .footer{padding-bottom:76px}
   .hydra.motion-ready>.nav{height:68px;padding-inline:18px}.hero-track{height:155svh}.hydra.motion-ready .hero-track>.hero{top:68px;min-height:710px;height:calc(100svh - 68px)}

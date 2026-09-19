@@ -93,6 +93,7 @@
     body.classList.toggle('motion-paused', state.paused);
     body.classList.toggle('tab-hidden', document.hidden);
     toggle.textContent = reduced.matches ? 'Movimiento reducido' : manualPause ? '▶ Activar movimiento' : 'Ⅱ Pausar movimiento';
+    toggle.setAttribute('aria-label', toggle.textContent);
     toggle.setAttribute('aria-pressed', String(state.paused));
     toggle.disabled = reduced.matches;
     if (state.paused) {

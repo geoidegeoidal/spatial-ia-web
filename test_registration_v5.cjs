@@ -68,9 +68,17 @@ const endpoint = 'https://script.google.com/macros/s/AKfycbzkX21TwO9LqpJao8mjVZ2
     assert.equal(await page.locator('#registration-submit').isEnabled(), true);
     assert.equal(requests.length, 2);
 
-    for (const width of [768, 390, 320]) {
+    for (const width of [1440, 1024, 768, 390, 320]) {
       await page.setViewportSize({ width, height: 900 });
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${width}px horizontal overflow`);
+      const overflowing = await page.locator('#registration-form *').evaluateAll(elements => elements
+        .filter(element => {
+          const style = getComputedStyle(element);
+          return style.display !== 'none' && style.visibility !== 'hidden' && element.clientWidth > 0 && element.scrollWidth > element.clientWidth + 1;
+        })
+        .map(element => `${element.tagName}:${(element.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 40)}`));
+      assert.deepEqual(overflowing, [], `${width}px form content overflow: ${overflowing.join(', ')}`);
+      if (width <= 1100) assert.ok((await page.locator('#pause-motion').boundingBox()).width <= 44, `${width}px motion control obscures content`);
     }
     console.log('V5 registration: native validation, mocked JSON success/error, one-submit guard, keyboard country selector, Chile-only student plan and responsive layout OK. No real registration sent.');
   } finally {

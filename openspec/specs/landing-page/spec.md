@@ -13,6 +13,7 @@ Define los estándares visuales, componentes de interfaz de usuario, arquitectur
 - **Tipografía V5:** Geist Pixel (familia local `Pixel`), Manrope y Space Mono; recta, sin cursivas decorativas.
 - **Movimiento central:** Relieve de 2.232 partículas reactivo al cursor que se transforma en esfera con scroll, banda móvil, titulares y diagramas progresivos. Sustituye la atmósfera y manos Superdesign por elección del usuario.
 - **Accesibilidad y rendimiento:** Scroll nativo, pausa, reduced-motion, suspensión fuera de pantalla/pestaña oculta y SVG/HTML de respaldo. Foco de teclado revela el contenido inmediatamente. Hero usa `overflow:clip` para impedir desplazamiento horizontal interno al cambiar de viewport. Tarjetas alineadas. Sin blur ni blends.
+- **Criterio UX:** Revisar cambios con las heurísticas de Laws of UX, incluyendo carga cognitiva, Hick, Fitts, Jakob, proximidad, región común, semejanza, atención selectiva, estética-usabilidad y regla de fin de pico. Ningún texto puede exceder su control o tarjeta entre 320 y 1440 px.
 - **Integridad:** Conservar todas las secciones, desplegables, metadatos, enlaces e integraciones al cambiar el diseño. La foto del instructor es contenido; conservarla y ampliar su perfil solo con información respaldada. Verificación de siete bloques mediante huellas de texto en `test_site_hydra.cjs`.
 
 ### `RULE-UI-002`: Arquitectura Zero-Server y Zero-Build

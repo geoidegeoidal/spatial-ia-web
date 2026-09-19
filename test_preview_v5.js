@@ -4,6 +4,7 @@ const path = require('node:path');
 
 const html = fs.readFileSync(`${__dirname}/index.html`, 'utf8');
 const css = fs.readFileSync(`${__dirname}/assets/site.css`, 'utf8');
+assert.ok(html.includes('<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">'));
 assert.ok(html.includes('family=Manrope'));
 assert.match(css, /font-family:Pixel/);
 assert.ok(!/font(?:-style)?\s*:\s*italic/.test(css));
