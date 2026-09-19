@@ -34,6 +34,7 @@ Define los estándares visuales, componentes de interfaz de usuario, arquitectur
 - Fuera de Chile se deshabilita el pase estudiantes, se selecciona general y se muestra US$36. No hay campos ni lógica de cupones.
 - Los errores mantienen el formulario disponible y se anuncian mediante una región `aria-live`. El éxito oculta el formulario y mueve el foco a la confirmación.
 - Integración publicada por autorización explícita el 18/09/2026: commit `7dfc4c9` en `master`/`gh-pages`, Pages run `35409668450` exitoso y formulario público verificado sin enviar datos.
+- La confirmación posterior indica correo y Spam/Promociones. No mostrar una alerta previa separada: fue retirada por solicitud explícita y el rollback `84d29a2` quedó publicado el 19/09/2026, Pages run `35418355904`, verificado sin POST.
 
 ### `RULE-UI-005`: Selector de País Accesible
 - Usar un listbox personalizado con banderas SVG Iconify `circle-flags:*`, porque los emoji de banderas no se muestran de forma fiable en Windows.

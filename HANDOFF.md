@@ -2,6 +2,17 @@
 
 ## Handoff Log
 
+### 2026-09-19 — Alerta previa del formulario retirada
+- **Objetivo:** Revertir el aviso destacado previo al formulario después de confirmar que el estado posterior al envío ya comunicaba el correo y Spam/Promociones.
+- **Hecho:** Se restauraron el encabezado y la confirmación originales, se retiraron la caja `.email-notice` y sus estilos, y se conservaron pruebas explícitas del texto y foco del éxito. `84d29a2` se publicó en `master` y `gh-pages`.
+- **Decidido:** El recordatorio notorio vive únicamente en la confirmación después de una respuesta JSON válida. No volver a añadir una alerta previa separada para el mismo mensaje.
+- **Verificación:** `test_preview_v5.js`, `test_registration_v5.cjs` y `test_site_hydra.cjs` aprobados a 1440/1024/768/390/320 px. Pages run `35418355904` finalizó exitosamente; la URL pública no contiene la alerta previa y conserva «Revisa tu correo» con Spam/Promociones. No se envió ningún POST.
+- **Bloqueantes / pendientes:** Ninguno. Actions mantiene avisos no bloqueantes sobre Node 20→24 y la futura migración de `ubuntu-latest`.
+- **Próxima sesión:** Mantener el flujo actual y monitorear inscripciones reales.
+- **Commits relevantes:** `84d29a2` publicado en `master` y `gh-pages`; Pages `35418355904` exitoso.
+
+---
+
 ### 2026-09-19 — Aviso y confirmación del formulario publicados
 - **Objetivo:** Publicar el ajuste autorizado que hace notorios el correo posterior a la inscripción y la revisión de Spam/Promociones.
 - **Hecho:** `135c446` se subió a `origin/master`, se integró por fast-forward en `gh-pages` y se publicó mediante GitHub Pages. La URL pública sirve el aviso antes del formulario y la confirmación «Tu formulario fue enviado» con los próximos pasos.
