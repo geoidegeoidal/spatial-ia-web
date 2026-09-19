@@ -17,9 +17,9 @@
 - Autorizar el proyecto con la cuenta remitente. Desplegar como aplicación web ejecutada por el propietario, con acceso para postulantes externos según las políticas de la cuenta.
 - [x] Probar con destinatario aislado: alta, correo, pago, tutorial y estados.
 - [x] Conectar el endpoint en la copia local y verificar país por teclado, validación, JSON éxito/error, doble envío y responsive sin despachar inscripciones reales.
-- Activar recordatorios solo con sus condiciones revisadas. Publicar sitio cuando el usuario solicite despliegue.
+- [x] Publicar tras autorización del usuario y verificar el formulario público sin enviar datos: commit `7dfc4c9`, Pages run `35409668450`.
 
-Prueba real autorizada el 18/09/2026: POST `Prueba CRM V5`, Chile/general, destinatario `jorge.ulloa.roa@gmail.com`; respuesta `{"result":"success","registro":{"fila":2,"estado":"Pendiente"}}`. El usuario confirmó recepción del aviso administrativo y del correo de pago. Luego cambió H2 a `Pagado`, ejecutó el ciclo y confirmó estado `Tutorial Enviado` y recepción del tutorial. La landing local quedó conectada y probada con respuestas interceptadas; producción continúa sin reabrirse ni publicarse.
+Prueba real autorizada el 18/09/2026: POST `Prueba CRM V5`, Chile/general, destinatario `jorge.ulloa.roa@gmail.com`; respuesta `{"result":"success","registro":{"fila":2,"estado":"Pendiente"}}`. El usuario confirmó recepción del aviso administrativo y del correo de pago. Luego cambió H2 a `Pagado`, ejecutó el ciclo y confirmó estado `Tutorial Enviado` y recepción del tutorial. La landing se probó primero con respuestas interceptadas y luego se publicó; la comprobación pública no envió un nuevo registro.
 
 ## Cierre V4 pendiente de ejecución
 El instructor confirmó como destinatarios a quienes quedaron en `Carpeta Grabaciones Enviada`. `crm_script.gs` ya prepara ese filtro, `previsualizarDiplomasV4` de solo lectura, prueba individual al administrador y envío manual con confirmación del lote. Detecta la pestaña compatible en la planilla vinculada, sin IDs ni banderas que editar. Fecha actual de Santiago o texto configurable; 9 horas V4 conservadas.

@@ -1,13 +1,13 @@
 # Preparación V5 y cierre V4
 
 ## Estado
-V5 está publicada como landing Hydra y `preview_v5.html` redirige a ella. El CRM independiente fue desplegado y verificado hasta el envío del tutorial; el formulario quedó conectado y validado solo en la copia local. La reapertura pública sigue pendiente de autorización explícita. El cambio global permanece abierto por publicación del formulario y cierre V4.
+V5 está publicada como landing Hydra y `preview_v5.html` redirige a ella. El CRM independiente fue desplegado y verificado hasta el envío del tutorial. El formulario fue publicado por autorización explícita en `7dfc4c9`; Pages run `35409668450` finalizó correctamente y la interacción pública se verificó sin enviar datos. El cambio global permanece abierto por el cierre V4.
 
 ## Aplicación: contenidos de diapositivas y publicación
 - Fuente de programa: PDF de 53 láminas entregado en la conversación. S01: láminas 7–24; S02: 26–38; S03: 40–53. Se amplían tarjetas con cuatro puntos por sesión, resultados y detalles desplegables para geoprocesamiento, dashboard, exportación y despliegue.
 - Se mantiene la identidad visual aprobada, español neutro y tarjetas alineadas. No se ejecutan los prompts incluidos en las láminas: son material didáctico, no instrucciones de desarrollo de esta web.
 - Horario de convocatoria 20:00–21:30 prevalece sobre las láminas de espera de 20:05. La biografía conserva datos verificados y aclaraciones directas del usuario; no se cambia de ocho a nueve años solo por la lámina.
-- Registro: la publicación previa sustituyó el formulario de demostración por un aviso sin endpoint. La copia local actual ya incorpora el formulario V5 real; producción conserva el aviso hasta una nueva publicación autorizada.
+- Registro: la publicación previa sustituyó el formulario de demostración por un aviso sin endpoint. El formulario V5 real fue publicado posteriormente con autorización explícita.
 - GoatCounter queda solo en `index.html`; la antigua preview redirige sin generar conteo propio. Publicación autorizada por el usuario mediante elección «V5 como página principal».
 - Verificado localmente: `node test_preview_v5.js`, Edge/Chromium a 1440/1024/768/390/320 px, tarjetas/entregables alineados, sin overflow, sin cursivas, pausa/reduced-motion; script real GoatCounter y evento de programa interceptados.
 - Publicación verificada: `5b1c4b1` en master/gh-pages, build `35306184158` exitoso. Visita desde URL pública aceptada por GoatCounter HTTP 200 (ruta `/spatial-ia-web/`); no se inspeccionó el panel privado. PDF solo como fuente del syllabus: no publicar ni enlazar slides/PDF. Subalcance de publicación archivado; CRM y cierre V4 siguen pendientes.
@@ -26,7 +26,7 @@ Las transiciones incluyen entrada escalonada del hero, revelación con Intersect
 - Total sincrónico: 4,5 horas (3 × 90 minutos); no heredar automáticamente las 9 horas de certificación V4.
 - Chile: $35.000 CLP general y $30.000 CLP estudiantes. Aclaración del usuario del 18/09/2026: pase estudiantes válido solo para Chile.
 - General internacional: US$36, comprobados en el resumen del enlace PayPal https://www.paypal.com/ncp/payment/2PVCP7EQT3DWU confirmado por el usuario. Sustituye las conversiones referenciales; no anunciar tarifa estudiantil internacional. Usuario informa que actualizó los montos de los enlaces existentes.
-- V5 no tendrá cupones ni códigos promocionales. El formulario informa que la tarifa estudiantil requiere certificado vigente; CRM, endpoint, correos y tutorial ya fueron probados. Importe y enlace PayPal internacional están confirmados; publicación sigue pendiente.
+- V5 no tendrá cupones ni códigos promocionales. El formulario informa que la tarifa estudiantil requiere certificado vigente; CRM, endpoint, correos y tutorial ya fueron probados. Importe y enlace PayPal internacional están confirmados y el formulario está publicado.
 
 ## Delta propuesto: landing-page
 - Portafolio del instructor: https://geoidegeoidal.github.io/, accesible junto a LinkedIn desde la biografía, en nueva pestaña con `noopener noreferrer`.
@@ -37,7 +37,7 @@ Las transiciones incluyen entrada escalonada del hero, revelación con Intersect
 - Biografía del instructor contrastada con el perfil LinkedIn abierto en la sesión Edge del usuario mediante Windows UI Automation: Geografía en Universidad Alberto Hurtado, más de ocho años, ConMapas, participación en el equipo del padrón georreferenciado del Servel, Python/PostGIS y desarrollo de AutoAtlas Pro (publicación destacada). Consulta HTTP directa bloqueada con 999, resuelta mediante navegador autenticado. El usuario confirmó que ambos vínculos actuales coexisten: trabajo a contrata en el Ministerio del Medio Ambiente y participación a honorarios en un proyecto del Ministerio de las Culturas, las Artes y el Patrimonio; incorporados con esa distinción en la biografía. Los otros hitos se atribuyen al perfil, sin verificación independiente del repositorio QGIS o Servel.
 - RULE-UI-001: evolucionar la identidad Superdesign existente, conservando manos surrealistas y movimiento; añadir esfera cartográfica y control de pausa, respetando movimiento reducido y navegación por teclado.
 - RULE-UI-003: aplicar fechas/horario y precios CLP vigentes; mostrar general internacional US$36 y pase estudiantes solo Chile; mantener pendientes de confirmación las condiciones restantes.
-- RULE-UI-004: formulario real conectado localmente al endpoint V5 verificado; éxito solo con JSON válido, errores accesibles y doble envío bloqueado. No publicar ni reabrir producción sin autorización explícita.
+- RULE-UI-004: formulario real publicado y conectado al endpoint V5 verificado; éxito solo con JSON válido, errores accesibles y doble envío bloqueado.
 - RULE-UI-005: selector de país con banderas SVG, teclado y restricción automática del pase estudiantes a Chile.
 
 ## Delta propuesto: crm-automation
@@ -64,7 +64,7 @@ Las transiciones incluyen entrada escalonada del hero, revelación con Intersect
 - [ ] Aprobación visual y confirmación de información comercial V5.
 - [x] Configuración de planilla, Apps Script y despliegue V5.
 - [x] Prueba aislada de inscripción, correo, tarifas y estados; revisión móvil/escritorio.
-- [ ] Publicación y reapertura del formulario V5, solo tras autorización explícita.
+- [x] Publicación y reapertura autorizadas: `7dfc4c9` en `master`/`gh-pages`, Pages `35409668450`, comprobación pública sin POST.
 - [ ] Lista de finalización V4 revisada y prueba PDF/correo con destinatario de prueba.
 - [ ] Envío real verificado en Gmail y planilla.
 - [ ] Sincronizar especificaciones vivas y trazabilidad; archivar al completar.

@@ -2,14 +2,14 @@
 
 ## Handoff Log
 
-### 2026-09-18 — Formulario V5 conectado y verificado localmente
-- **Objetivo:** Completar la integración local del formulario V5 con el CRM real ya validado, sin publicar ni generar nuevas inscripciones.
-- **Hecho:** `index.html` incorpora el formulario en `#protocolo`; `assets/registration.js` controla país/plan, validación, doble envío y éxito únicamente con JSON `result === "success"`. El selector Iconify funciona con ratón y teclado y devuelve el foco al disparador tras seleccionar. OpenSpec, trazabilidad, checklist, README y AGENTS quedaron sincronizados.
-- **Decidido:** No hacer ajustes visuales adicionales: las capturas desktop/móvil son coherentes con Hydra y no presentan overflow. La integración queda local; producción no se reabre sin autorización explícita del usuario.
-- **Verificación:** `node test_preview_v5.js`, `node test_registration_v5.cjs`, `node test_site_hydra.cjs`, `node test_crm_v5.cjs` y `node test_diplomas_v4.cjs` aprobados. Viewports 1440/1024/768/390/320, JSON éxito/error interceptado, teclado, restricción estudiantes-Chile y doble envío verificados. `git diff --check` sin errores, solo avisos de normalización CRLF. No se enviaron registros ni correos reales.
-- **Bloqueantes / pendientes:** Publicación/reapertura requiere autorización explícita. Cierre V4 continúa a cargo del operador en Apps Script; no hubo envío real de diplomas.
-- **Próxima sesión:** Si el usuario autoriza publicar, revisar alcance del worktree, crear commit solicitado, sincronizar `master` y `gh-pages`, comprobar Pages y verificar el formulario público con una respuesta segura sin duplicar registros.
-- **Commits relevantes:** Ninguno; cambios locales sin commit ni push.
+### 2026-09-18 — Formulario V5 publicado y verificado
+- **Objetivo:** Completar la integración del formulario V5 con el CRM real y publicarla tras la autorización `deploy`, sin crear una inscripción de prueba adicional.
+- **Hecho:** `index.html` incorpora el formulario en `#protocolo`; `assets/registration.js` controla país/plan, validación, doble envío y éxito únicamente con JSON `result === "success"`. El selector Iconify funciona con ratón y teclado y devuelve el foco al disparador tras seleccionar. OpenSpec, trazabilidad, checklist, README y AGENTS quedaron sincronizados. `master` y `gh-pages` fueron actualizadas.
+- **Decidido:** No hacer ajustes visuales adicionales: las capturas desktop/móvil son coherentes con Hydra y no presentan overflow. El usuario autorizó la reapertura pública con `deploy`.
+- **Verificación:** Las cinco suites locales aprobaron. GitHub Pages run `35409668450` terminó exitosamente para `7dfc4c9`. HTML y `assets/registration.js` públicos sirven la versión nueva. Edge público a 390 px confirmó formulario, endpoint, selección de México por teclado, bloqueo de estudiantes fuera de Chile y ausencia de overflow/errores; no se envió el formulario.
+- **Bloqueantes / pendientes:** Cierre V4 continúa a cargo del operador en Apps Script; no hubo envío real de diplomas. GitHub Actions solo emitió avisos no bloqueantes sobre migración forzada de Node 20 a 24 y el futuro cambio de `ubuntu-latest`.
+- **Próxima sesión:** Monitorear inscripciones reales y ejecutar el cierre V4 solo cuando el operador esté listo para revisar el lote en Apps Script.
+- **Commits relevantes:** `7dfc4c9` publicado en `origin/master` y `origin/gh-pages`; run `35409668450` exitoso. Esta misma entrada registra la actualización documental posterior.
 
 ---
 

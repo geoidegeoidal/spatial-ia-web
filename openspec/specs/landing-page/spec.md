@@ -32,7 +32,7 @@ Define los estándares visuales, componentes de interfaz de usuario, arquitectur
 - Nombre, correo y profesión usan validación nativa. País, experiencia SIG y plan se envían con los nombres esperados por `crm_v5_script.gs`.
 - Fuera de Chile se deshabilita el pase estudiantes, se selecciona general y se muestra US$36. No hay campos ni lógica de cupones.
 - Los errores mantienen el formulario disponible y se anuncian mediante una región `aria-live`. El éxito oculta el formulario y mueve el foco a la confirmación.
-- Esta integración está verificada localmente, pero no está publicada. Reabrir producción requiere autorización explícita y despliegue en `master`/`gh-pages`.
+- Integración publicada por autorización explícita el 18/09/2026: commit `7dfc4c9` en `master`/`gh-pages`, Pages run `35409668450` exitoso y formulario público verificado sin enviar datos.
 
 ### `RULE-UI-005`: Selector de País Accesible
 - Usar un listbox personalizado con banderas SVG Iconify `circle-flags:*`, porque los emoji de banderas no se muestran de forma fiable en Windows.
