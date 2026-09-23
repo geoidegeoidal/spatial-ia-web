@@ -2,6 +2,16 @@
 
 ## Handoff Log
 
+### 2026-09-23 — README público alineado con V5
+
+- **Objetivo:** actualizar la documentación del taller para que describa la oferta y landing vigentes.
+- **Hecho:** README reorganizado en torno al programa V5, convocatoria, arquitectura estática, estructura del repositorio y analítica; se retiró el resumen obsoleto de tarifas V4.
+- **Decidido:** la landing publicada es la referencia para fechas, precios y estado de inscripción. El README no expone endpoints ni datos de operación del CRM.
+- **Bloqueantes / pendientes:** ninguno para la documentación. Revisar los datos de convocatoria antes de futuras ediciones.
+- **Próxima sesión:** cambiar fechas o valores solo cuando se confirme una nueva oferta.
+- **Commits relevantes:** README 0f91f41; guía duradera en AGENTS a59cde0.
+
+
 ### 2026-09-19 — Alerta previa del formulario retirada
 - **Objetivo:** Revertir el aviso destacado previo al formulario después de confirmar que el estado posterior al envío ya comunicaba el correo y Spam/Promociones.
 - **Hecho:** Se restauraron el encabezado y la confirmación originales, se retiraron la caja `.email-notice` y sus estilos, y se conservaron pruebas explícitas del texto y foco del éxito. `84d29a2` se publicó en `master` y `gh-pages`.
