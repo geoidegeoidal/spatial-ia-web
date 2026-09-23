@@ -1,150 +1,46 @@
-<div align="center">
+# SPATIAL — GIS + IA Bootcamp
 
-# SPATIAL // GIS + IA BOOTCAMP
+**Taller práctico para diseñar y publicar visores territoriales con apoyo de IA.**
 
-**De Analista SIG a Desarrollador Web de Aplicaciones Geográficas en la Nube.**
+[Ver la landing page](https://geoidegeoidal.github.io/spatial-ia-web/) · [Portafolio del instructor](https://julloa.space)
 
-[![Status: Online](https://img.shields.io/badge/STATUS-ONLINE-ff2d78?style=flat-square&logo=opsgenie&logoColor=white)](#)
-[![Zero Server](https://img.shields.io/badge/ARCHITECTURE-ZERO_SERVER-00ffcc?style=flat-square&logo=serverless&logoColor=white)](#)
-[![100% Open Source](https://img.shields.io/badge/OPEN_SOURCE-100%25-ffe04a?style=flat-square&logo=github&logoColor=black)](#)
+## El taller
 
-<br>
+La versión V5 combina desarrollo web geográfico, análisis espacial y un flujo de trabajo asistido por IA. El programa contempla **4,5 horas en vivo**, en tres sesiones.
 
-### [▶️ VER LA LANDING PAGE EN VIVO ◀️](https://geoidegeoidal.github.io/spatial-ia-web/)
+### Programa
 
-<br>
+1. **Agentes y desarrollo guiado por especificaciones:** fundamentos, OpenSpec, KISS y generación de una interfaz web.
+2. **Datos y cartografía web:** GeoJSON, exploración de datos, MapLibre, filtros, popups y revisión de interfaz.
+3. **Análisis y publicación:** geoprocesos con Turf.js, exportación filtrada, simbología compartida, gráficos con Chart.js, diseño adaptable y publicación con GitHub Pages.
 
-</div>
+Las actividades se trabajan con ejemplos guiados; el tiempo disponible no equivale a una implementación avanzada completa de cada tema.
 
-```bash
-> SYSTEM IDLE. WAITING FOR INPUT...
-> LOADING OPENCODE... GENERATING UI FROM SPEC...
-> TARGET_LOCKED. DEPLOYING DASHBOARD TO GITHUB PAGES... SUCCESS.
-```
+## Convocatoria V5
 
-## 📡 ACERCA DEL TALLER
+- **Fechas:** 16–18 de octubre de 2026.
+- **Horario:** 20:00–21:30, hora de Santiago.
+- **Valor en Chile:** $35.000 CLP general; $30.000 CLP estudiantes. El valor estudiante es solo para Chile.
+- **Valor internacional general:** US$36.
+- **Inscripción:** abierta en la [landing page](https://geoidegeoidal.github.io/spatial-ia-web/).
 
-Este repositorio contiene el código de la landing page y el marco de trabajo central del Bootcamp **"Desarrollo de Aplicaciones Web Territoriales Asistido con IA"**.
+No hay códigos promocionales en V5. Fechas, valores y disponibilidad pueden cambiar; la landing es la referencia vigente.
 
-A lo largo del taller, aprenderás a diseñar, programar y desplegar **dashboards territoriales interactivos en la nube** sin necesidad de servidores dedicados o configuraciones complejas, apoyándote de lleno en la Inteligencia Artificial (Antigravity IDE / OpenCode).
+## Esta aplicación
 
-Todo 100% OpenSource y alojado sin costos operativos.
+Este repositorio contiene la landing del taller, no una plataforma de cursos. El sitio es estático y publica sus archivos con GitHub Pages; la gestión de inscripciones usa un servicio externo separado. El formulario informa su estado solo después de recibir una respuesta válida.
 
----
+La página oficial usa una escena Hydra ligera y accesible, con movimiento reducido, pausa y suspensión de animaciones fuera de pantalla. GoatCounter mide visitas y clics en algunos enlaces; no registra los campos del formulario.
 
-## 🗺️ SYLLABUS: LAS 3 SESIONES
+## Desarrollo
 
-### S01 / Fundamentos de IA y Spec-Driven Development
-*   **¿Qué es un LLM?**: Cómo programar asistido por IA usando Antigravity IDE y OpenCode de forma gratuita.
-*   **Ingeniería de Prompts**: Metodología Spec-Driven Development para escribir especificaciones claras y lograr código limpio y predecible.
-*   **Generación de UI**: Del mockup al código HTML/Tailwind interactivo instantáneamente.
+La aplicación usa HTML, CSS y JavaScript, sin proceso de compilación. Para verla localmente, sirve la raíz del repositorio con un servidor HTTP estático. GitHub Pages publica desde la rama gh-pages.
 
-### S02 / Dashboards Territoriales y Web Mapping Reactivo
-*   **Ecosistema Open Source**: Dominio de librerías como MapLibre GL JS y Leaflet, libres de costos.
-*   **Ensamblaje ("Stitching")**: Integrando diseños generados en stitch.withgoogle.com con nuestro visor espacial.
-*   **Reactividad**: Programando filtros espaciales interactivos que comunican el mapa con el dashboard.
+- index.html: landing oficial.
+- assets/: estilos, animación, registro y recursos de la página.
+- preview_v5.html: redirección hacia la landing oficial.
+- proposals/: muestras comparativas de rediseño; no incluyen el formulario ni analítica.
+- openspec/: especificaciones, decisiones y trazabilidad.
+- UX_AUDIT.md: revisión de experiencia y accesibilidad.
 
-### S03 / Análisis Espacial en el Navegador y Despliegue
-*   **Geoprocesamiento Client-Side**: Implementación de Turf.js para cálculos espaciales (buffers, áreas) directo en el navegador del usuario.
-*   **Manejo de Datos**: Técnicas de optimización de archivos GeoJSON para alto rendimiento.
-*   **A Producción**: Despliegue gratuito y asegurado (HTTPS) a través de GitHub Pages.
-
----
-
-## 💰 INVERSIÓN Y CUPOS
-
-*   **Acceso General:** $30.000 CLP
-*   **Pase Estudiantes:** $25.000 CLP (requiere comprobante de alumno regular)
-
-*Incluye grabaciones de por vida, scripts, material de apoyo y certificado de participación.*
-
----
-
-## 💻 STACK TECNOLÓGICO Y ESTÉTICA
-
-La estructura visual de la landing page de este repositorio ha sido rediseñada con una estética vanguardista **"Neon Tokyo / Cyber-Brutalist"**.
-
-- **Paleta de Colores:** Fondo abisal (`#0a0a12`), acentos fucsia neón (`#ff2d78`), cian eléctrico (`#00ffcc`) y alertas amarillo ácido (`#ffe04a`).
-- **Comportamientos:** Cero *glassmorphism* genérico. Se emplean bordes duros asimétricos, tipografía sobredimensionada y sombras *glow* que reaccionan estrictamente a la interacción del usuario (`hover`/`focus`).
-- **Arquitectura Zero-Build:** Construido en HTML Puro + TailwindCSS (vía CDN) + Vanilla JavaScript. Cero dependencias instaladas localmente (NPM-free).
-
----
-
-## 📐 SPEC-DRIVEN DEVELOPMENT (OPENSPEC)
-
-El desarrollo, evolución técnica y reglas de negocio de este repositorio están gobernados bajo el estándar **OpenSpec**:
-- **Especificaciones Vivas:** Ubicadas en `openspec/specs/` (`landing-page`, `crm-automation`, `diploma-engine`, `deployment-ops`).
-- **Matriz de Trazabilidad:** Documentada en [`openspec/specs/traceability-matrix.md`](openspec/specs/traceability-matrix.md), vinculando cada regla de negocio (`RULE-*`) con su implementación en código y tests.
-- **Ciclo de Vida de Cambios:** Todo cambio significativo opera bajo el flujo canónico **Propose → Apply → Verify → Archive** alojado en `openspec/changes/` y `openspec/archive/`.
-
-### Verificación local
-
-### Sitio V5 — Hydra (Territorios Imposibles)
-
-La página principal `index.html` adopta el diseño Hydra elegido: Geist Pixel / Manrope / Space Mono, negro y naranja, relieve de partículas reactivo que se transforma en esfera con scroll y transiciones accesibles. `preview_v5.html` redirige a ella. Se preservan todas las secciones: capacidades, tres módulos completos, metodología y detalles, tecnologías, instructor, precios/convocatoria, cuatro preguntas frecuentes y footer.
-
-Foto en color y perfil de Jorge Ulloa Roa ampliado, manteniendo biografía previa, roles actuales, portafolio y LinkedIn. Fechas: 16–18 octubre de 2026, 20:00–21:30 (Santiago). Chile: $35.000 CLP general / $30.000 CLP estudiantes, **pase estudiantes válido solo para Chile**. General internacional: **US$36**, verificado en el PayPal confirmado por el usuario (`https://www.paypal.com/ncp/payment/2PVCP7EQT3DWU`). V5 no ofrece cupones; `CONMAPAS` permanece únicamente como lógica histórica del CRM V4. Programa: agentes/SDD/OpenSpec, MapLibre/GeoJSON, Turf.js, Chart.js, exportación y GitHub Pages. El formulario y CRM V5 están activos en producción desde el commit `7dfc4c9`.
-
-Archivos: `index.html`, `assets/site.css`, `assets/motion.js`, `assets/motion.css`, `assets/instructor.jpg`. HTML/CSS/Canvas nativos, sin compilación ni nuevas dependencias de producción. **Hydra publicado y verificado el 18/09/2026**, commit `e4c423c`, Pages run `35364535749`. [Abrir el sitio](https://geoidegeoidal.github.io/spatial-ia-web/). Inventario y verificación: [`2026-09-18-promote-hydra-official`](openspec/archive/2026-09-18-promote-hydra-official/proposal.md).
-
-Alcance y preparación operativa: [`openspec/changes/prepare-v5-and-close-v4/proposal.md`](openspec/changes/prepare-v5-and-close-v4/proposal.md) y [`launch-checklist.md`](openspec/changes/prepare-v5-and-close-v4/launch-checklist.md).
-
-Auditoría ley por ley de la experiencia: [`UX_AUDIT.md`](UX_AUDIT.md).
-
-### Analítica web — GoatCounter
-
-Panel: https://julloar.goatcounter.com/. El script alojado de GoatCounter está integrado una vez en `index.html` para registrar visitas. V5 también mide clics en el CTA de interés, programa, portafolio y LinkedIn mediante atributos `data-goatcounter-click`; no recopila campos del formulario ni interpreta un clic como inscripción completada. La redirección `preview_v5.html` no genera un conteo adicional.
-
-V5 publicada en GitHub Pages desde `gh-pages` (commit `5b1c4b1`). Verificación del 18/09/2026: visita desde la URL pública aceptada por GoatCounter con HTTP 200 y ruta `/spatial-ia-web/`. Se generó una visita real de comprobación; la visualización del panel privado queda disponible para el titular. Bloqueadores de contenido pueden impedir el seguimiento; visitas locales se excluyen por defecto del proveedor.
-
-### Muestras de rediseño (HydraDB / Illoca)
-
-Abrir directamente en el navegador; no requieren servidor ni compilación:
-- [`proposals/01-hydra.html`](proposals/01-hydra.html): **Territorio en código**, relieve de partículas que responde al cursor y se transforma en esfera al desplazarse; banda móvil, entradas y diagramas progresivos. [Video](proposals/01-hydra-motion.webm).
-- [`proposals/02-illoca.html`](proposals/02-illoca.html): **Cuaderno territorial**, cámara que recorre una maqueta 3D, edificios que se construyen por etapas y transición a una interfaz territorial. [Video](proposals/02-illoca-motion.webm).
-
-Mueve el cursor sobre la escena y desplázate para recorrer las transformaciones. Illoca también permite saltar entre etapas mediante tres botones. Ambas tienen pausa visible, respeto a movimiento reducido y navegación por teclado. `assets/motion.js` y `assets/motion.css` son compartidos con la portada y usan Canvas/CSS nativos; detienen los bucles fuera de pantalla. Contenido y SVG de respaldo disponibles sin JavaScript. Fuentes abiertas de Google Fonts. Capturas `proposals/*-desktop.png`, `*-mobile.png` y `*-motion-start/middle/end.png`. Las muestras no tienen formulario ni analítica; Hydra ya fue seleccionado para portada.
-
-Cambio inicial: [`2026-09-18-two-visual-redesigns`](openspec/archive/2026-09-18-two-visual-redesigns/proposal.md). Corrección de movimiento y evidencia: [`2026-09-18-redesign-motion`](openspec/archive/2026-09-18-redesign-motion/proposal.md).
-
-Prueba de navegador (requiere Playwright y Microsoft Edge; en este entorno Playwright ya existe en la carpeta temporal):
-
-```powershell
-$env:NODE_PATH = Join-Path $env:TEMP 'opencode\node_modules'
-node test_redesign_motion.cjs
-node test_site_hydra.cjs
-```
-
-El primer test verifica las muestras y actualiza sus capturas. El segundo comprueba siete huellas de contenido (cinco originales y dos actualizadas por la aclaración autorizada de precios/país), perfil/foto, siete desplegables, menú móvil, módulos alineados, pausa/reduced-motion, fallback sin JS, redirect, rutas de assets y visita/cuatro eventos GoatCounter interceptados. Valida estudiantes solo Chile sin equivalente USD y general internacional US$36. Tamaños 320–1440 px, incluido 320×568. Para guardar capturas oficiales, definir `SPATIAL_CAPTURE_DIR` con una carpeta existente antes de ejecutarlo. No envía visitas de prueba a producción.
-
-### Cierre de V4 — correo y diploma
-
-Código completo para reemplazar en Apps Script: [`crm_script.gs`](crm_script.gs). Configuración y secuencia: **[`CIERRE_V4.md`](CIERRE_V4.md)**.
-
-Destinatarios confirmados: `Carpeta Grabaciones Enviada`. Copiar el archivo completo, pegar en Apps Script vinculado a V4 y ejecutar: sin rellenar IDs, pestañas o banderas. `enviarDiplomasYCierre` detecta la única pestaña compatible y muestra el lote exacto para confirmar en Sheets. Se conservan `previsualizarDiplomasV4` (solo lectura) y `enviarPruebaDiplomaV4` (solo administrador). Diploma de 9 horas, fecha Santiago, recordatorio de grabaciones y estados sin reintentos automáticos inciertos. Pruebas locales con mocks; conversión/entrega real pendiente de prueba individual en Google.
-
-### CRM V5
-
-Reemplazo completo: [`crm_v5_script.gs`](crm_v5_script.gs). Preparación y despliegue: [`CRM_V5.md`](CRM_V5.md). Usa la planilla V5 confirmada y su pestaña existente `gid=0`; no regenera ni reformatea la hoja. Registro, correos iniciales y recordatorios 24/72h son automáticos. El operador valida el comprobante escribiendo `Pagado` en H y el tutorial se envía automáticamente en el siguiente ciclo. Sin cupones ni confirmación visual. Endpoint, correo inicial y transición real hasta `Tutorial Enviado` verificados. `index.html` y `assets/registration.js` lo consumen en producción.
-
-### Pruebas locales
-
-```bash
-node test_diplomas_v4.cjs
-node test_crm_v5.cjs
-node test_registration_v5.cjs
-node test_redesign.js
-node test_preview_v5.js
-node test_crm_cupon.js
-node test_crm_oferta.js
-python test_generar_diplomas.py
-```
-
-<br>
-
-<div align="center">
-  <code>SYS.INIT_NEON_SWEEP(TRUE)</code> • <code>LAT: -33.4489</code> • <code>LON: -70.6693</code> • <code>ELEV: 570M</code>
-  <br><br>
-  <i>Diseñado y programado con asistencia de Inteligencia Artificial Avanzada</i>
-</div>
-
+La guía de desarrollo y las reglas completas están en AGENTS.md. Las pruebas documentadas usan dobles locales; no se deben ejecutar envíos de prueba contra el CRM real.
