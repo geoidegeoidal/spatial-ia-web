@@ -4,7 +4,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const base = 'https://geoidegeoidal.github.io/spatial-ia-web/';
-const endpoint = 'https://script.google.com/macros/s/AKfycbzkX21TwO9LqpJao8mjVZ2Guc98J-yvTw-5B1cKP38gzwNxoNQIm0jImAKVoTIi8Iw3rQ/exec';
+const endpoint = 'https://crm.invalid/registration';
+const fixture = `${base}tests/fixtures/registration-v5.html`;
 
 (async () => {
   const browser = await chromium.launch({ channel: 'msedge', headless: true });
@@ -26,7 +27,7 @@ const endpoint = 'https://script.google.com/macros/s/AKfycbzkX21TwO9LqpJao8mjVZ2
     });
 
     const page = await context.newPage();
-    await page.goto(base);
+    await page.goto(fixture);
     assert.equal(await page.locator('#country-trigger').getAttribute('aria-labelledby'), 'country-label country-current');
     assert.equal(await page.locator('.country-field iconify-icon:not([aria-hidden="true"])').count(), 0);
     await page.locator('#registration-submit').click();
@@ -83,7 +84,6 @@ const endpoint = 'https://script.google.com/macros/s/AKfycbzkX21TwO9LqpJao8mjVZ2
         })
         .map(element => `${element.tagName}:${(element.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 40)}`));
       assert.deepEqual(overflowing, [], `${width}px form content overflow: ${overflowing.join(', ')}`);
-      if (width <= 1100) assert.ok((await page.locator('#pause-motion').boundingBox()).width <= 44, `${width}px motion control obscures content`);
       if (width <= 390) {
         const smallTargets = await page.locator('a,button,summary,label:has(input[type=radio])').evaluateAll(elements => elements
           .filter(element => {
@@ -95,7 +95,33 @@ const endpoint = 'https://script.google.com/macros/s/AKfycbzkX21TwO9LqpJao8mjVZ2
         assert.deepEqual(smallTargets, [], `${width}px touch targets below 44px: ${smallTargets.join(', ')}`);
       }
     }
-    console.log('V5 registration: native validation, mocked JSON success/error, one-submit guard, keyboard country selector, Chile-only student plan and responsive layout OK. No real registration sent.');
+    requests.length = 0;
+    await context.route('https://script.google.com/**', async route => {
+      requests.push(route.request().method());
+      await route.abort();
+    });
+    await page.goto(base);
+    for (const width of [1440, 1024, 768, 390, 320]) {
+      await page.setViewportSize({ width, height: 900 });
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${width}px production overflow`);
+      assert.equal(await page.locator('form,input,#registration-submit,#registration-success').count(), 0);
+      assert.equal(await page.locator('script[src*="registration.js"]').count(), 0);
+      assert.match(await page.locator('#protocolo').innerText(), /Pronto inscripciones para la versión 6/);
+      if (width <= 1100) assert.ok((await page.locator('#pause-motion').boundingBox()).width <= 44, `${width}px motion control obscures content`);
+      if (width <= 390) {
+        const smallTargets = await page.locator('a,button,summary').evaluateAll(elements => elements
+          .filter(element => {
+            const style = getComputedStyle(element), rect = element.getBoundingClientRect();
+            return style.display !== 'none' && style.visibility !== 'hidden' && rect.width > 0 && rect.height > 0 && (rect.width < 44 || rect.height < 44);
+          }).map(element => element.textContent.trim().slice(0, 30)));
+        assert.deepEqual(smallTargets, [], `${width}px production touch targets below 44px`);
+      }
+    }
+    await page.locator('.nav-links>a.button[href="#protocolo"]').focus();
+    await page.keyboard.press('Enter');
+    assert.equal(new URL(page.url()).hash, '#protocolo');
+    assert.deepEqual(requests, [], 'Closed landing must not contact Apps Script');
+    console.log('Closed V5/upcoming V6: no form or CRM requests, keyboard CTA and responsive layout OK. Retained V5 runtime fixture: validation, JSON, one-submit guard and country/plan behavior OK.');
   } finally {
     await browser.close();
   }

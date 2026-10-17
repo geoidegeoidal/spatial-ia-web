@@ -5,12 +5,12 @@ const path = require('node:path');
 const { createHash } = require('node:crypto');
 
 const expected = {
-  '.hero-copy': '33c5f6b4a6394474a524fd24cf7f77cf996340a00da375c5d1350c50daa5af7e',
+  '.hero-copy': '3c2c01717696d55b4a3afe630d7084fb0fc52ab069ab7a4ab446a6d5e49f1e56',
   '.strip': '600c3155657b43f39b66cf3d83b50e875962fde5e5f3f44e097029dd1d0e6182',
   '#programa': '531b0a8af8b76cf90794c53e4d5050d8d65f923051c4b85b3679f7920a869e43',
   '#instructor': '550e4f797ab41f4b62b7dfb63339e7fb87d86e039e71da57c28573c01a8a791e',
-  '#registro': '3854a2cfd815c79dab6c0a1356a7c12dabd48b90b09e69ffbeff95bce1ac4396',
-  'section[aria-labelledby="faq"]': '5a4b115135cf7b8825c900c6f5dfad80b40563dac935928a01cfe8e4f015101c',
+  '#registro': 'c32a57ce440efab8dd0a624c6719deee115cb77d59a9b2399488a73846bedcd0',
+  'section[aria-labelledby="faq"]': '7d72f88658ef96b824aa0df8619d336b6cd739cb6cc7248c3849e08fcf49df3f',
   'footer': 'd820788ab076a77e7208841f4efcf17026879515ad31840bb605ec4a86c2f784'
 };
 const base = 'https://geoidegeoidal.github.io/spatial-ia-web/';
@@ -125,9 +125,10 @@ const capture = async (target, name) => { if (captureDir) await target.screensho
         await page.waitForTimeout(1000);
         await capture(page.locator('#registro'), `official-hydra-prices-${width}.png`);
       }
-      assert.equal(await page.locator('#registration-form').count(), 1);
+      assert.equal(await page.locator('form,input,#registration-submit,#registration-success').count(), 0);
+      assert.match(await page.locator('#protocolo').innerText(), /Pronto inscripciones para la versión 6/);
       assert.equal(await page.locator('iframe,embed,object').count(), 0);
-      console.log(`${width}px: layout, cards, mobile menu, 7 details, photo and local V5 registration OK`);
+      console.log(`${width}px: layout, cards, mobile menu, 7 details, photo and closed V5/upcoming V6 OK`);
     }
     await page.setViewportSize({ width: 320, height: 568 });
     await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
@@ -148,6 +149,9 @@ const capture = async (target, name) => { if (captureDir) await target.screensho
     await fallback.goto(`file:///${path.join(__dirname, 'index.html').replaceAll('\\', '/')}`);
     assert.ok(await fallback.locator('.terrain>svg').isVisible());
     assert.ok(await fallback.locator('#instructor').isVisible());
+    assert.equal(await fallback.locator('form,input,#registration-submit,#registration-success').count(), 0);
+    assert.ok(await fallback.locator('#protocolo').isVisible());
+    assert.match(await fallback.locator('#protocolo').innerText(), /Pronto inscripciones para la versión 6/);
     await fallback.locator('.faq summary').first().focus();
     await fallback.keyboard.press('Enter');
     assert.equal(await fallback.locator('.faq details').first().getAttribute('open'), '');

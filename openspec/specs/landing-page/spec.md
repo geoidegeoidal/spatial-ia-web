@@ -21,6 +21,7 @@ Define los estándares visuales, componentes de interfaz de usuario, arquitectur
 - HTML/CSS/Canvas/JavaScript nativos; estilos en `assets/site.css`, movimiento compartido en `assets/motion.js` y `assets/motion.css`. Fuentes abiertas desde Google Fonts. Sin librería de animación o pipeline de compilación.
 
 ### `RULE-UI-003`: Oferta y Programa V5
+- Las fechas y tarifas siguientes son información de V5, cuyas inscripciones web están cerradas en la copia local. No representan fechas ni tarifas V6; la próxima apertura se anuncia sin valores ni calendario nuevos.
 - **Pase general Chile:** `$35.000 CLP`; **Estudiantes:** `$30.000 CLP`, válido solo para Chile. Especificar la restricción junto al precio y en FAQ; no anunciar precio USD para estudiantes.
 - **General internacional:** `US$36` vía PayPal, total verificado el 18/09/2026 en `https://www.paypal.com/ncp/payment/2PVCP7EQT3DWU`, enlace confirmado por el usuario para V5. Sustituye las conversiones referenciales anteriores. Registro y cobros públicos se habilitan con el CRM V5 según `RULE-UI-004`.
 - **Sin cupones:** V5 no ofrece cupones, códigos promocionales ni tarifas derivadas de `CONMAPAS`. El nombre ConMapas puede aparecer únicamente como parte de la trayectoria del instructor.
@@ -28,15 +29,15 @@ Define los estándares visuales, componentes de interfaz de usuario, arquitectur
 - **Programa:** Versión vigente de 50 páginas: S01 agentes, SDD/OpenSpec (Explore, Propose, Apply, criterios de aceptación y artefactos), KISS, HTML/Tailwind/Vanilla JS; S02 GeoJSON/EDA, MapLibre, fuentes/capas, filtros/popups y auditoría UI; S03 Turf buffers/disolución, exportación filtrada, fuente común de simbología/leyenda, Chart.js con estado de filtros compartido, responsive y GitHub CLI/Pages. No nombrar datasets o capas de práctica ni publicar/enlazar el PDF. Contenido avanzado como ejemplos guiados, sin promesa de implementación exhaustiva en 4,5 horas.
 
 ### `RULE-UI-004`: Estado de Inscripción y Guardrails del Formulario
-- V4 permanece cerrada. La copia local de `index.html` contiene el formulario V5 conectado al endpoint independiente verificado; `preview_v5.html` redirige a ella.
-- Enviar mediante `FormData`, bloquear dobles envíos y mostrar éxito solo si la respuesta JSON contiene `result === "success"`; HTTP 200 por sí solo no acredita una inscripción.
-- Nombre, correo y profesión usan validación nativa. País, experiencia SIG y plan se envían con los nombres esperados por `crm_v5_script.gs`.
-- Fuera de Chile se deshabilita el pase estudiantes, se selecciona general y se muestra US$36. No hay campos ni lógica de cupones.
-- Los errores mantienen el formulario disponible y se anuncian mediante una región `aria-live`. El éxito oculta el formulario y mueve el foco a la confirmación.
-- Integración publicada por autorización explícita el 18/09/2026: commit `7dfc4c9` en `master`/`gh-pages`, Pages run `35409668450` exitoso y formulario público verificado sin enviar datos.
-- La confirmación posterior indica correo y Spam/Promociones. No mostrar una alerta previa separada: fue retirada por solicitud explícita y el rollback `84d29a2` quedó publicado el 19/09/2026, Pages run `35418355904`, verificado sin POST.
+- V4 permanece cerrada. La copia local de `index.html` cierra las inscripciones V5: no contiene formulario, controles de alta, endpoint CRM ni carga de `assets/registration.js`. El cierre funciona también sin JavaScript; `preview_v5.html` sigue redirigiendo a la página principal.
+- Mantener `#registro` y `#protocolo` como destinos informativos. Anuncio, metadatos, navegación, CTA principal, panel y FAQ comunican V5 cerrada y «Pronto inscripciones para la versión 6», sin reserva, lista de espera, precios ni fechas V6 inventados.
+- Las fechas/precios conservados están identificados expresamente como V5, no como una oferta V6 abierta. Se preservan programa, perfil, movimiento y las cuatro claves de analítica existentes; interés no es una inscripción completada.
+- `assets/registration.js` queda inactivo e intacto, con pruebas sobre `tests/fixtures/registration-v5.html`. El fixture usa `https://crm.invalid/registration`, nunca un CRM real: conserva validación nativa, payload `FormData`, JSON `result === "success"`, doble envío, país/plan, errores accesibles y foco de confirmación.
+- El cierre es del sitio web; no desactiva el Apps Script independiente ni altera inscritos existentes. Publicación pendiente de autorización explícita; no afirmar cierre público antes de desplegar y verificar `gh-pages`.
+- Historia: apertura publicada en `7dfc4c9`; rollback del aviso previo en `84d29a2`. Si se reutiliza el runtime, la confirmación conserva correo y Spam/Promociones sin añadir una alerta previa separada.
 
 ### `RULE-UI-005`: Selector de País Accesible
+- Componente retenido e inactivo en la landing cerrada; su comportamiento se verifica en el fixture V5, no mediante un formulario público.
 - Usar un listbox personalizado con banderas SVG Iconify `circle-flags:*`, porque los emoji de banderas no se muestran de forma fiable en Windows.
 - Debe operar con ratón y teclado: abrir con flecha abajo, recorrer opciones con flechas, cerrar con Escape y devolver el foco al disparador tras seleccionar.
 - Mantener sincronizados el valor oculto `country`, `aria-selected`, el precio general y la disponibilidad del pase estudiantes.
@@ -65,7 +66,7 @@ Define los estándares visuales, componentes de interfaz de usuario, arquitectur
 | **Syllabus (3 Módulos en 3 Col)** | [index.html](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/index.html) | Desglose modular: M01 (IA & SDD), M02 (Web Mapping MapLibre), M03 (Turf.js & GitHub Pages Deploy) |
 | **Instructor & Trayectoria** | `index.html`, `assets/instructor.jpg` | Foto en color, perfil ampliado, dos roles actuales, portafolio y LinkedIn |
 | **Matriz de Inversión** | `index.html` | Chile general $35.000 CLP / estudiantes $30.000 CLP solo Chile; general internacional US$36 vía PayPal |
-| **Formulario V5 (#protocolo)** | `index.html`, `assets/registration.js` | Alta V5 publicada, selector de país accesible, validación por plan y estados JSON |
+| **Cierre V5 y próxima V6 (#protocolo)** | `index.html`; runtime inactivo `assets/registration.js` y fixture `tests/fixtures/registration-v5.html` | Aviso estático sin formulario, CTA informativos y regresiones históricas sin endpoint real |
 | **Detalles & FAQ** | `index.html` | Tres desplegables del programa y cuatro preguntas frecuentes, incluida certificación V4 |
 
 ---
@@ -73,7 +74,7 @@ Define los estándares visuales, componentes de interfaz de usuario, arquitectur
 ## 4. Criterios de Aceptación y Verificación
 - [x] Validación visual en dispositivos móviles y de escritorio sin overflow horizontal.
 - [x] Consola de desarrollador limpia de excepciones `TypeError` en todas las interacciones.
-- [x] El formulario V5 local exige JSON de éxito, bloquea dobles envíos y no envía datos durante pruebas de navegador.
+- [x] La landing local no permite enviar inscripciones, tampoco sin JavaScript; el fixture conserva las pruebas de JSON y doble envío sin usar el CRM real.
 - [x] V5 no muestra campos, mensajes ni lógica de cupones.
 - [x] Siete bloques anteriores conservados por comparación de huellas; perfil ampliado sin perder párrafos previos. Foto, menú móvil, eventos y rutas de assets verificados.
-- [x] Selector de país y restricción estudiantes-Chile verificados con teclado; layout sin overflow entre 320 y 1440 px.
+- [x] Selector de país y restricción estudiantes-Chile verificados con teclado en el fixture; landing cerrada y fixture sin overflow entre 320 y 1440 px.

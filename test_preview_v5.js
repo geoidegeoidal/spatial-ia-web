@@ -21,11 +21,21 @@ for (const day of [16, 17, 18]) {
     timeZone: 'America/Santiago', hour: '2-digit', minute: '2-digit'
   }).format(new Date(`2026-10-${day}T23:00:00Z`)), '20:00');
 }
-assert.ok(html.includes('<form id="registration-form"'));
-assert.ok(html.includes('AKfycbzkX21TwO9LqpJao8mjVZ2Guc98J-yvTw-5B1cKP38gzwNxoNQIm0jImAKVoTIi8Iw3rQ/exec'));
+assert.doesNotMatch(html, /<form\b|assets\/registration\.js|script\.google\.com\/macros\/s\//i);
+assert.ok(html.includes('Pronto inscripciones para la versión 6'));
+for (const pattern of [/class="announcement">([^<]*)/, /name="description" content="([^"]*)"/, /id="registration-closed-title">([^<]*)/, /<section class="faq[\s\S]*?<\/section>/]) {
+  assert.match(html.match(pattern)?.[0] || '', /Pronto inscripciones para la versión 6/);
+}
+assert.match(html, /<title>[^<]*Próximamente versión 6/);
+assert.ok(html.includes('>Próxima edición <span'));
+assert.ok(html.includes('>Próxima versión / V6 <span'));
+assert.doesNotMatch(html, /Inscripciones abiertas|Registro V5 habilitado|Reserva tu cupo|Puedes inscribirte|Reserva tu lugar/i);
+const fixture = fs.readFileSync(`${__dirname}/tests/fixtures/registration-v5.html`, 'utf8');
+assert.ok(fixture.includes('action="https://crm.invalid/registration"'));
+assert.doesNotMatch(fixture, /script\.google\.com/);
 const v5WithoutInstructor = html.replace(/<section id="instructor"[\s\S]*?<\/section>/, '');
 assert.ok(!/cup(?:o|ó)n|coupon|código promocional|descuento|conmapas/i.test(v5WithoutInstructor));
-assert.ok(html.includes('Inscripciones abiertas'));
+assert.ok(html.includes('Inscripciones V5 cerradas'));
 assert.equal((html.match(/data-goatcounter="/g) || []).length, 1);
 assert.ok(html.includes('https://julloar.goatcounter.com/count'));
 assert.deepEqual([...html.matchAll(/data-goatcounter-click="([^"]+)"/g)].map(match => match[1]), ['v5-interes-registro', 'v5-programa', 'v5-portafolio', 'v5-linkedin']);
@@ -33,7 +43,7 @@ for (const topic of ['OpenSpec', 'proposal.md', 'specs/', 'design.md', 'tasks.md
 assert.ok(!/humedales|contrato\.md|Stitch|intersecciones/i.test(html));
 assert.ok(!/<(?:iframe|embed|object)\b|href=["'][^"']*\.pdf\b/i.test(html));
 assert.ok(!/grainy-gradients|filter:\s*(?:blur|drop-shadow)|mix-blend-mode/.test(css));
-assert.equal((html.match(/script\.google\.com\/macros\/s\//g) || []).length, 1);
+assert.equal((html.match(/script\.google\.com\/macros\/s\//g) || []).length, 0);
 assert.ok(!/mpago\.la|paypal\.com/.test(html));
 const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
 assert.equal(new Set(ids).size, ids.length);
@@ -47,4 +57,4 @@ assert.ok(html.includes('assets/instructor.jpg'));
 for (const role of ['a contrata', 'a honorarios', 'Ministerio del Medio Ambiente', 'Ministerio de las Culturas', 'AutoAtlas Pro', 'Universidad Alberto Hurtado']) assert.ok(html.includes(role));
 const redirect = fs.readFileSync(`${__dirname}/preview_v5.html`, 'utf8');
 assert.ok(redirect.includes('index.html') && !redirect.includes('goatcounter'));
-console.log('V5 Hydra: content structure, full syllabus, profile/photo, dates/prices, local registration form, assets, anchors and analytics OK');
+console.log('Hydra: closed V5/upcoming V6, retained runtime fixture, V5-only dates/prices, full syllabus, profile, assets, anchors and analytics OK');

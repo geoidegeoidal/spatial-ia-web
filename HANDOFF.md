@@ -2,6 +2,17 @@
 
 ## Handoff Log
 
+### 2026-10-17 — Cierre local del formulario V5 y anuncio de próxima V6
+- **Objetivo:** «en el sitio bloqueza el formulario web para nuevas inscripciones y pone, en donde corresponda en el sitio, pronto inscripciones para la versión 6».
+- **Hecho:** La landing ya no contiene formulario, endpoint ni carga de `assets/registration.js`/Iconify. Anuncio, metadatos, navegación, CTA, panel y FAQ comunican cierre V5 y próxima V6. `#registro` / `#protocolo` se mantienen; fechas/precios se identifican como V5, sin inventar valores ni calendario V6. Programa, instructor, movimiento y cuatro eventos de analítica preservados. Especificación, trazabilidad, README y AGENTS actualizados; delta archivado en `2026-10-17-close-v5-announce-v6`.
+- **Decidido:** Retirar el formulario real, no solo ocultarlo o deshabilitar un botón: el cierre también funciona sin JavaScript. Mantener el runtime intacto y sus regresiones en `tests/fixtures/registration-v5.html`, siempre con destino `.invalid` y respuestas simuladas; nunca publicar un fixture que apunte al CRM real. El cierre no desactiva el Apps Script independiente.
+- **Verificación:** Dos RED independientes (`ERR_ASSERTION`, exit 1) por formulario activo y falta de aviso V6; GREEN de `test_preview_v5.js`, `test_registration_v5.cjs` y `test_site_hydra.cjs`. Cinco anchos 1440/1024/768/390/320 px, CTA por teclado, cero solicitudes CRM desde la landing, cierre no-JS, 7 huellas (solo hero/oferta/FAQ actualizadas), 4 eventos interceptados, movimiento y redirect aprobados. Capturas de cierre desktop/móvil revisadas. Un selector nuevo de prueba coincidía con CTA desktop/móvil; se acotó y pasó el rerun. No se cambió CSS, runtime, CRM ni datos. La exploración inicial no inició; un actor de solo lectura disponible entregó el mapa de pruebas, no una verificación postcambio.
+- **Bloqueantes / pendientes:** Cierre verificado **solo localmente**, sin commit, push ni despliegue; producción no se modificó. Para hacerlo público se requiere autorización explícita y verificar ambas ramas/Pages. Revisión nativa, si corresponde, separada de esta prueba funcional. El error anterior de Apps Script `Unexpected number`, línea 416, sigue pendiente del fragmento del usuario: el archivo local tiene 414 líneas y pasa `vm.Script`; no se tocó para este cambio.
+- **Próxima sesión:** Publicar únicamente si el usuario lo solicita. Conservar trabajos CRM Meet/grabaciones previos, propuesta de cursos grabados y configuración local. No inferir envío de correos reales ni corrección del error remoto.
+- **Commits relevantes:** Ninguno. Baseline Git `07d0e63`; comparación adicional contra el estado local previo para preservar runtime y contenido.
+
+---
+
 ### 2026-09-23 — README público alineado con V5
 
 - **Objetivo:** actualizar la documentación del taller para que describa la oferta y landing vigentes.
