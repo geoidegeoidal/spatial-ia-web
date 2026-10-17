@@ -33,7 +33,7 @@ Define los estándares visuales, componentes de interfaz de usuario, arquitectur
 - Mantener `#registro` y `#protocolo` como destinos informativos. Anuncio, metadatos, navegación, CTA principal, panel y FAQ comunican V5 cerrada y «Pronto inscripciones para la versión 6», sin reserva, lista de espera, precios ni fechas V6 inventados.
 - Las fechas/precios conservados están identificados expresamente como V5, no como una oferta V6 abierta. Se preservan programa, perfil, movimiento y las cuatro claves de analítica existentes; interés no es una inscripción completada.
 - `assets/registration.js` queda inactivo e intacto, con pruebas sobre `tests/fixtures/registration-v5.html`. El fixture usa `https://crm.invalid/registration`, nunca un CRM real: conserva validación nativa, payload `FormData`, JSON `result === "success"`, doble envío, país/plan, errores accesibles y foco de confirmación.
-- El cierre es del sitio web; no desactiva el Apps Script independiente ni altera inscritos existentes. Publicación pendiente de autorización explícita; no afirmar cierre público antes de desplegar y verificar `gh-pages`.
+- El cierre es del sitio web; no desactiva el Apps Script independiente ni altera inscritos existentes. Publicado con autorización explícita en `a16d7ce`, `master`/`gh-pages`; Pages `39063676559` exitoso y HTML público idéntico al aprobado en `https://julloa.space/spatial-ia-web/`, verificado sin POST.
 - Historia: apertura publicada en `7dfc4c9`; rollback del aviso previo en `84d29a2`. Si se reutiliza el runtime, la confirmación conserva correo y Spam/Promociones sin añadir una alerta previa separada.
 
 ### `RULE-UI-005`: Selector de País Accesible

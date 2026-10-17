@@ -2,6 +2,17 @@
 
 ## Handoff Log
 
+### 2026-10-17 — Cierre V5 y aviso V6 publicados
+- **Objetivo:** Publicar lo revisado tras «publica» y «Si, lo autorizo siempre» para usar la sesión actual de GitHub CLI en este repositorio.
+- **Hecho:** Commit `a16d7ce` publicado mediante push atómico a `master` y `gh-pages`. Pages run `39063676559` exitoso. `https://julloa.space/spatial-ia-web/` (redirección de GitHub Pages) respondió HTTP 200 con HTML idéntico al aprobado, sin formulario, endpoint ni runtime de registro y con «Pronto inscripciones para la versión 6».
+- **Decidido:** Publicación aislada en `publish/close-v5-announce-v6-20261017`, basada en el `origin/master` actualizado `361b5f9`; se preservaron el README público renovado y las otras actualizaciones documentales remotas. Solo se publicaron cambios del sitio y su documentación/pruebas, no CRM, guías ni tests de envíos. La autorización permanente se limita a publicaciones que el usuario pida en este repositorio y esta sesión de GitHub CLI.
+- **Verificación:** Las tres suites del sitio aprobaron en el worktree aislado, cinco anchos y cierre no-JS. Código/fixture idénticos a la vista previa; hook del commit sin mutaciones. Evaluación nativa `medium`, `review_due: false` (`under_budget`). Push confirmado en ambas ramas; HTML público idéntico y registro remoto de Pages exitoso, sin POST.
+- **Bloqueantes / pendientes:** Ninguno para la publicación del sitio. Permanecen fuera de este despliegue el trabajo local CRM y el error de sintaxis reportado en el Apps Script remoto. El checkout original sigue en su commit local anterior con sus cambios preservados; no hacer reset ni sobrescribir el README público renovado al integrar ese trabajo.
+- **Próxima sesión:** Mantener V5 cerrada; anunciar fechas/precios V6 solo con datos autorizados. Reconciliar por separado el checkout original antes de otra publicación. No ejecutar correos reales ni modificar el Apps Script por este despliegue.
+- **Commits relevantes:** `a16d7ce`; Pages `39063676559`. Las anotaciones Node 20→24 y `ubuntu-latest`→26 son avisos no bloqueantes del workflow existente; no se modificó CI.
+
+---
+
 ### 2026-10-17 — Cierre local del formulario V5 y anuncio de próxima V6
 - **Objetivo:** «en el sitio bloqueza el formulario web para nuevas inscripciones y pone, en donde corresponda en el sitio, pronto inscripciones para la versión 6».
 - **Hecho:** La landing ya no contiene formulario, endpoint ni carga de `assets/registration.js`/Iconify. Anuncio, metadatos, navegación, CTA, panel y FAQ comunican cierre V5 y próxima V6. `#registro` / `#protocolo` se mantienen; fechas/precios se identifican como V5, sin inventar valores ni calendario V6. Programa, instructor, movimiento y cuatro eventos de analítica preservados. Especificación, trazabilidad, README y AGENTS actualizados; delta archivado en `2026-10-17-close-v5-announce-v6`.
