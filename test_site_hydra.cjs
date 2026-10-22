@@ -5,13 +5,13 @@ const path = require('node:path');
 const { createHash } = require('node:crypto');
 
 const expected = {
-  '.hero-copy': '3c2c01717696d55b4a3afe630d7084fb0fc52ab069ab7a4ab446a6d5e49f1e56',
+  '.hero-copy': '90c6a8dd188634e3be9349d286eab3eb6bd927231f58110410a3247fca55f78e',
   '.strip': '600c3155657b43f39b66cf3d83b50e875962fde5e5f3f44e097029dd1d0e6182',
   '#programa': '531b0a8af8b76cf90794c53e4d5050d8d65f923051c4b85b3679f7920a869e43',
   '#instructor': '550e4f797ab41f4b62b7dfb63339e7fb87d86e039e71da57c28573c01a8a791e',
-  '#registro': 'c32a57ce440efab8dd0a624c6719deee115cb77d59a9b2399488a73846bedcd0',
-  'section[aria-labelledby="faq"]': '7d72f88658ef96b824aa0df8619d336b6cd739cb6cc7248c3849e08fcf49df3f',
-  'footer': 'd820788ab076a77e7208841f4efcf17026879515ad31840bb605ec4a86c2f784'
+  '#registro': '823122ebf3673a8f812aeee709c2f42f74e25a04844b53c909c117867e59ac10',
+  'section[aria-labelledby="faq"]': 'ae227d0e5abb5cfa0d7d24dc4533f1ae398beea585594c0b0b3448c57b4860a2',
+  'footer': '9e1634c17337667adb66ceb2e308f76c0470a389e1561bd245120876c3152900'
 };
 const base = 'https://geoidegeoidal.github.io/spatial-ia-web/';
 const captureDir = process.env.SPATIAL_CAPTURE_DIR;
@@ -34,6 +34,10 @@ const capture = async (target, name) => { if (captureDir) await target.screensho
       counts.push(new URL(route.request().url()));
       return route.fulfill({ status: 200, contentType: 'image/gif', body: '' });
     });
+    await context.route('https://script.google.com/**', route => {
+      failedAssets.push('Unexpected CRM request');
+      return route.abort();
+    });
     const page = await context.newPage();
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(base);
@@ -45,6 +49,8 @@ const capture = async (target, name) => { if (captureDir) await target.screensho
       const text = await page.locator(selector).evaluate(element => {
         const clone = element.cloneNode(true);
         clone.querySelectorAll('.profile-extension,.profile-facts,figcaption').forEach(el => el.remove());
+        const baselineDates = ['VIE 16 OCT / 20:00–21:30', 'SÁB 17 OCT / 20:00–21:30', 'DOM 18 OCT / 20:00–21:30'];
+        clone.querySelectorAll('.session-date').forEach((date, index) => { date.textContent = baselineDates[index]; });
         return clone.textContent.replace(/\s+/g, ' ').trim();
       });
       assert.equal(createHash('sha256').update(text).digest('hex'), hash, `Original content changed: ${selector}`);
@@ -54,6 +60,11 @@ const capture = async (target, name) => { if (captureDir) await target.screensho
     assert.match(await page.locator('.price-card').nth(1).innerText(), /Válido solo para Chile/);
     assert.doesNotMatch(await page.locator('.price-card').nth(1).innerText(), /US\$|USD/);
     assert.match(await page.locator('.price-card').first().innerText(), /Internacional: US\$36/);
+    assert.equal(await page.locator('.price-card').count(), 3);
+    assert.match(await page.locator('.price-card--recordings').innerText(), /\$20\.000[\s\S]*CLP[\s\S]*US\$22[\s\S]*No incluye sesiones en vivo/);
+    assert.deepEqual(await page.locator('.session-date').evaluateAll(dates => dates.map(date => date.getAttribute('datetime'))), [
+      '2026-11-13T20:00:00-03:00', '2026-11-14T20:00:00-03:00', '2026-11-15T20:00:00-03:00'
+    ]);
     const v5TextWithoutInstructor = await page.locator('body').evaluate(body => {
       const clone = body.cloneNode(true);
       clone.querySelector('#instructor')?.remove();
@@ -126,9 +137,21 @@ const capture = async (target, name) => { if (captureDir) await target.screensho
         await capture(page.locator('#registro'), `official-hydra-prices-${width}.png`);
       }
       assert.equal(await page.locator('form,input,#registration-submit,#registration-success').count(), 0);
+      const priceBounds = await page.locator('.price-card').evaluateAll(cards => cards.map(card => {
+        const rect = card.getBoundingClientRect();
+        return { x: rect.x, right: rect.right, y: rect.y, bottom: rect.bottom, width: rect.width, overflow: [...card.querySelectorAll('h3,strong,p')].some(element => {
+          const child = element.getBoundingClientRect();
+          return child.left < rect.left - 1 || child.right > rect.right + 1;
+        }) };
+      }));
+      const priceGrid = await page.locator('.pricing').boundingBox();
+      assert.equal(priceBounds.length, 3);
+      assert.ok(priceBounds.every(card => !card.overflow), `${width}px price content overflow`);
+      assert.ok(priceBounds[2].y >= Math.max(priceBounds[0].bottom, priceBounds[1].bottom) - 1, `${width}px recordings must follow the live plans`);
+      assert.ok(Math.abs(priceBounds[2].x - priceGrid.x) < 1 && Math.abs(priceBounds[2].width - priceGrid.width) < 1, `${width}px recordings card must span the pricing grid`);
       assert.match(await page.locator('#protocolo').innerText(), /Pronto inscripciones para la versión 6/);
       assert.equal(await page.locator('iframe,embed,object').count(), 0);
-      console.log(`${width}px: layout, cards, mobile menu, 7 details, photo and closed V5/upcoming V6 OK`);
+      console.log(`${width}px: V6 information, three price cards, mobile menu, 7 details, photo and inactive registration OK`);
     }
     await page.setViewportSize({ width: 320, height: 568 });
     await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
@@ -150,6 +173,8 @@ const capture = async (target, name) => { if (captureDir) await target.screensho
     assert.ok(await fallback.locator('.terrain>svg').isVisible());
     assert.ok(await fallback.locator('#instructor').isVisible());
     assert.equal(await fallback.locator('form,input,#registration-submit,#registration-success').count(), 0);
+    assert.equal(await fallback.locator('.price-card').count(), 3);
+    assert.match(await fallback.locator('.price-card--recordings').innerText(), /\$20\.000[\s\S]*US\$22/);
     assert.ok(await fallback.locator('#protocolo').isVisible());
     assert.match(await fallback.locator('#protocolo').innerText(), /Pronto inscripciones para la versión 6/);
     await fallback.locator('.faq summary').first().focus();

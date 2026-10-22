@@ -96,6 +96,7 @@ const fixture = `${base}tests/fixtures/registration-v5.html`;
       }
     }
     requests.length = 0;
+    await context.route('https://julloar.goatcounter.com/count*', route => route.fulfill({ status: 200, contentType: 'image/gif', body: '' }));
     await context.route('https://script.google.com/**', async route => {
       requests.push(route.request().method());
       await route.abort();
@@ -121,7 +122,7 @@ const fixture = `${base}tests/fixtures/registration-v5.html`;
     await page.keyboard.press('Enter');
     assert.equal(new URL(page.url()).hash, '#protocolo');
     assert.deepEqual(requests, [], 'Closed landing must not contact Apps Script');
-    console.log('Closed V5/upcoming V6: no form or CRM requests, keyboard CTA and responsive layout OK. Retained V5 runtime fixture: validation, JSON, one-submit guard and country/plan behavior OK.');
+    console.log('V6 informational landing: no form or CRM requests, keyboard CTA and responsive layout OK. Retained V5 runtime fixture: validation, JSON, one-submit guard and country/plan behavior OK.');
   } finally {
     await browser.close();
   }

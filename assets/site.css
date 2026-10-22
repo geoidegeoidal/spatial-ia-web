@@ -17,5 +17,7 @@ section{padding:90px 0;border-bottom:1px solid var(--line)}h2{font:400 clamp(32p
 .course-details summary,.faq summary{min-height:44px;align-items:center}.country-options button{min-height:44px}.nav-links>a,.instructor .text-link,.footer .brand{display:inline-flex;align-items:center;min-height:44px}a,button,summary{touch-action:manipulation}
 @media(max-width:700px){.logo,.nav .button,.mobile-menu summary,.hero .button,.hero .actions>.text-link{min-height:44px;display:flex;align-items:center}.mobile-menu summary{min-width:44px;justify-content:center}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+.registration .price-card--recordings{grid-column:1/-1}
+.registration .price-card--recordings h3{color:var(--accent)}
 .site .hero h1 .title-line:last-child{color:var(--accent)}
 .site .hero{overflow:clip}

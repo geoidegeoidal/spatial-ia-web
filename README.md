@@ -6,7 +6,7 @@
 
 ## El taller
 
-La versión V5 combina desarrollo web geográfico, análisis espacial y un flujo de trabajo asistido por IA. El programa contempla **4,5 horas en vivo**, en tres sesiones.
+La versión V6 combina desarrollo web geográfico, análisis espacial y un flujo de trabajo asistido por IA. El programa contempla **4,5 horas en vivo**, en tres sesiones, con una opción de compra de solo grabaciones.
 
 ### Programa
 
@@ -16,19 +16,20 @@ La versión V5 combina desarrollo web geográfico, análisis espacial y un flujo
 
 Las actividades se trabajan con ejemplos guiados; el tiempo disponible no equivale a una implementación avanzada completa de cada tema.
 
-## Convocatoria V5
+## Convocatoria V6
 
-- **Fechas:** 16–18 de octubre de 2026.
+- **Fechas:** 13, 14 y 15 de noviembre de 2026.
 - **Horario:** 20:00–21:30, hora de Santiago.
 - **Valor en Chile:** $35.000 CLP general; $30.000 CLP estudiantes. El valor estudiante es solo para Chile.
 - **Valor internacional general:** US$36.
-- **Inscripción V5:** cerrada. **Pronto inscripciones para la versión 6** en la [landing page](https://geoidegeoidal.github.io/spatial-ia-web/).
+- **Solo grabaciones:** $20.000 CLP o US$22 por PayPal; no incluye sesiones en vivo.
+- **Inscripción V6:** en preparación. El formulario todavía no está habilitado en la [landing page](https://geoidegeoidal.github.io/spatial-ia-web/).
 
-Las fechas y valores anteriores corresponden exclusivamente a V5. Las fechas y tarifas V6 se anunciarán en la landing; todavía no hay un formulario de inscripción para esa edición. No hay códigos promocionales en V5.
+Las fechas y valores corresponden a V6. Se mantienen los precios del vivo y se añade la opción de grabaciones. No hay códigos promocionales. El registro requiere su endpoint V6 y preparación operativa; no se reutiliza el endpoint V5 ni se ofrecen enlaces de cobro antes de registrar la compra.
 
 ## Esta aplicación
 
-Este repositorio contiene la landing del taller, no una plataforma de cursos. El sitio es estático y publica sus archivos con GitHub Pages. La página ya no ofrece un formulario de nuevas inscripciones; el servicio externo de gestión se mantiene separado y no se modifica con este cierre web.
+Este repositorio contiene la landing del taller, no una plataforma de cursos. El sitio es estático y publica sus archivos con GitHub Pages. La página V6 muestra fechas, precios y opciones de participación; el formulario sigue inactivo. El servicio externo de gestión se mantiene separado y no se modifica con esta publicación del frontend.
 
 La página oficial usa una escena Hydra ligera y accesible, con movimiento reducido, pausa y suspensión de animaciones fuera de pantalla. GoatCounter mide visitas y clics en algunos enlaces; no registra los campos del formulario.
 
@@ -44,3 +45,5 @@ La aplicación usa HTML, CSS y JavaScript, sin proceso de compilación. Para ver
 - UX_AUDIT.md: revisión de experiencia y accesibilidad.
 
 La guía de desarrollo y las reglas completas están en AGENTS.md. Las pruebas documentadas usan dobles locales y un fixture sin destino real; no se deben ejecutar envíos de prueba contra el CRM real.
+
+La actualización V6 conserva Hydra y las claves históricas de analítica. `node test_preview_v5.js` mantiene su nombre histórico y valida la información V6; `node test_site_hydra.cjs` y `node test_registration_v5.cjs` verifican escritorio/móvil, teclado y respaldo sin JavaScript con solicitudes de prueba interceptadas. Evidencia del cambio: [OpenSpec V6](openspec/archive/2026-10-22-prepare-v6-frontend/verification.md).
