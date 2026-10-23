@@ -9,8 +9,8 @@ const expected = {
   '.strip': '600c3155657b43f39b66cf3d83b50e875962fde5e5f3f44e097029dd1d0e6182',
   '#programa': '531b0a8af8b76cf90794c53e4d5050d8d65f923051c4b85b3679f7920a869e43',
   '#instructor': '550e4f797ab41f4b62b7dfb63339e7fb87d86e039e71da57c28573c01a8a791e',
-  '#registro': '823122ebf3673a8f812aeee709c2f42f74e25a04844b53c909c117867e59ac10',
-  'section[aria-labelledby="faq"]': 'ae227d0e5abb5cfa0d7d24dc4533f1ae398beea585594c0b0b3448c57b4860a2',
+  '#registro': '63e42cf24394e8e7867ccce2cb4e06b8c32bc049772ce8a27c6733519968da7c',
+  'section[aria-labelledby="faq"]': 'bdd74a36d371b76c5166ca669f5980e7e0c956d9e6b18a4f7241630f0eb05374',
   'footer': '9e1634c17337667adb66ceb2e308f76c0470a389e1561bd245120876c3152900'
 };
 const base = 'https://geoidegeoidal.github.io/spatial-ia-web/';
@@ -34,7 +34,8 @@ const capture = async (target, name) => { if (captureDir) await target.screensho
       counts.push(new URL(route.request().url()));
       return route.fulfill({ status: 200, contentType: 'image/gif', body: '' });
     });
-    await context.route('https://script.google.com/**', route => {
+    await context.route('https://gc.zgo.at/count.js', async route => route.fulfill({ response: await route.fetch() }));
+    await context.route(/https:\/\/(?:script\.google(?:usercontent)?\.com|crm\.invalid)\//, route => {
       failedAssets.push('Unexpected CRM request');
       return route.abort();
     });
@@ -136,7 +137,12 @@ const capture = async (target, name) => { if (captureDir) await target.screensho
         await page.waitForTimeout(1000);
         await capture(page.locator('#registro'), `official-hydra-prices-${width}.png`);
       }
-      assert.equal(await page.locator('form,input,#registration-submit,#registration-success').count(), 0);
+      if (width === 320) {
+        await page.locator('#registro').scrollIntoViewIfNeeded();
+        await capture(page.locator('#registro'), 'official-hydra-prices-320.png');
+      }
+      assert.equal(await page.locator('#registration-form').count(), 1);
+      assert.equal(await page.locator('#registration-submit').isEnabled(), true);
       const priceBounds = await page.locator('.price-card').evaluateAll(cards => cards.map(card => {
         const rect = card.getBoundingClientRect();
         return { x: rect.x, right: rect.right, y: rect.y, bottom: rect.bottom, width: rect.width, overflow: [...card.querySelectorAll('h3,strong,p')].some(element => {
@@ -149,9 +155,9 @@ const capture = async (target, name) => { if (captureDir) await target.screensho
       assert.ok(priceBounds.every(card => !card.overflow), `${width}px price content overflow`);
       assert.ok(priceBounds[2].y >= Math.max(priceBounds[0].bottom, priceBounds[1].bottom) - 1, `${width}px recordings must follow the live plans`);
       assert.ok(Math.abs(priceBounds[2].x - priceGrid.x) < 1 && Math.abs(priceBounds[2].width - priceGrid.width) < 1, `${width}px recordings card must span the pricing grid`);
-      assert.match(await page.locator('#protocolo').innerText(), /Pronto inscripciones para la versión 6/);
+      assert.match(await page.locator('#registro').innerText(), /Inscripciones V6 abiertas/i);
       assert.equal(await page.locator('iframe,embed,object').count(), 0);
-      console.log(`${width}px: V6 information, three price cards, mobile menu, 7 details, photo and inactive registration OK`);
+      console.log(`${width}px: V6 information, three price cards, mobile menu, 7 details, photo and registration OK`);
     }
     await page.setViewportSize({ width: 320, height: 568 });
     await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
@@ -169,14 +175,20 @@ const capture = async (target, name) => { if (captureDir) await target.screensho
     assert.equal(await page.locator('script[data-goatcounter]').count(), 1);
     await page.close();
     const fallback = await browser.newPage({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
+    await fallback.route(/https:\/\/(?:script\.google(?:usercontent)?\.com|crm\.invalid|gc\.zgo\.at|julloar\.goatcounter\.com)\//, route => {
+      failedAssets.push('Unexpected no-JS CRM/analytics request');
+      return route.abort();
+    });
     await fallback.goto(`file:///${path.join(__dirname, 'index.html').replaceAll('\\', '/')}`);
     assert.ok(await fallback.locator('.terrain>svg').isVisible());
     assert.ok(await fallback.locator('#instructor').isVisible());
-    assert.equal(await fallback.locator('form,input,#registration-submit,#registration-success').count(), 0);
+    assert.equal(await fallback.locator('#registration-form').count(), 1);
+    assert.equal(await fallback.locator('#registration-submit').isDisabled(), true);
+    assert.match(await fallback.locator('noscript').innerText(), /Activa JavaScript[\s\S]*no se enviarán tus datos/);
     assert.equal(await fallback.locator('.price-card').count(), 3);
     assert.match(await fallback.locator('.price-card--recordings').innerText(), /\$20\.000[\s\S]*US\$22/);
     assert.ok(await fallback.locator('#protocolo').isVisible());
-    assert.match(await fallback.locator('#protocolo').innerText(), /Pronto inscripciones para la versión 6/);
+    assert.match(await fallback.locator('#registro').innerText(), /Inscripciones V6 abiertas/i);
     await fallback.locator('.faq summary').first().focus();
     await fallback.keyboard.press('Enter');
     assert.equal(await fallback.locator('.faq details').first().getAttribute('open'), '');

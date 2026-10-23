@@ -21,3 +21,4 @@ section{padding:90px 0;border-bottom:1px solid var(--line)}h2{font:400 clamp(32p
 .registration .price-card--recordings h3{color:var(--accent)}
 .site .hero h1 .title-line:last-child{color:var(--accent)}
 .site .hero{overflow:clip}
+.plan-choices--v6>label:last-child{grid-column:1/-1}

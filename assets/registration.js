@@ -10,6 +10,7 @@
   const studentPlan = form.elements.plan[1];
   const studentCard = document.querySelector('#student-plan-card');
   const generalPrice = document.querySelector('#general-plan-price');
+  const recordingsPrice = document.querySelector('#recordings-plan-price');
   const planNote = document.querySelector('#plan-note');
   const submit = document.querySelector('#registration-submit');
   const status = document.querySelector('#registration-status');
@@ -32,6 +33,10 @@
     if (!chile && studentPlan.checked) form.elements.plan[0].checked = true;
     generalPrice.textContent = chile ? '$35.000 CLP' : 'US$36';
     planNote.textContent = chile ? 'El pase estudiantes requiere certificado de alumno regular vigente.' : 'Fuera de Chile se aplica el pase general internacional de US$36.';
+    if (recordingsPrice) {
+      recordingsPrice.textContent = chile ? '$20.000 CLP' : 'US$22';
+      if (!chile) planNote.textContent = 'Fuera de Chile puedes elegir el pase general (US$36) o solo grabaciones (US$22). El pase estudiantes es exclusivo para Chile.';
+    }
     setMenu(false);
   };
 
@@ -88,4 +93,5 @@
       clearTimeout(timeout);
     }
   });
+  if (submit.hasAttribute('data-enable-on-ready')) submit.disabled = false;
 })();

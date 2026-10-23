@@ -23,13 +23,13 @@ Las actividades se trabajan con ejemplos guiados; el tiempo disponible no equiva
 - **Valor en Chile:** $35.000 CLP general; $30.000 CLP estudiantes. El valor estudiante es solo para Chile.
 - **Valor internacional general:** US$36.
 - **Solo grabaciones:** $20.000 CLP o US$22 por PayPal; no incluye sesiones en vivo.
-- **Inscripción V6:** en preparación. El formulario todavía no está habilitado en la [landing page](https://geoidegeoidal.github.io/spatial-ia-web/).
+- **Inscripción V6:** formulario con pase general, estudiantes solo Chile y solo grabaciones, conectado al servicio V6 verificado. La confirmación del pago sigue siendo manual.
 
-Las fechas y valores corresponden a V6. Se mantienen los precios del vivo y se añade la opción de grabaciones. No hay códigos promocionales. El registro requiere su endpoint V6 y preparación operativa; no se reutiliza el endpoint V5 ni se ofrecen enlaces de cobro antes de registrar la compra.
+Las fechas y valores corresponden a V6. Se mantienen los precios del vivo y se añade la opción de grabaciones. No hay códigos promocionales. El atributo `action` de `#registration-form` en `index.html` apunta al despliegue V6 versionado y comprobado con una inscripción individual y recepción confirmada por el propietario. No se reutiliza el destino V5 ni se ofrecen enlaces de cobro directos. Los materiales de entrega no son un requisito para abrir la inscripción.
 
 ## Esta aplicación
 
-Este repositorio contiene la landing del taller, no una plataforma de cursos. El sitio es estático y publica sus archivos con GitHub Pages. La página V6 muestra fechas, precios y opciones de participación; el formulario sigue inactivo. El servicio externo de gestión se mantiene separado y no se modifica con esta publicación del frontend.
+Este repositorio contiene la landing del taller, no una plataforma de cursos. El sitio es estático y publica sus archivos con GitHub Pages. El formulario V6 usa tres planes, precios según país y estudiantes solo para Chile; el servicio externo registra y envía instrucciones de pago, sin instalar activadores horarios. Sin JavaScript, o si el runtime no carga, el botón de envío permanece deshabilitado para no enviar un país predeterminado sin selección funcional.
 
 La página oficial usa una escena Hydra ligera y accesible, con movimiento reducido, pausa y suspensión de animaciones fuera de pantalla. GoatCounter mide visitas y clics en algunos enlaces; no registra los campos del formulario.
 
@@ -38,12 +38,12 @@ La página oficial usa una escena Hydra ligera y accesible, con movimiento reduc
 La aplicación usa HTML, CSS y JavaScript, sin proceso de compilación. Para verla localmente, sirve la raíz del repositorio con un servidor HTTP estático. GitHub Pages publica desde la rama gh-pages.
 
 - index.html: landing oficial.
-- assets/: estilos, animación, recursos y runtime histórico de registro inactivo en la página.
+- assets/: estilos, animación, recursos y runtime de registro compartido por V6 y el fixture histórico V5.
 - preview_v5.html: redirección hacia la landing oficial.
 - proposals/: muestras comparativas de rediseño; no incluyen el formulario ni analítica.
 - openspec/: especificaciones, decisiones y trazabilidad.
 - UX_AUDIT.md: revisión de experiencia y accesibilidad.
 
-La guía de desarrollo y las reglas completas están en AGENTS.md. Las pruebas documentadas usan dobles locales y un fixture sin destino real; no se deben ejecutar envíos de prueba contra el CRM real.
+La guía de desarrollo y las reglas completas están en AGENTS.md. Las pruebas de registro usan dobles locales y fixtures V5/V6 con destinos reservados, nunca el CRM real. `tests/fixtures/registration-v5.html` permanece intacto; `tests/fixtures/registration-v6.html` replica el formulario nuevo. No se deben ejecutar envíos de prueba contra el CRM real.
 
-La actualización V6 conserva Hydra y las claves históricas de analítica. `node test_preview_v5.js` mantiene su nombre histórico y valida la información V6; `node test_site_hydra.cjs` y `node test_registration_v5.cjs` verifican escritorio/móvil, teclado y respaldo sin JavaScript con solicitudes de prueba interceptadas. Evidencia del cambio: [OpenSpec V6](openspec/archive/2026-10-22-prepare-v6-frontend/verification.md).
+La actualización V6 conserva Hydra y las claves históricas de analítica. Con Node, Playwright y Edge ya disponibles, las comprobaciones son `node --check assets/registration.js`, `node test_preview_v5.js`, `node test_registration_v5.cjs`, `node test_registration_v6.cjs` y `node test_site_hydra.cjs`. Cubren precios, payload, validación JSON, protección contra doble envío, recuperación sin borrar datos, teclado, móvil y respaldo sin JavaScript; las solicitudes CRM y los conteos de analítica están interceptados. Los nombres V5 se conservan por compatibilidad. Alcance: [delta de inscripción V6](openspec/archive/2026-10-23-v6-registration-activation/specs/landing-page.delta.md).

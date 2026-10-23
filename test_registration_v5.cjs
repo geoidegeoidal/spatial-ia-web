@@ -21,6 +21,12 @@ const fixture = `${base}tests/fixtures/registration-v5.html`;
       return route.fulfill({ body: fs.readFileSync(file), contentType: types[path.extname(file)] || 'application/octet-stream' });
     });
     await context.route('https://code.iconify.design/**', route => route.fulfill({ body: '', contentType: 'text/javascript' }));
+    await context.route('https://gc.zgo.at/**', route => route.fulfill({ body: '', contentType: 'text/javascript' }));
+    await context.route('https://julloar.goatcounter.com/count*', route => route.fulfill({ status: 200, contentType: 'image/gif', body: '' }));
+    await context.route(/https:\/\/(?:script\.google(?:usercontent)?\.com|crm\.invalid\/registration-v6)\/?/, async route => {
+      requests.push(route.request().method());
+      await route.abort();
+    });
     await context.route(endpoint, async route => {
       requests.push(route.request().postData() || '');
       await route.fulfill({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: JSON.stringify(response) });
@@ -96,18 +102,14 @@ const fixture = `${base}tests/fixtures/registration-v5.html`;
       }
     }
     requests.length = 0;
-    await context.route('https://julloar.goatcounter.com/count*', route => route.fulfill({ status: 200, contentType: 'image/gif', body: '' }));
-    await context.route('https://script.google.com/**', async route => {
-      requests.push(route.request().method());
-      await route.abort();
-    });
     await page.goto(base);
     for (const width of [1440, 1024, 768, 390, 320]) {
       await page.setViewportSize({ width, height: 900 });
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${width}px production overflow`);
-      assert.equal(await page.locator('form,input,#registration-submit,#registration-success').count(), 0);
-      assert.equal(await page.locator('script[src*="registration.js"]').count(), 0);
-      assert.match(await page.locator('#protocolo').innerText(), /Pronto inscripciones para la versión 6/);
+      assert.equal(await page.locator('#registration-form').count(), 1);
+      assert.equal(await page.locator('script[src*="registration.js"]').count(), 1);
+      assert.equal(await page.locator('#registration-submit').isEnabled(), true);
+      assert.match(await page.locator('#registro').innerText(), /Inscripciones V6 abiertas/i);
       if (width <= 1100) assert.ok((await page.locator('#pause-motion').boundingBox()).width <= 44, `${width}px motion control obscures content`);
       if (width <= 390) {
         const smallTargets = await page.locator('a,button,summary').evaluateAll(elements => elements
@@ -121,8 +123,8 @@ const fixture = `${base}tests/fixtures/registration-v5.html`;
     await page.locator('.nav-links>a.button[href="#protocolo"]').focus();
     await page.keyboard.press('Enter');
     assert.equal(new URL(page.url()).hash, '#protocolo');
-    assert.deepEqual(requests, [], 'Closed landing must not contact Apps Script');
-    console.log('V6 informational landing: no form or CRM requests, keyboard CTA and responsive layout OK. Retained V5 runtime fixture: validation, JSON, one-submit guard and country/plan behavior OK.');
+    assert.deepEqual(requests, [], 'Landing must not automatically contact any CRM');
+    console.log('V6 form: no automatic CRM requests, keyboard CTA and responsive layout OK. Retained V5 runtime fixture: validation, JSON, one-submit guard and country/plan behavior OK.');
   } finally {
     await browser.close();
   }

@@ -21,7 +21,7 @@ Define los estándares visuales, componentes de interfaz de usuario, arquitectur
 - HTML/CSS/Canvas/JavaScript nativos; estilos en `assets/site.css`, movimiento compartido en `assets/motion.js` y `assets/motion.css`. Fuentes abiertas desde Google Fonts. Sin librería de animación o pipeline de compilación.
 
 ### `RULE-UI-003`: Oferta y Programa V6
-- `index.html` presenta V6. La información de la edición no implica una inscripción habilitada: el formulario sigue inactivo. La publicación anterior V5 de `a16d7ce` se conserva como historia, no como la oferta vigente.
+- `index.html` presenta V6 y su formulario conectado al servicio V6 verificado. La publicación anterior V5 de `a16d7ce` se conserva como historia, no como la oferta vigente.
 - **Pase general Chile:** `$35.000 CLP`; **Estudiantes:** `$30.000 CLP`, válido solo para Chile. Especificar la restricción junto al precio y en FAQ; no anunciar precio USD para estudiantes.
 - **General internacional:** `US$36`; se mantienen los precios del vivo. **Solo grabaciones:** `$20.000 CLP` / `US$22` internacional, según el PayPal suministrado y verificado; no incluye sesiones en vivo. La tercera tarjeta ocupa el ancho de la grilla bajo los dos planes del vivo sin modificar los estilos compartidos.
 - **Sin cupones:** V6 no ofrece cupones, códigos promocionales ni tarifas derivadas de `CONMAPAS`. El nombre ConMapas puede aparecer únicamente como parte de la trayectoria del instructor.
@@ -29,18 +29,19 @@ Define los estándares visuales, componentes de interfaz de usuario, arquitectur
 - **Programa:** Versión vigente de 50 páginas: S01 agentes, SDD/OpenSpec (Explore, Propose, Apply, criterios de aceptación y artefactos), KISS, HTML/Tailwind/Vanilla JS; S02 GeoJSON/EDA, MapLibre, fuentes/capas, filtros/popups y auditoría UI; S03 Turf buffers/disolución, exportación filtrada, fuente común de simbología/leyenda, Chart.js con estado de filtros compartido, responsive y GitHub CLI/Pages. No nombrar datasets o capas de práctica ni publicar/enlazar el PDF. Contenido avanzado como ejemplos guiados, sin promesa de implementación exhaustiva en 4,5 horas.
 
 ### `RULE-UI-004`: Estado de Inscripción y Guardrails del Formulario
-- `index.html` V6 conserva el registro inactivo: no contiene formulario, controles de alta, endpoint CRM, checkout directo ni carga de `assets/registration.js`. Funciona también sin JavaScript; `preview_v5.html` sigue redirigiendo a la página principal.
-- Mantener `#registro` y `#protocolo` informativos. El panel comunica «Pronto inscripciones para la versión 6» y que el formulario aún no está habilitado, mostrando las fechas/precios ya confirmados, sin reserva ni lista de espera ficticias.
-- No reutilizar el endpoint V5 ni ofrecer cobros que omitan el registro. Habilitar requiere el endpoint V6 y la preparación operativa correspondiente. Se preservan programa salvo sus tres fechas, perfil, movimiento y claves de analítica; interés no es una inscripción completada.
-- `assets/registration.js` queda inactivo e intacto, con pruebas sobre `tests/fixtures/registration-v5.html`. El fixture usa `https://crm.invalid/registration`, nunca un CRM real: conserva validación nativa, payload `FormData`, JSON `result === "success"`, doble envío, país/plan, errores accesibles y foco de confirmación.
-- Historia del cierre V5: no desactivó el Apps Script independiente ni alteró inscritos existentes. Publicado con autorización explícita en `a16d7ce`, `master`/`gh-pages`; Pages `39063676559` exitoso y HTML público idéntico al aprobado en `https://julloa.space/spatial-ia-web/`, verificado sin POST. La nueva publicación V6 del frontend tampoco activa el CRM.
+- `index.html` V6 carga `assets/registration.js` y usa únicamente el `/exec` V6 versionado, después de verificar preparación, una inscripción de navegador, fila y ambos recibos. `preview_v5.html` sigue redirigiendo a la página principal. No reutilizar V5 ni ofrecer checkout directo que omita el registro.
+- `#registro` presenta fechas/precios; `#protocolo` permite elegir `general`, `estudiante` o `grabaciones`, en ese orden. Metadatos, aviso y FAQ anuncian el registro abierto. El correo entrega los medios de pago; su confirmación sigue siendo manual, sin activadores horarios nuevos ni requisitos de materiales de entrega.
+- El botón de envío empieza deshabilitado y solo se habilita tras instalar los manejadores del runtime; incluir aviso `noscript`. Sin JavaScript o si falla su carga no se envían datos ni un país predeterminado silenciosamente.
+- Conservar validación nativa, los seis campos `name`, `email`, `country`, `nivel_sig`, `ocupacion`, `plan`, payload `FormData`, JSON legible `result === "success"`, guardia de envío pendiente, timeout, datos tras errores y foco de confirmación. No usar `no-cors`, éxito basado solo en HTTP 200, alertas previas ni reintentos automáticos.
+- Mantener intacto `tests/fixtures/registration-v5.html`; ambas ediciones se prueban con fixtures `.invalid`, nunca con Google real. Los añadidos opcionales del runtime no cambian la conducta histórica V5. Las suites interceptan CRM y analítica antes de navegar; un clic de interés no es inscripción completada.
+- Historia del cierre V5: no desactivó Apps Script ni alteró inscritos existentes; `a16d7ce`, Pages `39063676559`. La activación V6 es independiente, con autorización y prueba individual de recepción, sin mutar V4/V5.
 - Historia: apertura publicada en `7dfc4c9`; rollback del aviso previo en `84d29a2`. Si se reutiliza el runtime, la confirmación conserva correo y Spam/Promociones sin añadir una alerta previa separada.
 
 ### `RULE-UI-005`: Selector de País Accesible
-- Componente retenido e inactivo en la landing cerrada; su comportamiento se verifica en el fixture V5, no mediante un formulario público.
+- Componente activo en V6, con regresión preservada en el fixture V5 y pruebas aisladas V6.
 - Usar un listbox personalizado con banderas SVG Iconify `circle-flags:*`, porque los emoji de banderas no se muestran de forma fiable en Windows.
 - Debe operar con ratón y teclado: abrir con flecha abajo, recorrer opciones con flechas, cerrar con Escape y devolver el foco al disparador tras seleccionar.
-- Mantener sincronizados el valor oculto `country`, `aria-selected`, el precio general y la disponibilidad del pase estudiantes.
+- Mantener sincronizados `country`, `aria-selected`, precios general/grabaciones y estudiantes solo Chile. Salir de Chile cambia estudiantes a general, pero conserva una selección de grabaciones; los nodos opcionales ausentes no alteran V5.
 
 ### `RULE-UI-006`: Analítica alojada GoatCounter
 - Cargar una vez `https://gc.zgo.at/count.js`, async, con endpoint `https://julloar.goatcounter.com/count` en `index.html`. Redirección preview sin tracker.
@@ -67,7 +68,7 @@ Define los estándares visuales, componentes de interfaz de usuario, arquitectur
 | **Syllabus (3 Módulos en 3 Col)** | [index.html](file:///c:/Users/Tokyotech/sideprojects/spatial_ia_code/index.html) | Desglose modular: M01 (IA & SDD), M02 (Web Mapping MapLibre), M03 (Turf.js & GitHub Pages Deploy) |
 | **Instructor & Trayectoria** | `index.html`, `assets/instructor.jpg` | Foto en color, perfil ampliado, dos roles actuales, portafolio y LinkedIn |
 | **Matriz de Inversión** | `index.html` | Vivo CLP35.000/30.000 solo Chile estudiantes; general internacional US$36; solo grabaciones CLP20.000/US$22 |
-| **Registro V6 inactivo (#protocolo)** | `index.html`; runtime inactivo `assets/registration.js` y fixture `tests/fixtures/registration-v5.html` | Aviso estático, CTA informativos y regresiones históricas sin endpoint real |
+| **Registro V6 (#protocolo)** | `index.html`, `assets/registration.js`, fixtures V5/V6 | Tres planes con país/precios sincronizados, endpoint V6 verificado y regresión V5 aislada |
 | **Detalles & FAQ** | `index.html` | Tres desplegables del programa y cuatro preguntas frecuentes, incluida certificación V4 |
 
 ---
@@ -75,8 +76,8 @@ Define los estándares visuales, componentes de interfaz de usuario, arquitectur
 ## 4. Criterios de Aceptación y Verificación
 - [x] Validación visual en dispositivos móviles y de escritorio sin overflow horizontal.
 - [x] Consola de desarrollador limpia de excepciones `TypeError` en todas las interacciones.
-- [x] La landing local no permite enviar inscripciones, tampoco sin JavaScript; el fixture conserva las pruebas de JSON y doble envío sin usar el CRM real.
+- [x] El formulario requiere JavaScript y runtime inicializado para enviar; los fixtures conservan JSON, guardia de envío pendiente y recuperación sin contactar el CRM real.
 - [x] V6 no muestra campos, mensajes ni lógica de cupones.
-- [x] Siete huellas de contenido: strip/perfil intactos, programa intacto tras normalizar solo las tres fechas autorizadas y cuatro huellas actualizadas por el contenido V6. Foto, menú, eventos y rutas verificados.
+- [x] Siete huellas de contenido: hero/strip/programa/perfil/footer preservados, con las tres fechas de agenda normalizadas; solo oferta/FAQ se actualizan por la activación. Foto, menú, eventos y rutas verificados.
 - [x] Tres tarjetas, tercera de grabaciones a ancho completo, sin overflow a 1440/1024/768/390/320 px y con precios visibles sin JavaScript. Tests de nombre histórico `test_preview_v5.js` validan ahora el contenido local V6.
-- [x] Selector de país y restricción estudiantes-Chile verificados con teclado en el fixture; landing cerrada y fixture sin overflow entre 320 y 1440 px.
+- [x] Selector, grabaciones y estudiantes-Chile verificados con teclado; landing V6 y fixtures sin overflow entre 320 y 1440 px, sin envío implícito cuando falta JavaScript.
