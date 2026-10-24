@@ -5,7 +5,7 @@ const path = require('node:path');
 const { createHash } = require('node:crypto');
 
 const expected = {
-  '.hero-copy': '90c6a8dd188634e3be9349d286eab3eb6bd927231f58110410a3247fca55f78e',
+  '.hero-copy': 'fa1c8992b1dc27e81b501c7a44d0ac853cf2152adfd52a4998808d3447fdd1ed',
   '.strip': '600c3155657b43f39b66cf3d83b50e875962fde5e5f3f44e097029dd1d0e6182',
   '#programa': '531b0a8af8b76cf90794c53e4d5050d8d65f923051c4b85b3679f7920a869e43',
   '#instructor': '550e4f797ab41f4b62b7dfb63339e7fb87d86e039e71da57c28573c01a8a791e',

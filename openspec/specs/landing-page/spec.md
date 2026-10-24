@@ -21,6 +21,7 @@ Define los estándares visuales, componentes de interfaz de usuario, arquitectur
 - HTML/CSS/Canvas/JavaScript nativos; estilos en `assets/site.css`, movimiento compartido en `assets/motion.js` y `assets/motion.css`. Fuentes abiertas desde Google Fonts. Sin librería de animación o pipeline de compilación.
 
 ### `RULE-UI-003`: Oferta y Programa V6
+- **Trayectoria del bootcamp:** El hero muestra «Más de 120 estudiantes ya han cursado el bootcamp.», cifra proporcionada por el instructor.
 - `index.html` presenta V6 y su formulario conectado al servicio V6 verificado. La publicación anterior V5 de `a16d7ce` se conserva como historia, no como la oferta vigente.
 - **Pase general Chile:** `$35.000 CLP`; **Estudiantes:** `$30.000 CLP`, válido solo para Chile. Especificar la restricción junto al precio y en FAQ; no anunciar precio USD para estudiantes.
 - **General internacional:** `US$36`; se mantienen los precios del vivo. **Solo grabaciones:** `$20.000 CLP` / `US$22` internacional, según el PayPal suministrado y verificado; no incluye sesiones en vivo. La tercera tarjeta ocupa el ancho de la grilla bajo los dos planes del vivo sin modificar los estilos compartidos.
@@ -78,6 +79,6 @@ Define los estándares visuales, componentes de interfaz de usuario, arquitectur
 - [x] Consola de desarrollador limpia de excepciones `TypeError` en todas las interacciones.
 - [x] El formulario requiere JavaScript y runtime inicializado para enviar; los fixtures conservan JSON, guardia de envío pendiente y recuperación sin contactar el CRM real.
 - [x] V6 no muestra campos, mensajes ni lógica de cupones.
-- [x] Siete huellas de contenido: hero/strip/programa/perfil/footer preservados, con las tres fechas de agenda normalizadas; solo oferta/FAQ se actualizan por la activación. Foto, menú, eventos y rutas verificados.
+- [x] Siete huellas de contenido: hero actualizado únicamente con la cifra de más de 120 estudiantes; strip/programa/perfil/footer preservados, con las tres fechas de agenda normalizadas; oferta/FAQ conservan la activación V6. Foto, menú, eventos y rutas verificados en la activación.
 - [x] Tres tarjetas, tercera de grabaciones a ancho completo, sin overflow a 1440/1024/768/390/320 px y con precios visibles sin JavaScript. Tests de nombre histórico `test_preview_v5.js` validan ahora el contenido local V6.
 - [x] Selector, grabaciones y estudiantes-Chile verificados con teclado; landing V6 y fixtures sin overflow entre 320 y 1440 px, sin envío implícito cuando falta JavaScript.

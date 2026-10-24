@@ -47,6 +47,11 @@ assert.ok(html.includes('assets/instructor.jpg'));
 for (const role of ['a contrata', 'a honorarios', 'Ministerio del Medio Ambiente', 'Ministerio de las Culturas', 'AutoAtlas Pro', 'Universidad Alberto Hurtado']) assert.ok(html.includes(role));
 const redirect = fs.readFileSync(`${__dirname}/preview_v5.html`, 'utf8');
 assert.ok(redirect.includes('index.html') && !redirect.includes('goatcounter'));
+test('hero highlights that more than 120 students have taken the bootcamp', () => {
+  const hero = html.match(/<div class="hero-copy wrap">([\s\S]*?)<\/div>\s*<div class="terrain"/)?.[1];
+  assert.ok(hero?.includes('<p class="intro"><strong>Más de 120 estudiantes</strong> ya han cursado el bootcamp.</p>'));
+});
+
 test('V6 dates and ISO attributes consistently identify November 13–15, Santiago 20:00–21:30', () => {
   for (const [day, label] of [[13, 'VIE'], [14, 'SÁB'], [15, 'DOM']]) {
     assert.ok(html.includes(`datetime="2026-11-${day}T20:00:00-03:00">${label} ${day} NOV / 20:00–21:30`));
